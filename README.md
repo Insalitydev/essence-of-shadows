@@ -30,6 +30,9 @@ Some instructions will be here
 Some instructions will be here
 ```
 
+Linked Repos
+----
+* https://github.com/Insality/simple-cocos-game - training in CocosSharp framework and simple game prototype
 
 License
 ----
