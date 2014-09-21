@@ -4,7 +4,7 @@ Essence of Shadows
 
 Essence of Shadows (EoS) is a open-source MMO-game, written on CocosSharp.
 
-There is main feature of the game:
+There is main features of the game:
   - Permadeath
   - Random levels
   - Easy gameplay
