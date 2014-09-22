@@ -10,7 +10,7 @@ There are main features of the game:
   - Easy gameplay
 
 Version
-----
+-------------
 
 0.(dev)
 
