@@ -35,7 +35,7 @@ Linked Repos
 * https://github.com/Insality/simple-cocos-game - training in CocosSharp framework and simple game prototype
 
 License
-----
+-----
 
 GNU GPLv2
 
