@@ -37,9 +37,6 @@ namespace EssenceClient.Scenes.Menu {
         private void StartGame(object obj) {
             Log.Print("Starting game");
             Window.DefaultDirector.PushScene(new GameScene(Window));
-//            var parser = new FileIniDataParser();
-//            IniData data = parser.ReadFile("Config.ini");
-//            string ip = data["Server"]["ip"];
         }
 
         private CCLabel GetMenuLabel(string text) {

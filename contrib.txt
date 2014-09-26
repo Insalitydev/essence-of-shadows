@@ -2,3 +2,4 @@
 CocosSharp.PCL.Shared.GL
 Newtonsoft.Json
 Lidgren
+INIFileParser
