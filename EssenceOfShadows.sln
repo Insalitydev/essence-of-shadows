@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EssenceClient", "EssenceClient\EssenceClient.csproj", "{330D0E71-2EE6-41F1-A021-89EEEA09A9B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EssenceServer", "EssenceServer\EssenceServer.csproj", "{6DF7CE8F-68CE-4B4B-9F8C-7FD400912D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EssenceShared", "EssenceShared\EssenceShared.csproj", "{7C313BE1-A8AF-4D77-A437-504AA10DDEA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{330D0E71-2EE6-41F1-A021-89EEEA09A9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{330D0E71-2EE6-41F1-A021-89EEEA09A9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{330D0E71-2EE6-41F1-A021-89EEEA09A9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{330D0E71-2EE6-41F1-A021-89EEEA09A9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF7CE8F-68CE-4B4B-9F8C-7FD400912D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF7CE8F-68CE-4B4B-9F8C-7FD400912D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF7CE8F-68CE-4B4B-9F8C-7FD400912D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF7CE8F-68CE-4B4B-9F8C-7FD400912D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C313BE1-A8AF-4D77-A437-504AA10DDEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C313BE1-A8AF-4D77-A437-504AA10DDEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C313BE1-A8AF-4D77-A437-504AA10DDEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C313BE1-A8AF-4D77-A437-504AA10DDEA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
