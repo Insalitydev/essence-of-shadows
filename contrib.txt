@@ -1,0 +1,4 @@
+; List of used libs:
+CocosSharp.PCL.Shared.GL
+Newtonsoft.Json
+Lidgren

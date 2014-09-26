@@ -46,7 +46,6 @@ namespace EssenceClient.Scenes.Game {
             };
 
             AddChild(title);
-//            AddChild(helper);
         }
     }
 }

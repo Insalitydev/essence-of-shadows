@@ -1,6 +1,9 @@
 ﻿using System;
 using CocosSharp;
+using EssenceClient.Scenes.Game;
 using EssenceShared;
+using IniParser;
+using IniParser.Model;
 
 namespace EssenceClient.Scenes.Menu {
     internal class MenuLayer: CCLayer {
@@ -13,8 +16,8 @@ namespace EssenceClient.Scenes.Menu {
             // TODO: ItemLabel не работает :(
 //            CCMenuItem itemStart = new CCMenuItemLabel(GetMenuLabel("STARTGAME"), StartGame);
 
-            CCMenuItem itemStart = new CCMenuItemImage("StartGame.png", "StartGame.png", StartGame);
-            CCMenuItem itemExit = new CCMenuItemImage("ExitGame.png", "ExitGame.png", ExitGame);
+            CCMenuItem itemStart = new CCMenuItemImage("StartGame.png", "StartGameOver.png", StartGame);
+            CCMenuItem itemExit = new CCMenuItemImage("ExitGame.png", "ExitGameOver.png", ExitGame);
 
 
             MainMenu = new CCMenu(itemStart, itemExit);
@@ -32,7 +35,11 @@ namespace EssenceClient.Scenes.Menu {
         }
 
         private void StartGame(object obj) {
-            Log.Print("START GAME");
+            Log.Print("Starting game");
+            Window.DefaultDirector.PushScene(new GameScene(Window));
+//            var parser = new FileIniDataParser();
+//            IniData data = parser.ReadFile("Config.ini");
+//            string ip = data["Server"]["ip"];
         }
 
         private CCLabel GetMenuLabel(string text) {

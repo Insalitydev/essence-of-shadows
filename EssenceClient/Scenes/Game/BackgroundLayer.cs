@@ -9,6 +9,21 @@ namespace EssenceClient.Scenes.Game {
 
         protected override void AddedToScene() {
             base.AddedToScene();
+
+            AddCardinalImage(0, 0);
+            AddCardinalImage(800, 0);
+        }
+
+        // TODO: Удалить
+        private void AddCardinalImage(int p1, int p2) {
+            var tmp = new CCSprite("Cardinal.png");
+
+            tmp.Texture.IsAntialiased = false;
+            tmp.PositionX = p1;
+            tmp.PositionY = p2;
+            tmp.Scale = 4;
+
+            AddChild(tmp);
         }
     }
 }
