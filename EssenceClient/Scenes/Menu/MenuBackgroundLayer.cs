@@ -1,5 +1,4 @@
-﻿using System;
-using CocosSharp;
+﻿using CocosSharp;
 using EssenceShared;
 
 namespace EssenceClient.Scenes.Game {

@@ -5,7 +5,6 @@ namespace EssenceServer {
     /** Содержит всю логику по работе с сервером из консоли */
 
     internal class ServerConsole {
-
         public void Start() {
             while (true){
                 Console.Write(">>> ");

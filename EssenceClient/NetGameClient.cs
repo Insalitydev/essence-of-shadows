@@ -31,7 +31,7 @@ namespace EssenceClient {
             // TODO: Сделать вразумительное ожидание завершения подключения...
             Thread.Sleep(400);
 
-            Log.Print("NetStatus: " + Client.ConnectionStatus.ToString(), LogType.NETWORK);
+            Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.NETWORK);
             Send("Connect Me");
         }
 
