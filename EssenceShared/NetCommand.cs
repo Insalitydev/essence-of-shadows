@@ -11,7 +11,7 @@ namespace EssenceShared {
     }
 
     public class NetCommand {
-        private DateTime _createTime;
+        public DateTime CreateTime { get; private set; }
         public string Data { get; private set; }
         public NetCommandType Type { get; private set; }
 
@@ -19,7 +19,7 @@ namespace EssenceShared {
         /** _data - строка в формате json с необходимыми полями для указанного типа комманды */
 
         public NetCommand(NetCommandType type, string data) {
-            _createTime = DateTime.Now;
+            CreateTime = DateTime.Now;
             Type = type;
             Data = data;
         }

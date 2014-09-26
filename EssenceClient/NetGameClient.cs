@@ -56,6 +56,7 @@ namespace EssenceClient {
                 lock (lockThis){
                     if (tmp.StartsWith("{\"")){
                         var nc = NetCommand.Deserialize(tmp);
+                        Log.Print("Packet Time: " + (DateTime.Now.Ticks-nc.CreateTime.Ticks));
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.CONNECT:
