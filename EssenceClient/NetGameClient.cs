@@ -39,17 +39,18 @@ namespace EssenceClient {
 
             Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.NETWORK);
             NetCommand nc = new NetCommand(NetCommandType.CONNECT, "");
-            Send(nc.Serialize());
+            Send(nc.Serialize(), NetDeliveryMethod.ReliableOrdered);
         }
 
-        public void Send(string data) {
+        public void Send(string data, NetDeliveryMethod method) {
             NetOutgoingMessage om = Client.CreateMessage(data);
-            Client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+            Client.SendMessage(om, method);
 //            Log.Print("Sending '" + data + "'", LogType.NETWORK);
         }
 
         private void GotMessage(object data) {
 //            Log.Print("Got data:" + data, LogType.NETWORK);
+            Log.Print("STAT" + Client.Statistics.ReceivedBytes.ToString());
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
@@ -78,7 +79,9 @@ namespace EssenceClient {
                         }
                     }
                 }
+                Client.Recycle(im);
             }
+            Thread.Sleep(1);
         }
     }
 }

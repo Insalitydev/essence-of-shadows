@@ -5,6 +5,7 @@ using EssenceShared.Entities.Player;
 using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
+using Lidgren.Network;
 
 namespace EssenceClient.Scenes.Game {
     internal class GameScene: CCScene {
@@ -71,7 +72,7 @@ namespace EssenceClient.Scenes.Game {
                 myps.PositionY = myPlayer.PositionY;
 
                 var nc = new NetCommand(NetCommandType.UPDATE_PLAYERSTATE, myps.Serialize());
-                netGameClient.Send(nc.Serialize());
+                netGameClient.Send(nc.Serialize(), NetDeliveryMethod.Unreliable);
             }
             else{
                 Entity myPl = _gameLayer.FindEntityById(Id);

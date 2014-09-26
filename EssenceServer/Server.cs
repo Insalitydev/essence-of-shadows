@@ -118,17 +118,17 @@ namespace EssenceServer {
             }
 
             /** Получаем все активные соединения кроме отправителя */
-            List<NetConnection> all = server.Connections;
+           /* List<NetConnection> all = server.Connections;
             all.Remove(msg.SenderConnection);
 
-            /** отправляем им пришедшее сообщение от отправителя (broadcast) */
+            /** отправляем им пришедшее сообщение от отправителя (broadcast) #1#
             if (all.Count > 0){
                 NetOutgoingMessage om = server.CreateMessage();
                 om.Write(
                     NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) +
                     "said: " + data);
                 server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
-            }
+            }*/
         }
 
 
@@ -141,7 +141,7 @@ namespace EssenceServer {
 
                 NetOutgoingMessage om = server.CreateMessage();
                 om.Write(nc.Serialize());
-                server.SendMessage(om, server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                server.SendMessage(om, server.Connections, NetDeliveryMethod.Unreliable, 0);
             }
         }
 

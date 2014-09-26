@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using EssenceShared.Entities.Player;
 using Newtonsoft.Json;
 namespace EssenceShared {
     public class GameState {
@@ -9,7 +13,8 @@ namespace EssenceShared {
 
         public string Serialize() {
             // TODO: Вылетает, когда идет одновременно сериализация и изменение состояния
-            var gsTemp = new GameState();
+            var gsTemp = (GameState)this.MemberwiseClone();
+            gsTemp.players = players.ToList();
 
             return JsonConvert.SerializeObject(gsTemp);
         }
@@ -20,5 +25,7 @@ namespace EssenceShared {
         public void Deserialize(string json) {
             throw new NotImplementedException();
         }
+
     }
+
 }
