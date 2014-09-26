@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using CocosSharp;
 using EssenceShared;
 using Lidgren.Network;
@@ -98,7 +97,7 @@ namespace EssenceServer {
 
         private static void ProcessIncomingData(NetIncomingMessage msg) {
             string data = msg.ReadString();
-//            Log.Print("Got data: " + data, LogType.NETWORK);
+            //            Log.Print("Got data: " + data, LogType.NETWORK);
 
             if (data.StartsWith("{\"")){
                 NetCommand nc = NetCommand.Deserialize(data);
@@ -116,24 +115,10 @@ namespace EssenceServer {
                         break;
                 }
             }
-
-            /** Получаем все активные соединения кроме отправителя */
-           /* List<NetConnection> all = server.Connections;
-            all.Remove(msg.SenderConnection);
-
-            /** отправляем им пришедшее сообщение от отправителя (broadcast) #1#
-            if (all.Count > 0){
-                NetOutgoingMessage om = server.CreateMessage();
-                om.Write(
-                    NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) +
-                    "said: " + data);
-                server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
-            }*/
         }
 
 
         public static void SendGameStateToAll() {
-
             if (server.ConnectionsCount > 0){
                 string gs = _serverGame.GetGameState();
 
@@ -151,7 +136,7 @@ namespace EssenceServer {
 
             /** Отдаем новому игроку его уникальный ид */
             var tmpNC = new NetCommand(NetCommandType.CONNECT,
-                (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)).ToString());
+                (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
 
             NetOutgoingMessage om = server.CreateMessage();
             om.Write(tmpNC.Serialize());

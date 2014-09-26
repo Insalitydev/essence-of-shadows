@@ -11,18 +11,18 @@ namespace EssenceShared {
     }
 
     public class NetCommand {
+        public NetCommand(NetCommandType type, string data) {
+            CreateTime = DateTime.Now;
+            Type = type;
+            Data = data;
+        }
+
         public DateTime CreateTime { get; private set; }
         public string Data { get; private set; }
         public NetCommandType Type { get; private set; }
 
 
         /** _data - строка в формате json с необходимыми полями для указанного типа комманды */
-
-        public NetCommand(NetCommandType type, string data) {
-            CreateTime = DateTime.Now;
-            Type = type;
-            Data = data;
-        }
 
         public string Serialize() {
             return JsonConvert.SerializeObject(this);

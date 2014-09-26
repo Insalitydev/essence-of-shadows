@@ -10,10 +10,9 @@ namespace EssenceClient {
 
     internal class NetGameClient {
         public static NetClient Client;
+        private static GameScene _scene;
         private readonly string _ip;
         private readonly Object lockThis = new Object();
-
-        private static GameScene _scene;
 
         public NetGameClient(string ip, GameScene scene) {
             _ip = ip;
@@ -38,7 +37,7 @@ namespace EssenceClient {
             Thread.Sleep(400);
 
             Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.NETWORK);
-            NetCommand nc = new NetCommand(NetCommandType.CONNECT, "");
+            var nc = new NetCommand(NetCommandType.CONNECT, "");
             Send(nc.Serialize(), NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -49,15 +48,15 @@ namespace EssenceClient {
         }
 
         private void GotMessage(object data) {
-//            Log.Print("Got data:" + data, LogType.NETWORK);
-            Log.Print("STAT" + Client.Statistics.ReceivedBytes.ToString());
+            // Log.Print("Got data:" + data, LogType.NETWORK);
+            Log.Print("STAT" + Client.Statistics.ReceivedBytes);
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
                 lock (lockThis){
                     if (tmp.StartsWith("{\"")){
-                        var nc = NetCommand.Deserialize(tmp);
-                        Log.Print("Packet Time: " + (DateTime.Now.Ticks-nc.CreateTime.Ticks));
+                        NetCommand nc = NetCommand.Deserialize(tmp);
+                        Log.Print("Packet Time: " + (DateTime.Now.Ticks - nc.CreateTime.Ticks));
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.CONNECT:
@@ -72,7 +71,7 @@ namespace EssenceClient {
                             case NetCommandType.UPDATE_GAMESTATE:
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
 
-                                foreach (var player in gs.players){
+                                foreach (PlayerState player in gs.players){
                                     _scene.UpdateEntity(player);
                                 }
                                 break;

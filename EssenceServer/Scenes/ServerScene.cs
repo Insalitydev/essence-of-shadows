@@ -1,12 +1,10 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using CocosSharp;
+﻿using CocosSharp;
 using EssenceShared;
 using EssenceShared.Scenes;
 
 namespace EssenceServer.Scenes {
     internal class ServerScene: CCScene {
         public readonly GameLayer _gameLayer;
-        public GameState GameState { get; private set; }
 
         public ServerScene(CCWindow window): base(window) {
             _gameLayer = new GameLayer();
@@ -17,6 +15,8 @@ namespace EssenceServer.Scenes {
             Schedule(Update, 0.04f);
         }
 
+        public GameState GameState { get; private set; }
+
 
         public override void Update(float dt) {
             base.Update(dt);
@@ -26,7 +26,7 @@ namespace EssenceServer.Scenes {
 
         internal void AddNewPlayer(string id, int x, int y) {
             GameState.playersCount++;
-            PlayerState newPlayer = new PlayerState(id);
+            var newPlayer = new PlayerState(id);
             newPlayer.PositionX = x;
             newPlayer.PositionY = y;
 
@@ -35,7 +35,7 @@ namespace EssenceServer.Scenes {
         }
 
         internal void UpdateGameState(PlayerState ps) {
-            var id = GameState.players.FindIndex(x => x.Id == ps.Id);
+            int id = GameState.players.FindIndex(x=>x.Id == ps.Id);
             GameState.players[id] = ps;
         }
     }
