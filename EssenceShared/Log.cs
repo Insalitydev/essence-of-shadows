@@ -4,7 +4,8 @@ namespace EssenceShared {
     public enum LogType {
         DEBUG,
         NETWORK,
-        INFO
+        INFO,
+        ERROR
     }
 
     public class Log {

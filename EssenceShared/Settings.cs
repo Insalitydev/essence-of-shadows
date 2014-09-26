@@ -4,6 +4,7 @@
         public const float SCREEN_WIDTH = 800f;
         public const float SCREEN_HEIGHT = 600f;
         public const string GAME_NAME = "Essence of Shadows";
+        public const string GAME_IDENTIFIER = "EssenceOfShadows";
 
         /** Log && Statistic settings */
         public const bool IS_LOG_TO_FILE = false;
