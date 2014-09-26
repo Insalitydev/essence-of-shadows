@@ -1,8 +1,11 @@
-﻿namespace EssenceShared {
+﻿using CocosSharp;
+
+namespace EssenceShared {
     public class Settings {
         /** General settings */
         public const float SCREEN_WIDTH = 800f;
         public const float SCREEN_HEIGHT = 600f;
+        public static CCSize SCREEN_SIZE = new CCSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         public const string GAME_NAME = "Essence of Shadows";
         public const string GAME_IDENTIFIER = "EssenceOfShadows";
 

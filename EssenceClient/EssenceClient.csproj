@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{330D0E71-2EE6-41F1-A021-89EEEA09A9B5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EssenceClient</RootNamespace>
     <AssemblyName>EssenceClient</AssemblyName>
@@ -30,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="box2d, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -84,12 +87,19 @@
     <Compile Include="Scenes\Game\GameScene.cs" />
     <Compile Include="Scenes\Game\BackgroundLayer.cs" />
     <Compile Include="Scenes\Game\HudLayer.cs" />
+    <Compile Include="Scenes\Menu\MenuBackgroundLayer.cs" />
+    <Compile Include="Scenes\Menu\MenuLayer.cs" />
     <Compile Include="Scenes\Menu\MenuScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EssenceShared\EssenceShared.csproj">
+      <Project>{7c313be1-a8af-4d77-a437-504aa10ddea0}</Project>
+      <Name>EssenceShared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
