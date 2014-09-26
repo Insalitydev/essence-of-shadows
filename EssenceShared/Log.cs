@@ -9,8 +9,12 @@ namespace EssenceShared {
     }
 
     public class Log {
-        public static void Print(string text, LogType type) {
-            string curTime = DateTime.Now.ToString("[HH:mm:ss]: ");
+        public static void Print(string text, LogType type, bool isShowTime) {
+            string curTime = "";
+
+            if (isShowTime){
+                curTime = DateTime.Now.ToString("[HH:mm:ss]: ");
+            }
 
             Console.WriteLine(curTime + text);
 
@@ -19,8 +23,16 @@ namespace EssenceShared {
             }
         }
 
+        public static void Print(string text, LogType type) {
+            Print(text, type, true);
+        }
+
+        public static void Print(string text, bool isShowTime) {
+            Print(text, LogType.DEBUG, isShowTime);
+        }
+
         public static void Print(string text) {
-            Print(text, LogType.DEBUG);
+            Print(text, LogType.DEBUG, true);
         }
 
 

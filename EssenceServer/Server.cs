@@ -19,8 +19,8 @@ namespace EssenceServer {
             _serverConnections = new Thread(ServerHandleConnections);
             _serverConnections.Start();
 
-//            _serverConsole = new Thread(ServerHandleConsole);
-//            _serverConsole.Start();
+            _serverConsole = new Thread(ServerHandleConsole);
+            _serverConsole.Start();
 
 //            _serverScene = new Thread(ServerHandleGame);
 //            _serverScene.Start();
@@ -31,7 +31,10 @@ namespace EssenceServer {
         }
 
         private static void ServerHandleConsole(object obj) {
-            throw new System.NotImplementedException();
+            /** TODO: Ждать пока сервер полностью не загрузится */
+            Thread.Sleep(100);
+            var serverConsole = new ServerConsole();
+            serverConsole.Start();
         }
 
         private static void ServerHandleConnections(object obj) {
@@ -69,25 +72,7 @@ namespace EssenceServer {
 
                             /** Обработка полезных данных, пришедших от клиентов */
                         case NetIncomingMessageType.Data:
-                            string data = msg.ReadString();
-                            Log.Print("Got data: " + data, LogType.NETWORK);
-
-                            if (data.StartsWith("{\"")){
-                                throw new NotImplementedException("No implement deserialize JSON Server GET Data");
-                            }
-
-                            /** Получаем все активные соединения кроме отправителя */
-                            List<NetConnection> all = server.Connections;
-                            all.Remove(msg.SenderConnection);
-
-                            /** отправляем им пришедшее сообщение от отправителя (broadcast) */
-                            if (all.Count > 0){
-                                NetOutgoingMessage om = server.CreateMessage();
-                                om.Write(
-                                    NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) +
-                                    "said: " + data);
-                                server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
-                            }
+                            ProcessIncomingData(msg);
                             break;
 
                         default:
@@ -101,6 +86,29 @@ namespace EssenceServer {
 
                 Thread.Sleep(1);
             } // End while true
+        }
+
+        /** Обработка входящего сообщения сервером */
+        private static void ProcessIncomingData(NetIncomingMessage msg) {
+            string data = msg.ReadString();
+            Log.Print("Got data: " + data, LogType.NETWORK);
+
+            if (data.StartsWith("{\"")) {
+                throw new NotImplementedException("No implement deserialize JSON Server GET Data");
+            }
+
+            /** Получаем все активные соединения кроме отправителя */
+            List<NetConnection> all = server.Connections;
+            all.Remove(msg.SenderConnection);
+
+            /** отправляем им пришедшее сообщение от отправителя (broadcast) */
+            if (all.Count > 0) {
+                NetOutgoingMessage om = server.CreateMessage();
+                om.Write(
+                    NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) +
+                    "said: " + data);
+                server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
+            }
         }
     }
 }
