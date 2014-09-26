@@ -32,7 +32,8 @@ namespace EssenceClient {
             Thread.Sleep(400);
 
             Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.NETWORK);
-            Send("Connect Me");
+            NetCommand nc = new NetCommand(NetCommandType.CONNECT, "");
+            Send(nc.Serialize());
         }
 
         private void Send(string data) {

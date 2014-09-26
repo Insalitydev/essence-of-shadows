@@ -4,7 +4,15 @@ using Newtonsoft.Json;
 namespace EssenceShared {
     public class PlayerState {
 
-        public int ID { get; private set; }
+        public ulong Id { get; private set; }
+
+        public float PositionX;
+        public float PositionY;
+
+
+        public PlayerState(ulong id) {
+            Id = id;
+        }
 
         /** Пакует все необходимые данные в строку json
          Метод выполняется на стороне клиента */

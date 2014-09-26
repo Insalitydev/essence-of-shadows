@@ -13,6 +13,7 @@ namespace EssenceClient {
 
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
             base.ApplicationDidFinishLaunching(application, mainWindow);
+
             mainWindow.SetDesignResolutionSize(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT,
                 CCSceneResolutionPolicy.ShowAll);
 

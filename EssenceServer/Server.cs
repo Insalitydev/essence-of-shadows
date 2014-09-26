@@ -1,8 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading;
+using CocosSharp;
 using EssenceShared;
 using Lidgren.Network;
-using System.Collections.Generic;
 
 namespace EssenceServer {
     /** Слушает сокет и подключает новых игроков, запускает остальные службы*/
@@ -14,6 +14,7 @@ namespace EssenceServer {
         private static Thread _serverConsole;
         private static Thread _serverScene;
         private static ServerGame _serverGame;
+        private static long _lastId = 1;
 
         public static void Start() {
             _serverConnections = new Thread(ServerHandleConnections);
@@ -22,23 +23,27 @@ namespace EssenceServer {
             _serverConsole = new Thread(ServerHandleConsole);
             _serverConsole.Start();
 
-//            _serverScene = new Thread(ServerHandleGame);
-//            _serverScene.Start();
+            _serverScene = new Thread(ServerHandleGame);
+            _serverScene.Start();
         }
 
         private static void ServerHandleGame(object obj) {
-            throw new System.NotImplementedException();
+            _serverGame = new ServerGame();
+            var _application = new CCApplication(false, null);
+
+            _serverGame = new ServerGame();
+            _application.ApplicationDelegate = _serverGame;
+            _application.StartGame();
         }
 
         private static void ServerHandleConsole(object obj) {
             /** TODO: Ждать пока сервер полностью не загрузится */
-            Thread.Sleep(100);
+            Thread.Sleep(2000);
             var serverConsole = new ServerConsole();
             serverConsole.Start();
         }
 
         private static void ServerHandleConnections(object obj) {
-
             Log.Print("Starting Listen connections");
 
             var _config = new NetPeerConfiguration(Settings.GAME_IDENTIFIER);
@@ -66,7 +71,7 @@ namespace EssenceServer {
                         case NetIncomingMessageType.StatusChanged:
                             var status = (NetConnectionStatus) msg.ReadByte();
                             string reason = msg.ReadString();
-                            Log.Print(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) +
+                            Log.Print(((ulong) msg.SenderConnection.RemoteUniqueIdentifier) +
                                       " " + status + ": " + reason);
                             break;
 
@@ -89,12 +94,24 @@ namespace EssenceServer {
         }
 
         /** Обработка входящего сообщения сервером */
+
         private static void ProcessIncomingData(NetIncomingMessage msg) {
             string data = msg.ReadString();
             Log.Print("Got data: " + data, LogType.NETWORK);
 
-            if (data.StartsWith("{\"")) {
-                throw new NotImplementedException("No implement deserialize JSON Server GET Data");
+            if (data.StartsWith("{\"")){
+                NetCommand nc = NetCommand.Deserialize(data);
+                switch (nc.Type){
+                    case NetCommandType.CONNECT:
+                        InitNewPlayer((ulong) msg.SenderConnection.RemoteUniqueIdentifier);
+                        break;
+                    case NetCommandType.DISCONNECT:
+                        break;
+                    case NetCommandType.SAY:
+                        break;
+                    case NetCommandType.UPDATE_PLAYERSTATE:
+                        break;
+                }
             }
 
             /** Получаем все активные соединения кроме отправителя */
@@ -102,13 +119,21 @@ namespace EssenceServer {
             all.Remove(msg.SenderConnection);
 
             /** отправляем им пришедшее сообщение от отправителя (broadcast) */
-            if (all.Count > 0) {
+            if (all.Count > 0){
                 NetOutgoingMessage om = server.CreateMessage();
                 om.Write(
                     NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) +
                     "said: " + data);
                 server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
             }
+        }
+
+        private static void InitNewPlayer(ulong id) {
+            _serverGame.AddNewPlayer(id, 300, 300);
+        }
+
+        public static long GetUniqueId() {
+            return _lastId++;
         }
     }
 }
