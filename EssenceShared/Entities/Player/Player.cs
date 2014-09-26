@@ -3,7 +3,7 @@
 namespace EssenceShared.Entities.Player {
     public class Player: Entity {
         private float _moveSpeed = 200;
-        public Player(ulong id): base("Mystic.png", id) {
+        public Player(string id): base("Mystic.png", id) {
             Scale = 4;
         }
 

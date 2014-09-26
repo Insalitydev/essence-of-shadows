@@ -72,7 +72,7 @@ namespace EssenceServer {
                         case NetIncomingMessageType.StatusChanged:
                             var status = (NetConnectionStatus) msg.ReadByte();
                             string reason = msg.ReadString();
-                            Log.Print(((ulong) msg.SenderConnection.RemoteUniqueIdentifier) +
+                            Log.Print((NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)) +
                                       " " + status + ": " + reason);
                             break;
 
@@ -147,23 +147,23 @@ namespace EssenceServer {
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
             /** Создаем нового игрока в игре */
-            InitNewPlayer((ulong)msg.SenderConnection.RemoteUniqueIdentifier);
+            InitNewPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
 
             /** Отдаем новому игроку его уникальный ид */
             var tmpNC = new NetCommand(NetCommandType.CONNECT,
-                ((ulong)msg.SenderConnection.RemoteUniqueIdentifier).ToString());
+                (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)).ToString());
 
             NetOutgoingMessage om = server.CreateMessage();
             om.Write(tmpNC.Serialize());
             server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }
 
-        private static void InitNewPlayer(ulong id) {
+        private static void InitNewPlayer(string id) {
             _serverGame.AddNewPlayer(id, 300, 300);
         }
 
-        public static long GetUniqueId() {
-            return _lastId++;
+        public static string GetUniqueId() {
+            return (_lastId++).ToString();
         }
     }
 }

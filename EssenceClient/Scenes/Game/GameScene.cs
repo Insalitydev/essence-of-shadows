@@ -15,7 +15,7 @@ namespace EssenceClient.Scenes.Game {
         private Player myPlayer;
 
         public GameScene(CCWindow window): base(window) {
-            Id = 88888888888888;
+            Id = "888888888888888";
 
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
@@ -41,7 +41,7 @@ namespace EssenceClient.Scenes.Game {
             Schedule(Update);
         }
 
-        public ulong Id { get; private set; }
+        public string Id { get; private set; }
 
         public GameLayer _gameLayer { get; private set; }
         public GameState GameState { get; private set; }
@@ -59,7 +59,7 @@ namespace EssenceClient.Scenes.Game {
             }
         }
 
-        public void SetMyId(ulong id) {
+        public void SetMyId(string id) {
             Log.Print("Set new Id: " + id);
             Id = id;
         }

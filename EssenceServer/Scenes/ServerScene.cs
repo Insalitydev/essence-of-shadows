@@ -24,7 +24,7 @@ namespace EssenceServer.Scenes {
             Server.SendGameStateToAll();
         }
 
-        internal void AddNewPlayer(ulong id, int x, int y) {
+        internal void AddNewPlayer(string id, int x, int y) {
             GameState.playersCount++;
             PlayerState newPlayer = new PlayerState(id);
             newPlayer.PositionX = x;

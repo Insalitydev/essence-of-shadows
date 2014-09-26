@@ -59,7 +59,7 @@ namespace EssenceClient {
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.CONNECT:
-                                _scene.SetMyId(ulong.Parse(nc.Data));
+                                _scene.SetMyId(nc.Data);
                                 break;
                             case NetCommandType.DISCONNECT:
                                 break;

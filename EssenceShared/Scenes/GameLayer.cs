@@ -24,7 +24,7 @@ namespace EssenceShared.Scenes {
         /** Вызывается на стороне клиента. 
          * playerId - ИД игрока, кто вызывает метод, необходим для исключения обновления свого персонажа
          * PlayerState - игрок, информацию которого необходимо обновить */
-        public void UpdateEntity(PlayerState e, ulong playerid) {
+        public void UpdateEntity(PlayerState e, string playerid) {
             Log.Print("Update entity");
             var index = entities.FindIndex(x=>x.Id == e.Id);
             if (index == -1){
@@ -39,7 +39,7 @@ namespace EssenceShared.Scenes {
             }
         }
 
-        public Entity FindEntityById(ulong id) {
+        public Entity FindEntityById(string id) {
             int result = entities.FindIndex(x => x.Id == id);
             if (result == -1) {
                 return null;

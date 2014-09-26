@@ -22,7 +22,7 @@ namespace EssenceServer {
             mainWindow.RunWithScene(_gameScene);
         }
 
-        public void AddNewPlayer(ulong id, int x, int y) {
+        public void AddNewPlayer(string id, int x, int y) {
             Log.Print("Spawn player " + id);
             _gameScene.AddNewPlayer(id, x, y);
         }

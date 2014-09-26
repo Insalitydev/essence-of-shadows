@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 namespace EssenceShared {
     public class PlayerState {
 
-        public ulong Id { get; private set; }
+        public string Id { get; private set; }
 
         public float PositionX;
         public float PositionY;
 
 
-        public PlayerState(ulong id) {
+        public PlayerState(string id) {
             Id = id;
         }
 
