@@ -1,4 +1,5 @@
-﻿using CocosSharp;
+﻿using System.Security.Cryptography.X509Certificates;
+using CocosSharp;
 using EssenceShared;
 using EssenceShared.Scenes;
 
@@ -13,6 +14,14 @@ namespace EssenceServer.Scenes {
             GameState = new GameState();
 
             Log.Print("Game has started, waiting for players");
+            Schedule(Update, 0.04f);
+        }
+
+
+        public override void Update(float dt) {
+            base.Update(dt);
+
+            Server.SendGameStateToAll();
         }
 
         internal void AddNewPlayer(ulong id, int x, int y) {
@@ -26,7 +35,8 @@ namespace EssenceServer.Scenes {
         }
 
         internal void UpdateGameState(PlayerState ps) {
-            throw new System.NotImplementedException();
+            var id = GameState.players.FindIndex(x => x.Id == ps.Id);
+            GameState.players[id] = ps;
         }
     }
 }

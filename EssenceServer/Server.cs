@@ -3,6 +3,7 @@ using System.Threading;
 using CocosSharp;
 using EssenceShared;
 using Lidgren.Network;
+using Newtonsoft.Json;
 
 namespace EssenceServer {
     /** Слушает сокет и подключает новых игроков, запускает остальные службы*/
@@ -97,19 +98,21 @@ namespace EssenceServer {
 
         private static void ProcessIncomingData(NetIncomingMessage msg) {
             string data = msg.ReadString();
-            Log.Print("Got data: " + data, LogType.NETWORK);
+//            Log.Print("Got data: " + data, LogType.NETWORK);
 
             if (data.StartsWith("{\"")){
                 NetCommand nc = NetCommand.Deserialize(data);
                 switch (nc.Type){
                     case NetCommandType.CONNECT:
-                        InitNewPlayer((ulong) msg.SenderConnection.RemoteUniqueIdentifier);
+                        ConnectNewPlayer(msg);
                         break;
                     case NetCommandType.DISCONNECT:
                         break;
                     case NetCommandType.SAY:
                         break;
                     case NetCommandType.UPDATE_PLAYERSTATE:
+                        var ps = JsonConvert.DeserializeObject<PlayerState>(nc.Data);
+                        _serverGame.UpdateGameState(ps);
                         break;
                 }
             }
@@ -126,6 +129,33 @@ namespace EssenceServer {
                     "said: " + data);
                 server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
             }
+        }
+
+
+        public static void SendGameStateToAll() {
+
+            if (server.ConnectionsCount > 0){
+                string gs = _serverGame.GetGameState();
+
+                var nc = new NetCommand(NetCommandType.UPDATE_GAMESTATE, gs);
+
+                NetOutgoingMessage om = server.CreateMessage();
+                om.Write(nc.Serialize());
+                server.SendMessage(om, server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+            }
+        }
+
+        private static void ConnectNewPlayer(NetIncomingMessage msg) {
+            /** Создаем нового игрока в игре */
+            InitNewPlayer((ulong)msg.SenderConnection.RemoteUniqueIdentifier);
+
+            /** Отдаем новому игроку его уникальный ид */
+            var tmpNC = new NetCommand(NetCommandType.CONNECT,
+                ((ulong)msg.SenderConnection.RemoteUniqueIdentifier).ToString());
+
+            NetOutgoingMessage om = server.CreateMessage();
+            om.Write(tmpNC.Serialize());
+            server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }
 
         private static void InitNewPlayer(ulong id) {

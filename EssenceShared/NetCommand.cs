@@ -12,7 +12,7 @@ namespace EssenceShared {
 
     public class NetCommand {
         private DateTime _createTime;
-        private string _data;
+        public string Data { get; private set; }
         public NetCommandType Type { get; private set; }
 
 
@@ -21,7 +21,7 @@ namespace EssenceShared {
         public NetCommand(NetCommandType type, string data) {
             _createTime = DateTime.Now;
             Type = type;
-            _data = data;
+            Data = data;
         }
 
         public string Serialize() {

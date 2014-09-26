@@ -4,10 +4,11 @@ namespace EssenceShared.Entities {
     /** Основной класс для всех игровых объектов */
 
     public class Entity: CCSprite {
-        public int ID { get; private set; }
+        public string Id { get; private set; }
 
-        public Entity(string url, int ID): base(url) {
-            this.ID = ID;
+        public Entity(string url, string id): base(url) {
+            this.Id = id;
+            this.IsAntialiased = false;
         }
     }
 }

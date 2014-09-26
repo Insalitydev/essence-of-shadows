@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
+using EssenceClient.Scenes.Game;
 using EssenceShared;
 using Lidgren.Network;
+using Newtonsoft.Json;
 
 namespace EssenceClient {
     /** Обрабатывает всю сетевую часть клиента */
@@ -9,9 +11,13 @@ namespace EssenceClient {
     internal class NetGameClient {
         public static NetClient Client;
         private readonly string _ip;
+        private readonly Object lockThis = new Object();
 
-        public NetGameClient(string ip) {
+        private static GameScene _scene;
+
+        public NetGameClient(string ip, GameScene scene) {
             _ip = ip;
+            _scene = scene;
         }
 
         public void ConnectToServer() {
@@ -36,39 +42,41 @@ namespace EssenceClient {
             Send(nc.Serialize());
         }
 
-        private void Send(string data) {
+        public void Send(string data) {
             NetOutgoingMessage om = Client.CreateMessage(data);
             Client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
-            Log.Print("Sending '" + data + "'", LogType.NETWORK);
+//            Log.Print("Sending '" + data + "'", LogType.NETWORK);
         }
 
         private void GotMessage(object data) {
-            Log.Print("Got data:" + data, LogType.NETWORK);
+//            Log.Print("Got data:" + data, LogType.NETWORK);
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
-                //                if (tmp.Split('.')[0] == "data") {
-                //                    int x = Int32.Parse(tmp.Split('.')[1]);
-                //                    int y = Int32.Parse(tmp.Split('.')[2]);
-                //                    if (_gameScene._gameLayer.GetPlayer() != null) {
-                //                        _gameScene._gameLayer.GetPlayer().PositionX = x;
-                //                        _gameScene._gameLayer.GetPlayer().PositionY = y;
-                //                    }
-                //                }
-                //                if (tmp.Split('.')[0] == "id") {
-                //                    id = tmp.Split('.')[1];
-                //                    Log.Print("Set uni id for me: " + id);
-                //                }
-                //
-                //                lock (lockThis) {
-                //                    if (tmp.StartsWith("{\"")) {
-                //                        var gs = JsonConvert.DeserializeObject<GameState>(tmp);
-                //                        Log.Print("Getted gs: " + tmp);
-                //                        foreach (PlayerState hero in gs.players) {
-                //                            _gameScene._gameLayer.UpdateEntity(hero, id);
-                //                        }
-                //                    }
-                //                }
+                lock (lockThis){
+                    if (tmp.StartsWith("{\"")){
+                        var nc = NetCommand.Deserialize(tmp);
+                        switch (nc.Type){
+                                /** Ответ на запрос соединения */
+                            case NetCommandType.CONNECT:
+                                _scene.SetMyId(ulong.Parse(nc.Data));
+                                break;
+                            case NetCommandType.DISCONNECT:
+                                break;
+                            case NetCommandType.SAY:
+                                Log.Print("Incoming message from server: " + nc.Data);
+                                break;
+                                /** Обновляем все необходимые данные об игровом состоянии */
+                            case NetCommandType.UPDATE_GAMESTATE:
+                                var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
+
+                                foreach (var player in gs.players){
+                                    _scene.UpdateEntity(player);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
         }
     }
