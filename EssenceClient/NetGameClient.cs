@@ -54,14 +54,14 @@ namespace EssenceClient {
 
         private void GotMessage(object data) {
 //             Log.Print("Got data:" + data, LogType.NETWORK);
-            Log.Print("STAT" + Client.Statistics.ReceivedBytes);
+//            Log.Print("STAT" + Client.Statistics.ReceivedBytes);
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
                 lock (lockThis){
                     if (tmp.StartsWith("{\"")){
                         NetCommand nc = NetCommand.Deserialize(tmp);
-                        Log.Print("Packet Time: " + (DateTime.Now.Ticks - nc.CreateTime.Ticks));
+                        Log.Print("GOTTTED" + nc.Data);
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.CONNECT:
@@ -78,13 +78,7 @@ namespace EssenceClient {
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
                                 Log.Print(nc.Data, LogType.NETWORK);
 
-                                foreach (PlayerState player in gs.players){
-                                    _scene.UpdateEntity(player);
-                                }
-
-                                foreach (EntityState es in gs.entities){
-                                    _scene.UpdateEntity(es);
-                                }
+                                _scene._gameLayer.AppendGameState(gs, _scene.Id);
                                 break;
                         }
                     }

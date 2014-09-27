@@ -10,5 +10,10 @@ namespace EssenceShared.Entities {
             this.Id = id;
             this.IsAntialiased = false;
         }
+
+        internal void AppendState(EntityState es) {
+            this.PositionX = es.PositionX;
+            this.PositionY = es.PositionY;
+        }
     }
 }

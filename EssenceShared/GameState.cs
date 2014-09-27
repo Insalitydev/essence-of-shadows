@@ -8,7 +8,6 @@ namespace EssenceShared {
     public class GameState {
         public List<PlayerState> players = new List<PlayerState>();
         public List<EntityState> entities = new List<EntityState>(); 
-        public int playersCount = 0;
 
         public string Serialize() {
             // TODO: Вылетает, когда идет одновременно сериализация и изменение состояния

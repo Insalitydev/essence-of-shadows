@@ -113,7 +113,7 @@ namespace EssenceServer {
                         break;
                     case NetCommandType.UPDATE_PLAYERSTATE:
                         var ps = JsonConvert.DeserializeObject<PlayerState>(nc.Data);
-                        _serverGame.UpdateGameState(ps);
+                        _serverGame.GameScene.AppendPlayerState(ps);
                         break;
                     case NetCommandType.CALL_PLAYER_METHOD:
                         CallPlayerMethod(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier), nc.Data);
@@ -124,7 +124,7 @@ namespace EssenceServer {
 
         private static void CallPlayerMethod(string id, string data) {
             Log.Print("CALL player");
-            PlayerState pl = _serverGame.GameScene.GameState.players.Find(x => x.Id == id);
+            Player pl = _serverGame.GameScene._gameLayer.players.Find(x => x.Id == id);
 
 //            pl.Attack(pl.Position);
 
@@ -141,9 +141,9 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (server.ConnectionsCount > 0){
-                string gs = _serverGame.GetGameState();
+                GameState gs = _serverGame.GameScene._gameLayer.GetGameState();
 
-                var nc = new NetCommand(NetCommandType.UPDATE_GAMESTATE, gs);
+                var nc = new NetCommand(NetCommandType.UPDATE_GAMESTATE, gs.Serialize());
 
                 NetOutgoingMessage om = server.CreateMessage();
                 om.Write(nc.Serialize());
@@ -152,6 +152,7 @@ namespace EssenceServer {
         }
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
+            Log.Print("Creating new player");
             /** Создаем нового игрока в игре */
             InitNewPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
 

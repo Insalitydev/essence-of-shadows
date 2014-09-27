@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.Remoting.Channels;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
@@ -51,7 +52,6 @@ namespace EssenceClient.Scenes.Game {
         public string Id { get; private set; }
 
         public GameLayer _gameLayer { get; private set; }
-        public GameState GameState { get; private set; }
 
         public void UpdateNetwork(float dt) {
             base.Update(dt);
@@ -76,24 +76,22 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void UpdateMyState() {
+            
             if (myPlayer != null){
-                var myps = new PlayerState(Id);
-                myps.PositionX = myPlayer.PositionX;
-                myps.PositionY = myPlayer.PositionY;
+                var myps = PlayerState.ParsePlayer(myPlayer);
 
                 var nc = new NetCommand(NetCommandType.UPDATE_PLAYERSTATE, myps.Serialize());
                 netGameClient.Send(nc.Serialize(), NetDeliveryMethod.Unreliable);
             }
             else{
-                Entity myPl = _gameLayer.FindEntityById(Id);
+                Log.Print("TRY SETTING FIND PLAYER TO MYPLAs");
+                netGameClient.Send("no ID", NetDeliveryMethod.Unreliable);
+                Entity myPl = _gameLayer.FindPlayerById(Id);
                 if (myPl != null){
+                    Log.Print("SETTING FIND PLAYER TO MYPLAs");
                     myPlayer = (Player) myPl;
                 }
             }
-        }
-
-        internal void UpdateEntity(PlayerState player) {
-            _gameLayer.UpdateEntity(player, Id);
         }
 
         internal void UpdateEntity(EntityState entity) {

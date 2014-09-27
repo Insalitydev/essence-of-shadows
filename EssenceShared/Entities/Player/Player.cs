@@ -1,4 +1,5 @@
-﻿using System.Runtime.Remoting.Channels;
+﻿using System;
+using System.Runtime.Remoting.Channels;
 using CocosSharp;
 using EssenceShared.Entities.Projectiles;
 
@@ -39,6 +40,11 @@ namespace EssenceShared.Entities.Player {
 
         public void Attack(CCPoint target) {
             Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
+        }
+
+        internal void AppendState(PlayerState ps) {
+            this.PositionX = ps.PositionX;
+            this.PositionY = ps.PositionY;
         }
     }
 }
