@@ -2,6 +2,7 @@
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities.Player;
+using EssenceShared.Entities.Projectiles;
 using Lidgren.Network;
 using Newtonsoft.Json;
 
@@ -127,8 +128,12 @@ namespace EssenceServer {
             Player pl = _serverGame.GameScene._gameLayer.players.Find(x => x.Id == id);
 
 //            pl.Attack(pl.Position);
+            MysticProjectile ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0));
+            ent.PositionX = pl.PositionX;
+            ent.PositionY = pl.PositionY;
+            _serverGame.GameScene._gameLayer.AddEntity(ent);
 
-            _serverGame.GameScene.AddNewEntity(GetUniqueId(), pl.PositionX, pl.PositionY);
+//            _serverGame.GameScene.AddNewEntity(GetUniqueId(), pl.PositionX, pl.PositionY);
         }
 
         public static void SendChatMessage(string chatMsg) {

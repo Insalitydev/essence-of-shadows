@@ -9,6 +9,7 @@ namespace EssenceShared {
 
         public float PositionX;
         public float PositionY;
+        public float Scale;
         public string TextureName;
 
         public EntityState(string id) {
@@ -19,6 +20,7 @@ namespace EssenceShared {
             var es = new EntityState(entity.Id);
             es.PositionX = entity.PositionX;
             es.PositionY = entity.PositionY;
+            es.Scale = 4;
             es.TextureName = entity.Texture.Name.ToString();
             return es;
         }

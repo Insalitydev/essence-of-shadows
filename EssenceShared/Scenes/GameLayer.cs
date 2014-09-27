@@ -27,6 +27,7 @@ namespace EssenceShared.Scenes {
                 /** TODO: формировать объекты не тут...*/
                 tmp.PositionX = e.PositionX;
                 tmp.PositionY = e.PositionY;
+                tmp.Scale = e.Scale;
             }
             AddEntity(tmp);
         }
