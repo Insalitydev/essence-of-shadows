@@ -1,4 +1,6 @@
-﻿using CocosSharp;
+﻿using System.Runtime.Remoting.Channels;
+using CocosSharp;
+using EssenceShared.Entities.Projectiles;
 
 namespace EssenceShared.Entities.Player {
     public class Player: Entity {
@@ -33,6 +35,10 @@ namespace EssenceShared.Entities.Player {
             if (Input.IsKeyIn(CCKeys.Left)) {
                 PositionX -= _moveSpeed * dt;
             }
+        }
+
+        public void Attack(CCPoint target) {
+            Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
         }
     }
 }

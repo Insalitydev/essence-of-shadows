@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Player\Player.cs" />
+    <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
+    <Compile Include="EntityState.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Scenes\GameLayer.cs" />
     <Compile Include="Settings.cs" />

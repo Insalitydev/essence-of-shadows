@@ -7,32 +7,31 @@ namespace EssenceServer {
 
     internal class ServerGame: CCApplicationDelegate {
 
-        private ServerScene _gameScene;
+        public ServerScene GameScene { get; private set; }
 
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
             base.ApplicationDidFinishLaunching(application, mainWindow);
 
 
             /** Set up resource folders */
-            // TODO: убрать дублирование кода тут и на стороне клиента
             Log.Print("Loading Resources");
             Resources.LoadContent(application);
 
-            _gameScene = new ServerScene(mainWindow);
-            mainWindow.RunWithScene(_gameScene);
+            GameScene = new ServerScene(mainWindow);
+            mainWindow.RunWithScene(GameScene);
         }
 
         public void AddNewPlayer(string id, int x, int y) {
             Log.Print("Spawn player " + id);
-            _gameScene.AddNewPlayer(id, x, y);
+            GameScene.AddNewPlayer(id, x, y);
         }
 
         internal string GetGameState() {
-            return _gameScene.GameState.Serialize();
+            return GameScene.GameState.Serialize();
         }
 
         internal void UpdateGameState(PlayerState ps) {
-            _gameScene.UpdateGameState(ps);
+            GameScene.UpdateGameState(ps);
         }
     }
 }

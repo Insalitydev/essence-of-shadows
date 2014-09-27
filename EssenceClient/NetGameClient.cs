@@ -53,7 +53,7 @@ namespace EssenceClient {
         }
 
         private void GotMessage(object data) {
-            // Log.Print("Got data:" + data, LogType.NETWORK);
+//             Log.Print("Got data:" + data, LogType.NETWORK);
             Log.Print("STAT" + Client.Statistics.ReceivedBytes);
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
@@ -76,9 +76,14 @@ namespace EssenceClient {
                                 /** Обновляем все необходимые данные об игровом состоянии */
                             case NetCommandType.UPDATE_GAMESTATE:
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
+                                Log.Print(nc.Data, LogType.NETWORK);
 
                                 foreach (PlayerState player in gs.players){
                                     _scene.UpdateEntity(player);
+                                }
+
+                                foreach (EntityState es in gs.entities){
+                                    _scene.UpdateEntity(es);
                                 }
                                 break;
                         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EssenceShared;
 
 namespace EssenceServer {
@@ -13,9 +14,12 @@ namespace EssenceServer {
         }
 
         private void ProcessCommand(string command) {
+            // TODO: реализовать нормальное разделение на комманду:аргументы
+            var arg = command.Split(' ').Last();
+            command = command.Split(' ').First();
             switch (command){
                 case "say":
-                    Log.Print("some say action", LogType.INFO, false);
+                    Server.SendChatMessage(arg);
                     break;
                 case "list":
                     Log.Print("Currently online: ", LogType.INFO, false);

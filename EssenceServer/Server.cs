@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using CocosSharp;
 using EssenceShared;
+using EssenceShared.Entities.Player;
 using Lidgren.Network;
 using Newtonsoft.Json;
 
@@ -114,11 +115,23 @@ namespace EssenceServer {
                         var ps = JsonConvert.DeserializeObject<PlayerState>(nc.Data);
                         _serverGame.UpdateGameState(ps);
                         break;
+                    case NetCommandType.CALL_PLAYER_METHOD:
+                        CallPlayerMethod(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier), nc.Data);
+                        break;
                 }
             }
         }
 
-        private static void SendChatMessage(string chatMsg) {
+        private static void CallPlayerMethod(string id, string data) {
+            Log.Print("CALL player");
+            PlayerState pl = _serverGame.GameScene.GameState.players.Find(x => x.Id == id);
+
+//            pl.Attack(pl.Position);
+
+            _serverGame.GameScene.AddNewEntity(GetUniqueId(), pl.PositionX, pl.PositionY);
+        }
+
+        public static void SendChatMessage(string chatMsg) {
             var nc = new NetCommand(NetCommandType.SAY, chatMsg);
             NetOutgoingMessage om = server.CreateMessage();
             om.Write(nc.Serialize());

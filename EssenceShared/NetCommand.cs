@@ -7,7 +7,8 @@ namespace EssenceShared {
         UPDATE_GAMESTATE,
         UPDATE_PLAYERSTATE,
         CONNECT,
-        DISCONNECT
+        DISCONNECT,
+        CALL_PLAYER_METHOD
     }
 
     public class NetCommand {
@@ -18,11 +19,10 @@ namespace EssenceShared {
         }
 
         public DateTime CreateTime { get; private set; }
+        /** Data - строка с необходимыми полями для указанного типа команды
+        * Должна быть в формате json, если команда update Game/Player-state */
         public string Data { get; private set; }
         public NetCommandType Type { get; private set; }
-
-
-        /** _data - строка в формате json с необходимыми полями для указанного типа комманды */
 
         public string Serialize() {
             return JsonConvert.SerializeObject(this);

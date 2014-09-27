@@ -3,6 +3,7 @@ using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
+using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
@@ -95,6 +96,14 @@ namespace EssenceClient.Scenes.Game {
             _gameLayer.UpdateEntity(player, Id);
         }
 
+        internal void UpdateEntity(EntityState entity) {
+            Entity ent = new MysticProjectile(entity.Id, new CCPoint(0, 0));
+            ent.PositionX = entity.PositionX;
+            ent.PositionY = entity.PositionY;
+
+            _gameLayer.UpdateEntity(ent);
+        }
+
         private void OnKeyPressed(CCEventKeyboard e) {
             Input.OnKeyPress(e.Keys);
         }
@@ -105,6 +114,13 @@ namespace EssenceClient.Scenes.Game {
             if (e.Keys == CCKeys.S){
                 netGameClient.SendChatMessage("DASDA"+Id);
             }
+
+            if (e.Keys == CCKeys.A) {
+//                myPlayer.Attack(new CCPoint(0, 0));
+                var nc = new NetCommand(NetCommandType.CALL_PLAYER_METHOD, "attack");
+                netGameClient.Send(nc.Serialize(), NetDeliveryMethod.ReliableOrdered);
+            }
+
         }
     }
 }
