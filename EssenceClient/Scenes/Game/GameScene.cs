@@ -1,4 +1,5 @@
-﻿using CocosSharp;
+﻿using System.Linq;
+using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
@@ -11,6 +12,7 @@ namespace EssenceClient.Scenes.Game {
     internal class GameScene: CCScene {
         private readonly NetGameClient netGameClient;
         private BackgroundLayer _backgroundLayer;
+        private ChatLayer _chatLayer;
         private HudLayer _hudLayer;
 
         private Player myPlayer;
@@ -23,6 +25,9 @@ namespace EssenceClient.Scenes.Game {
 
             _gameLayer = new GameLayer();
             AddChild(_gameLayer);
+
+            _chatLayer = new ChatLayer();
+            AddChild(_chatLayer);
 
             _hudLayer = new HudLayer();
             AddChild(_hudLayer);
@@ -65,6 +70,10 @@ namespace EssenceClient.Scenes.Game {
             Id = id;
         }
 
+        public void getChatMessage(string msg) {
+            _chatLayer.messages.Add(msg);
+        }
+
         private void UpdateMyState() {
             if (myPlayer != null){
                 var myps = new PlayerState(Id);
@@ -92,6 +101,10 @@ namespace EssenceClient.Scenes.Game {
 
         private void OnKeyReleased(CCEventKeyboard e) {
             Input.OnKeyRelease(e.Keys);
+
+            if (e.Keys == CCKeys.S){
+                netGameClient.SendChatMessage("DASDA"+Id);
+            }
         }
     }
 }

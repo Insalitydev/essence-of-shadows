@@ -108,6 +108,7 @@ namespace EssenceServer {
                     case NetCommandType.DISCONNECT:
                         break;
                     case NetCommandType.SAY:
+                        SendChatMessage(nc.Data);
                         break;
                     case NetCommandType.UPDATE_PLAYERSTATE:
                         var ps = JsonConvert.DeserializeObject<PlayerState>(nc.Data);
@@ -115,6 +116,13 @@ namespace EssenceServer {
                         break;
                 }
             }
+        }
+
+        private static void SendChatMessage(string chatMsg) {
+            var nc = new NetCommand(NetCommandType.SAY, chatMsg);
+            NetOutgoingMessage om = server.CreateMessage();
+            om.Write(nc.Serialize());
+            server.SendMessage(om, server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
 

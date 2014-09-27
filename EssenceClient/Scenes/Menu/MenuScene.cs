@@ -7,7 +7,7 @@ namespace EssenceClient.Scenes.Game {
         private MenuLayer _menuLayer;
 
         public MenuScene(CCWindow window): base(window) {
-            SceneResolutionPolicy = CCSceneResolutionPolicy.Custom;
+            SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
             _backgroundLayer = new MenuBackgroundLayer();
             AddChild(_backgroundLayer);

@@ -47,6 +47,11 @@ namespace EssenceClient {
 //            Log.Print("Sending '" + data + "'", LogType.NETWORK);
         }
 
+        public void SendChatMessage(string text) {
+            var nc = new NetCommand(NetCommandType.SAY, text);
+            Send(nc.Serialize(), NetDeliveryMethod.ReliableUnordered);
+        }
+
         private void GotMessage(object data) {
             // Log.Print("Got data:" + data, LogType.NETWORK);
             Log.Print("STAT" + Client.Statistics.ReceivedBytes);
@@ -66,6 +71,7 @@ namespace EssenceClient {
                                 break;
                             case NetCommandType.SAY:
                                 Log.Print("Incoming message from server: " + nc.Data);
+                                _scene.getChatMessage(nc.Data);
                                 break;
                                 /** Обновляем все необходимые данные об игровом состоянии */
                             case NetCommandType.UPDATE_GAMESTATE:
