@@ -22,6 +22,15 @@ namespace EssenceClient.Scenes.Game {
 
             AddChild(_label);
 
+            var helper = new CCLabel("Arrows to move, A - shoot, S - say to chat", "kongtext", 10) {
+                Color = CCColor3B.Gray,
+                AnchorPoint = CCPoint.AnchorMiddleTop,
+                Position = new CCPoint(Settings.SCREEN_WIDTH/2, Settings.SCREEN_HEIGHT - 20),
+            };
+
+            AddChild(_label);
+            AddChild(helper);
+
             Schedule(Update);
         }
 

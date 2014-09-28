@@ -1,6 +1,7 @@
 ﻿using CocosSharp;
 using EssenceServer.Scenes;
 using EssenceShared;
+using EssenceShared.Entities.Player;
 
 namespace EssenceServer {
     /** Обрабатывает всю игровую логику */
@@ -23,10 +24,14 @@ namespace EssenceServer {
 
         public void AddNewPlayer(string id, int x, int y) {
             Log.Print("Spawn player " + id);
-//            GameScene.AddNewPlayer(id, x, y);
+
             var es = new EntityState(id);
             es.PositionX = x;
             es.PositionY = y;
+            es.TextureName = "Mystic";
+
+//            var pl = new Player(id);
+//            EntityState.AppendStateToEntity(pl, es);
 
             GameScene._gameLayer.AddEntity(es);
         }

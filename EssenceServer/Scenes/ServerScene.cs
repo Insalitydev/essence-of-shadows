@@ -40,28 +40,11 @@ namespace EssenceServer.Scenes {
 //            Log.Print("New player spawned");
 //        }
 
-        internal void AddNewEntity(string id, float x, float y) {
-            MysticProjectile newEntity = new MysticProjectile(id, new CCPoint(0, 0));
-            newEntity.PositionX = x;
-            newEntity.PositionY = y;
-
-            _gameLayer.AddEntity(newEntity);
-
-            // TODO: формировать объекты не тут...
-            var es = new EntityState(id);
-            es.PositionX = x;
-            es.PositionY = y;
-            es.TextureName = "MysticProjectile";
-
-            _gameLayer.AddEntity(es);
-//            _gameLayer.entities.Add(es);
-            Log.Print("New entitity spawned");
-        }
 
         internal void AppendPlayerState(EntityState es) {
-            int id = _gameLayer.entities.FindIndex(x=>x.Id == es.Id);
+//            int id = _gameLayer.entities.FindIndex(x=>x.Id == es.Id);
 
-            _gameLayer.UpdateEntity(EntityState.CreateEntity(es), es.Id);
+            _gameLayer.UpdateEntity(es);
         }
     }
 }

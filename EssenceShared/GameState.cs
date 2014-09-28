@@ -10,6 +10,7 @@ namespace EssenceShared {
 
         public string Serialize() {
             // TODO: Вылетает, когда идет одновременно сериализация и изменение состояния
+            // TODO: Возможно исправленно из за ToList();
             var gsTemp = (GameState) MemberwiseClone();
             gsTemp.entities = entities.ToList();
 

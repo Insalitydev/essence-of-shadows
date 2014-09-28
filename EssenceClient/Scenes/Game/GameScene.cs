@@ -84,22 +84,20 @@ namespace EssenceClient.Scenes.Game {
                 netGameClient.Send(nc.Serialize(), NetDeliveryMethod.Unreliable);
             }
             else{
-                Log.Print("TRY SETTING FIND PLAYER TO MYPLAs");
                 netGameClient.Send("no ID", NetDeliveryMethod.Unreliable);
                 Entity myPl = _gameLayer.FindEntityById(Id);
                 if (myPl != null){
-                    Log.Print("SETTING FIND PLAYER TO MYPLAs");
                     myPlayer = (Player) myPl;
                 }
             }
         }
 
         internal void UpdateEntity(EntityState entity) {
-            Entity ent = new MysticProjectile(entity.Id, new CCPoint(0, 0));
-            ent.PositionX = entity.PositionX;
-            ent.PositionY = entity.PositionY;
-
-            _gameLayer.UpdateEntity(ent);
+//            Entity ent = new MysticProjectile(entity.Id, new CCPoint(0, 0));
+//            ent.PositionX = entity.PositionX;
+//            ent.PositionY = entity.PositionY;
+//
+//            _gameLayer.UpdateEntity(ent);
         }
 
         private void OnKeyPressed(CCEventKeyboard e) {

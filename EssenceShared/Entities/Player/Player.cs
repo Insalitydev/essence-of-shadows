@@ -39,7 +39,7 @@ namespace EssenceShared.Entities.Player {
         }
 
         public void Attack(CCPoint target) {
-            Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
+//            Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
         }
 
         internal void AppendState(EntityState es) {

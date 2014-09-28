@@ -99,7 +99,6 @@ namespace EssenceServer {
 
         private static void ProcessIncomingData(NetIncomingMessage msg) {
             string data = msg.ReadString();
-            //            Log.Print("Got data: " + data, LogType.NETWORK);
 
             if (data.StartsWith("{\"")){
                 NetCommand nc = NetCommand.Deserialize(data);
@@ -124,7 +123,7 @@ namespace EssenceServer {
         }
 
         private static void CallPlayerMethod(string id, string data) {
-            Log.Print("CALL player");
+            Log.Print("Player call");
             Player pl = _serverGame.GameScene._gameLayer.entities.Find(x => x.Id == id) as Player;
 
 //            pl.Attack(pl.Position);

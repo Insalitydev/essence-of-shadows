@@ -33,7 +33,7 @@ namespace EssenceShared {
             return entity;
         }
 
-        internal static void AppendStateToEntity(Entity entity, EntityState es) {
+        public static void AppendStateToEntity(Entity entity, EntityState es) {
             entity.PositionX = es.PositionX;
             entity.PositionY = es.PositionY;
             entity.Scale = es.Scale;

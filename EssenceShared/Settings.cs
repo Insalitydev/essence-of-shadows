@@ -10,6 +10,7 @@ namespace EssenceShared {
         public const string GAME_IDENTIFIER = "EssenceOfShadows";
 
         /** Log && Statistic settings */
+        public const bool IS_DEBUG = true;
         public const bool IS_LOG_TO_FILE = false;
 
         /** Network settings */

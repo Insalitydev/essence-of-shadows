@@ -53,15 +53,14 @@ namespace EssenceClient {
         }
 
         private void GotMessage(object data) {
-//             Log.Print("Got data:" + data, LogType.NETWORK);
-//            Log.Print("STAT" + Client.Statistics.ReceivedBytes);
+
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
                 lock (lockThis){
                     if (tmp.StartsWith("{\"")){
                         NetCommand nc = NetCommand.Deserialize(tmp);
-                        Log.Print("GOTTTED" + nc.Data);
+                        Log.Print("Got data" + nc.Data, LogType.NETWORK);
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.CONNECT:
@@ -76,7 +75,6 @@ namespace EssenceClient {
                                 /** Обновляем все необходимые данные об игровом состоянии */
                             case NetCommandType.UPDATE_GAMESTATE:
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
-                                Log.Print(nc.Data, LogType.NETWORK);
 
                                 _scene._gameLayer.AppendGameState(gs, _scene.Id);
                                 break;

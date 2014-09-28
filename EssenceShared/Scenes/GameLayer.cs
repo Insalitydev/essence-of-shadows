@@ -28,23 +28,26 @@ namespace EssenceShared.Scenes {
             }
 
             EntityState.AppendStateToEntity(entity, es);
-//            var tmp = new MysticProjectile(es.Id, new CCPoint(0, 0));
-//            //            var tmp = new Entity(es.TextureName, es.Id);
-//            {
-//                /** TODO: формировать объекты не тут...*/
-//                tmp.PositionX = es.PositionX;
-//                tmp.PositionY = es.PositionY;
-//                tmp.Scale = es.Scale;
-//            }
+
             AddEntity(entity);
         }
 
         public void AddEntity(Entity e) {
+            Log.Print("ADDING" + EntityState.ParseEntity(e).Serialize());
             entities.Add(e);
             AddChild(e);
         }
 
+        protected override void AddedToScene() {
+            base.AddedToScene();
 
+            Schedule(UpdateDebug, 2);
+        }
+
+
+        private void UpdateDebug(float dt) {
+            Log.Print(GetGameState().Serialize());
+        }
         public override void Update(float dt) {
             base.Update(dt);
         }
@@ -55,7 +58,7 @@ namespace EssenceShared.Scenes {
             foreach (Entity entity in entities){
                 gs.entities.Add(EntityState.ParseEntity(entity));
             }
-            Log.Print(gs.Serialize());
+
             return gs;
         }
 
@@ -78,29 +81,18 @@ namespace EssenceShared.Scenes {
         }
 
 
-        /** Вызывается на стороне клиента. 
-         * playerId - ИД игрока, кто вызывает метод, необходим для исключения обновления свого персонажа
-         * PlayerState - игрок, информацию которого необходимо обновить */
-
-
         /** серверное */
 
-        public void UpdateEntity(Entity e, string playerid) {
-            int index = entities.FindIndex(x=>x.Id == e.Id);
+        public void UpdateEntity(EntityState es) {
+            int index = entities.FindIndex(x=>x.Id == es.Id);
             if (index == -1){
-                AddEntity(e);
+                AddEntity(es);
             }
             else{
-                if (playerid == e.Id){
-                    return;
-                }
-                entities[index].PositionX = e.PositionX;
-                entities[index].PositionY = e.PositionY;
+                EntityState.AppendStateToEntity(entities[index], es);
+//                entities[index].PositionX = e.PositionX;
+//                entities[index].PositionY = e.PositionY;
             }
-        }
-
-        public void UpdateEntity(Entity e) {
-            UpdateEntity(e, "FALSE_ID");
         }
 
         public Entity FindEntityById(string id) {
