@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Runtime.Remoting.Channels;
-using CocosSharp;
+﻿using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
-using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
@@ -12,9 +9,9 @@ using Lidgren.Network;
 
 namespace EssenceClient.Scenes.Game {
     internal class GameScene: CCScene {
+        private readonly ChatLayer _chatLayer;
         private readonly NetGameClient netGameClient;
         private BackgroundLayer _backgroundLayer;
-        private ChatLayer _chatLayer;
         private HudLayer _hudLayer;
 
         private Player myPlayer;
@@ -76,28 +73,18 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void UpdateMyState() {
-            
             if (myPlayer != null){
-                var myps = EntityState.ParseEntity(myPlayer);
+                EntityState myps = EntityState.ParseEntity(myPlayer);
 
                 var nc = new NetCommand(NetCommandType.UPDATE_PLAYERSTATE, myps.Serialize());
-                netGameClient.Send(nc.Serialize(), NetDeliveryMethod.Unreliable);
+                netGameClient.Send(nc, NetDeliveryMethod.Unreliable);
             }
             else{
-                netGameClient.Send("no ID", NetDeliveryMethod.Unreliable);
                 Entity myPl = _gameLayer.FindEntityById(Id);
                 if (myPl != null){
                     myPlayer = (Player) myPl;
                 }
             }
-        }
-
-        internal void UpdateEntity(EntityState entity) {
-//            Entity ent = new MysticProjectile(entity.Id, new CCPoint(0, 0));
-//            ent.PositionX = entity.PositionX;
-//            ent.PositionY = entity.PositionY;
-//
-//            _gameLayer.UpdateEntity(ent);
         }
 
         private void OnKeyPressed(CCEventKeyboard e) {
@@ -108,19 +95,17 @@ namespace EssenceClient.Scenes.Game {
             Input.OnKeyRelease(e.Keys);
 
             if (e.Keys == CCKeys.S){
-                netGameClient.SendChatMessage("DASDA"+Id);
+                netGameClient.SendChatMessage("DASDA" + Id);
             }
 
-            if (e.Keys == CCKeys.A) {
-//                myPlayer.Attack(new CCPoint(0, 0));
+            if (e.Keys == CCKeys.A){
                 var nc = new NetCommand(NetCommandType.CALL_PLAYER_METHOD, "attack");
-                netGameClient.Send(nc.Serialize(), NetDeliveryMethod.ReliableOrdered);
+                netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
             }
 
             if (e.Keys == CCKeys.Escape){
                 Window.DefaultDirector.PopScene();
             }
-
         }
     }
 }

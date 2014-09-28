@@ -22,16 +22,13 @@ namespace EssenceServer {
             mainWindow.RunWithScene(GameScene);
         }
 
-        public void AddNewPlayer(string id, int x, int y) {
+        public void AddNewPlayer(string id, int x, int y, string type) {
             Log.Print("Spawn player " + id);
 
             var es = new EntityState(id);
             es.PositionX = x;
             es.PositionY = y;
-            es.TextureName = "Mystic";
-
-//            var pl = new Player(id);
-//            EntityState.AppendStateToEntity(pl, es);
+            es.TextureName = type;
 
             GameScene._gameLayer.AddEntity(es);
         }

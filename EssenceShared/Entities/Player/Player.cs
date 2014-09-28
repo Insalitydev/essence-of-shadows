@@ -10,6 +10,10 @@ namespace EssenceShared.Entities.Player {
             Scale = 4;
         }
 
+        public Player(string id, string type): base(type, id) {
+            Scale = 4;
+        }
+
         protected override void AddedToScene() {
             base.AddedToScene();
 

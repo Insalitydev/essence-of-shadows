@@ -13,27 +13,34 @@ namespace EssenceShared.Scenes {
         public List<Entity> entities = new List<Entity>();
 
         private Entity entity;
+
         public void AddEntity(EntityState es) {
-            var textureName = es.TextureName;
-            Log.Print(textureName);
+            /* Получаем название объекта по изображению */
+            string textureName = es.TextureName;
             textureName = textureName.Replace("\\", "/").Split('/').Last();
-            Log.Print(textureName);
+
             switch (textureName){
                 case "Mystic":
-                    entity = new Player(es.Id);
+                case "Reaper":
+                case "Sniper":
+                    entity = new Player(es.Id, textureName);
                     break;
                 case "MysticProjectile":
                     entity = new MysticProjectile(es.Id, new CCPoint(0, 0));
                     break;
             }
 
-            EntityState.AppendStateToEntity(entity, es);
-
-            AddEntity(entity);
+            if (entity != null){
+                EntityState.AppendStateToEntity(entity, es);
+                AddEntity(entity);
+            }
+            else{
+                Log.Print("Error! Entity isn't created, New entity will not be added", LogType.ERROR);
+            }
         }
 
         public void AddEntity(Entity e) {
-            Log.Print("ADDING" + EntityState.ParseEntity(e).Serialize());
+            Log.Print("Spawn entity: " + EntityState.ParseEntity(e).Serialize());
             entities.Add(e);
             AddChild(e);
         }
@@ -44,13 +51,15 @@ namespace EssenceShared.Scenes {
             Schedule(UpdateDebug, 2);
         }
 
-
         private void UpdateDebug(float dt) {
             Log.Print(GetGameState().Serialize());
         }
+
         public override void Update(float dt) {
             base.Update(dt);
         }
+
+        /** формируем игровое состояние и возвращаем его */
 
         public GameState GetGameState() {
             var gs = new GameState();
@@ -62,14 +71,15 @@ namespace EssenceShared.Scenes {
             return gs;
         }
 
-        /** Клиентское */
+
+        /** Вызывается на клиенте для обновления текущего состояния игры */
 
         public void AppendGameState(GameState gs, string playerId) {
             /** Updating entities */
             foreach (EntityState entity in gs.entities){
-                Log.Print("SHOULD UPDATE" + entity.Id);
                 int index = entities.FindIndex(x=>x.Id == entity.Id);
                 if (index != -1){
+                    // Себя не обновляем, мы верим себе!
                     if (entity.Id != playerId){
                         entities[index].AppendState(entity);
                     }
@@ -81,7 +91,7 @@ namespace EssenceShared.Scenes {
         }
 
 
-        /** серверное */
+        /** Вызваем на сервере, обновляем состояние объекта в игре, если нет такого объекта - создаем */
 
         public void UpdateEntity(EntityState es) {
             int index = entities.FindIndex(x=>x.Id == es.Id);
@@ -90,8 +100,6 @@ namespace EssenceShared.Scenes {
             }
             else{
                 EntityState.AppendStateToEntity(entities[index], es);
-//                entities[index].PositionX = e.PositionX;
-//                entities[index].PositionY = e.PositionY;
             }
         }
 

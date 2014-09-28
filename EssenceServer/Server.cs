@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities.Player;
@@ -122,17 +123,16 @@ namespace EssenceServer {
             }
         }
 
-        private static void CallPlayerMethod(string id, string data) {
+        private static void CallPlayerMethod(string playerid, string data) {
             Log.Print("Player call");
-            Player pl = _serverGame.GameScene._gameLayer.entities.Find(x => x.Id == id) as Player;
+            var pl = _serverGame.GameScene._gameLayer.entities.Find(x=>x.Id == playerid) as Player;
 
-//            pl.Attack(pl.Position);
-            MysticProjectile ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0));
+            var ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0));
             ent.PositionX = pl.PositionX;
             ent.PositionY = pl.PositionY;
             _serverGame.GameScene._gameLayer.AddEntity(ent);
 
-//            _serverGame.GameScene.AddNewEntity(GetUniqueId(), pl.PositionX, pl.PositionY);
+            //            _serverGame.GameScene.AddNewEntity(GetUniqueId(), pl.PositionX, pl.PositionY);
         }
 
         public static void SendChatMessage(string chatMsg) {
@@ -170,7 +170,16 @@ namespace EssenceServer {
         }
 
         private static void InitNewPlayer(string id) {
-            _serverGame.AddNewPlayer(id, 300, 300);
+            string type = "Mystic";
+            switch (new Random().Next(3)){
+                case 0:
+                    type = "Reaper";
+                    break;
+                case 1:
+                    type = "Sniper";
+                    break;
+            }
+            _serverGame.AddNewPlayer(id, 300, 300, type);
         }
 
         public static string GetUniqueId() {

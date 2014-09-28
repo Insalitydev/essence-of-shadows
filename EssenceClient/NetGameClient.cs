@@ -38,18 +38,18 @@ namespace EssenceClient {
 
             Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.NETWORK);
             var nc = new NetCommand(NetCommandType.CONNECT, "");
-            Send(nc.Serialize(), NetDeliveryMethod.ReliableOrdered);
+            Send(nc, NetDeliveryMethod.ReliableOrdered);
         }
 
-        public void Send(string data, NetDeliveryMethod method) {
-            NetOutgoingMessage om = Client.CreateMessage(data);
+        public void Send(NetCommand command, NetDeliveryMethod method) {
+            NetOutgoingMessage om = Client.CreateMessage(command.Serialize());
             Client.SendMessage(om, method);
-//            Log.Print("Sending '" + data + "'", LogType.NETWORK);
+            Log.Print("Sending '" + command.Data + "'", LogType.NETWORK);
         }
 
         public void SendChatMessage(string text) {
             var nc = new NetCommand(NetCommandType.SAY, text);
-            Send(nc.Serialize(), NetDeliveryMethod.ReliableUnordered);
+            Send(nc, NetDeliveryMethod.ReliableUnordered);
         }
 
         private void GotMessage(object data) {

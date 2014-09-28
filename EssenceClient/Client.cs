@@ -6,7 +6,6 @@ namespace EssenceClient {
     /** Инициализирует игру и запускает её */
 
     internal class Client: CCApplicationDelegate {
-        public static CCSize DefaultResoultion;
         private CCScene _startScene;
 
         /** Вызывается после загрузки приложения */
@@ -19,7 +18,6 @@ namespace EssenceClient {
 
             Resources.LoadContent(application);
 
-            // TODO: нужен ли defaultResolution?
             _startScene = new MenuScene(mainWindow);
             mainWindow.RunWithScene(_startScene);
         }
