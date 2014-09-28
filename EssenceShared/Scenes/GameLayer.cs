@@ -26,7 +26,7 @@ namespace EssenceShared.Scenes {
                     entity = new Player(es.Id, textureName);
                     break;
                 case Resources.ProjectileMystic:
-                    entity = new MysticProjectile(es.Id, new CCPoint(0, 0));
+                    entity = new MysticProjectile(es.Id);
                     break;
             }
 

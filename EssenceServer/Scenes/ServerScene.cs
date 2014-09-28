@@ -15,11 +15,9 @@ namespace EssenceServer.Scenes {
             Schedule(UpdateLogic);
         }
 
-
         private void UpdateLogic(float dt) {
             GameLayer.Update(dt);
         }
-
 
         public override void Update(float dt) {
             base.Update(dt);
@@ -27,21 +25,7 @@ namespace EssenceServer.Scenes {
             Server.SendGameStateToAll();
         }
 
-        //        internal void AddNewPlayer(string id, int x, int y) {
-        //            var newPlayer = new PlayerState(id);
-        //            newPlayer.PositionX = x;
-        //            newPlayer.PositionY = y;
-        //
-        //            _gameLayer.AddPlayer(newPlayer);
-        //
-        //            GameState.players.Add(newPlayer);
-        //            Log.Print("New player spawned");
-        //        }
-
-
         internal void AppendPlayerState(EntityState es) {
-            //            int id = _gameLayer.entities.FindIndex(x=>x.Id == es.Id);
-
             GameLayer.UpdateEntity(es);
         }
     }

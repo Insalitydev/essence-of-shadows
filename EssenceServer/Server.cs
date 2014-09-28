@@ -2,6 +2,7 @@
 using System.Threading;
 using CocosSharp;
 using EssenceShared;
+using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
 using EssenceShared.Entities.Projectiles;
 using Lidgren.Network;
@@ -115,7 +116,7 @@ namespace EssenceServer {
                         break;
                     case NetCommandType.UpdatePlayerstate:
                         var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);
-                        _serverGame.GameScene.AppendPlayerState(ps);
+                        _serverGame.ServerScene.AppendPlayerState(ps);
                         break;
                     case NetCommandType.CallPlayerMethod:
                         CallPlayerMethod(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier), nc.Data);
@@ -127,13 +128,20 @@ namespace EssenceServer {
         private static void CallPlayerMethod(string playerid, string data) {
             Log.Print("Player call");
             Log.Print(data);
-            var pl = _serverGame.GameScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
-
-            var ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0)) {
-                PositionX = pl.PositionX,
-                PositionY = pl.PositionY
-            };
-            _serverGame.GameScene.GameLayer.AddEntity(ent);
+            var pl = _serverGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
+            var args = data.Split('.');
+            if (args[0] == "attack"){
+                var ent = new MysticProjectile(GetUniqueId()) {
+                    PositionX = pl.PositionX,
+                    PositionY = pl.PositionY,
+                    Direction = Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY), new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])) )
+                };
+                _serverGame.ServerScene.GameLayer.AddEntity(ent);
+            }
+            else{
+                Log.Print("Not found player method;", LogType.Error);
+            }
+            
         }
 
         public static void SendChatMessage(string chatMsg) {
@@ -146,7 +154,7 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
-                GameState gs = _serverGame.GameScene.GameLayer.GetGameState();
+                GameState gs = _serverGame.ServerScene.GameLayer.GetGameState();
 
                 var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 

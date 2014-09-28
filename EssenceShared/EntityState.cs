@@ -4,11 +4,9 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class EntityState {
-
-        public string Id { get; private set; }
-
         public float PositionX;
         public float PositionY;
+        public float Direction;
         public float Scale;
         public string TextureName;
 
@@ -16,10 +14,13 @@ namespace EssenceShared {
             Id = id;
         }
 
+        public string Id { get; private set; }
+
         public static EntityState ParseEntity(Entity entity) {
             var es = new EntityState(entity.Id) {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
+                Direction = entity.Direction,
                 Scale = 4,
                 TextureName = entity.Texture.Name.ToString()
             };
@@ -35,9 +36,13 @@ namespace EssenceShared {
         }
 
         public static void AppendStateToEntity(Entity entity, EntityState es) {
-            entity.PositionX = es.PositionX;
-            entity.PositionY = es.PositionY;
+            // погрешность в ~ 3 пикселя не правим
+            if (Math.Abs(entity.PositionX - es.PositionX) > 3)
+                entity.PositionX = es.PositionX;
+            if (Math.Abs(entity.PositionY - es.PositionY) > 3)
+                entity.PositionY = es.PositionY;
             entity.Scale = es.Scale;
+            entity.Direction = es.Direction;
         }
 
         /** Пакует все необходимые данные в строку json
@@ -52,7 +57,6 @@ namespace EssenceShared {
 
         public void Deserialize(string json) {
             throw new NotImplementedException();
-
         }
     }
 }

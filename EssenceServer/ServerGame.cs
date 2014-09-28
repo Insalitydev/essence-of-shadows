@@ -6,7 +6,7 @@ namespace EssenceServer {
     /** Обрабатывает всю игровую логику */
 
     internal class ServerGame: CCApplicationDelegate {
-        public ServerScene GameScene { get; private set; }
+        public ServerScene ServerScene { get; private set; }
 
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
             base.ApplicationDidFinishLaunching(application, mainWindow);
@@ -16,8 +16,8 @@ namespace EssenceServer {
             Log.Print("Loading Resources");
             Resources.LoadContent(application);
 
-            GameScene = new ServerScene(mainWindow);
-            mainWindow.RunWithScene(GameScene);
+            ServerScene = new ServerScene(mainWindow);
+            mainWindow.RunWithScene(ServerScene);
         }
 
         public void AddNewPlayer(string id, int x, int y, string type) {
@@ -25,7 +25,7 @@ namespace EssenceServer {
 
             var es = new EntityState(id) {PositionX = x, PositionY = y, TextureName = type};
 
-            GameScene.GameLayer.AddEntity(es);
+            ServerScene.GameLayer.AddEntity(es);
         }
     }
 }

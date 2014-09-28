@@ -1,4 +1,5 @@
-﻿using CocosSharp;
+﻿using System;
+using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
@@ -102,7 +103,7 @@ namespace EssenceClient.Scenes.Game {
             }
 
             if (e.Keys == CCKeys.A){
-                var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack");
+                var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack.100.100");
                 _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -117,8 +118,8 @@ namespace EssenceClient.Scenes.Game {
             float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
 
             /** Актуальные координаты */
-            float mousePosX = (int) obj.CursorX/windowScaleX;
-            float mousePosY = (int) obj.CursorY/windowScaleY;
+            int mousePosX = (int) (obj.CursorX/windowScaleX);
+            int mousePosY = (int) (obj.CursorY/windowScaleY);
 
             /** Если мышь щелкнута в пределах экрана */
             if (mousePosX > 0 && mousePosX <= Settings.ScreenWidth && mousePosY > 0 &&
@@ -127,6 +128,7 @@ namespace EssenceClient.Scenes.Game {
                     // Стреляем при нажатой левой кнопке
                     var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + mousePosX + "." + mousePosY);
                     _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+
                 }
             }
         }
