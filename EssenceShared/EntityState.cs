@@ -25,6 +25,20 @@ namespace EssenceShared {
             return es;
         }
 
+        public static Entity CreateEntity(EntityState es) {
+            var entity = new Entity(es.TextureName, es.Id);
+
+            AppendStateToEntity(entity, es);
+
+            return entity;
+        }
+
+        internal static void AppendStateToEntity(Entity entity, EntityState es) {
+            entity.PositionX = es.PositionX;
+            entity.PositionY = es.PositionY;
+            entity.Scale = es.Scale;
+        }
+
         /** Пакует все необходимые данные в строку json
          Метод выполняется на стороне клиента */
 
@@ -37,6 +51,7 @@ namespace EssenceShared {
 
         public void Deserialize(string json) {
             throw new NotImplementedException();
+
         }
     }
 }

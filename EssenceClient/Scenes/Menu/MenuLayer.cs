@@ -27,11 +27,11 @@ namespace EssenceClient.Scenes.Menu {
             AddChild(MainMenu);
         }
 
-        private void ExitGame(object obj) {
+        public void ExitGame(object obj) {
             Environment.Exit(0);
         }
 
-        private void StartGame(object obj) {
+        public void StartGame(object obj) {
             Log.Print("Starting game");
             Window.DefaultDirector.PushScene(new GameScene(Window));
         }

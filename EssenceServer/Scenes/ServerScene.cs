@@ -58,11 +58,10 @@ namespace EssenceServer.Scenes {
             Log.Print("New entitity spawned");
         }
 
-        internal void AppendPlayerState(PlayerState ps) {
-            int id = _gameLayer.players.FindIndex(x=>x.Id == ps.Id);
+        internal void AppendPlayerState(EntityState es) {
+            int id = _gameLayer.entities.FindIndex(x=>x.Id == es.Id);
 
-            _gameLayer.UpdateEntity(ps, ps.Id);
-//            _gameLayer.players[id] = ps;
+            _gameLayer.UpdateEntity(EntityState.CreateEntity(es), es.Id);
         }
     }
 }

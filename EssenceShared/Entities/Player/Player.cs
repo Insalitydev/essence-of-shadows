@@ -42,9 +42,8 @@ namespace EssenceShared.Entities.Player {
             Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
         }
 
-        internal void AppendState(PlayerState ps) {
-            this.PositionX = ps.PositionX;
-            this.PositionY = ps.PositionY;
+        internal void AppendState(EntityState es) {
+            EntityState.AppendStateToEntity(this, es);
         }
     }
 }

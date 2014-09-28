@@ -78,7 +78,7 @@ namespace EssenceClient.Scenes.Game {
         private void UpdateMyState() {
             
             if (myPlayer != null){
-                var myps = PlayerState.ParsePlayer(myPlayer);
+                var myps = EntityState.ParseEntity(myPlayer);
 
                 var nc = new NetCommand(NetCommandType.UPDATE_PLAYERSTATE, myps.Serialize());
                 netGameClient.Send(nc.Serialize(), NetDeliveryMethod.Unreliable);
@@ -86,7 +86,7 @@ namespace EssenceClient.Scenes.Game {
             else{
                 Log.Print("TRY SETTING FIND PLAYER TO MYPLAs");
                 netGameClient.Send("no ID", NetDeliveryMethod.Unreliable);
-                Entity myPl = _gameLayer.FindPlayerById(Id);
+                Entity myPl = _gameLayer.FindEntityById(Id);
                 if (myPl != null){
                     Log.Print("SETTING FIND PLAYER TO MYPLAs");
                     myPlayer = (Player) myPl;
@@ -117,6 +117,10 @@ namespace EssenceClient.Scenes.Game {
 //                myPlayer.Attack(new CCPoint(0, 0));
                 var nc = new NetCommand(NetCommandType.CALL_PLAYER_METHOD, "attack");
                 netGameClient.Send(nc.Serialize(), NetDeliveryMethod.ReliableOrdered);
+            }
+
+            if (e.Keys == CCKeys.Escape){
+                Window.DefaultDirector.PopScene();
             }
 
         }

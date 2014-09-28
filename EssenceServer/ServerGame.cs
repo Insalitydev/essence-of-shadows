@@ -24,11 +24,11 @@ namespace EssenceServer {
         public void AddNewPlayer(string id, int x, int y) {
             Log.Print("Spawn player " + id);
 //            GameScene.AddNewPlayer(id, x, y);
-            var ps = new PlayerState(id);
-            ps.PositionX = x;
-            ps.PositionY = y;
+            var es = new EntityState(id);
+            es.PositionX = x;
+            es.PositionY = y;
 
-            GameScene._gameLayer.AddPlayer(ps);
+            GameScene._gameLayer.AddEntity(es);
         }
     }
 }

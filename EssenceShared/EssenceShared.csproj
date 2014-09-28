@@ -88,7 +88,6 @@
     <Compile Include="Input.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NetCommand.cs" />
-    <Compile Include="PlayerState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

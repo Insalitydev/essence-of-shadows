@@ -113,7 +113,7 @@ namespace EssenceServer {
                         SendChatMessage(nc.Data);
                         break;
                     case NetCommandType.UPDATE_PLAYERSTATE:
-                        var ps = JsonConvert.DeserializeObject<PlayerState>(nc.Data);
+                        var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);
                         _serverGame.GameScene.AppendPlayerState(ps);
                         break;
                     case NetCommandType.CALL_PLAYER_METHOD:
@@ -125,7 +125,7 @@ namespace EssenceServer {
 
         private static void CallPlayerMethod(string id, string data) {
             Log.Print("CALL player");
-            Player pl = _serverGame.GameScene._gameLayer.players.Find(x => x.Id == id);
+            Player pl = _serverGame.GameScene._gameLayer.entities.Find(x => x.Id == id) as Player;
 
 //            pl.Attack(pl.Position);
             MysticProjectile ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0));

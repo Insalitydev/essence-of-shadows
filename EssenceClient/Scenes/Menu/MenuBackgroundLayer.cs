@@ -37,14 +37,15 @@ namespace EssenceClient.Scenes.Game {
                 PositionY = 400,
             };
 
-            var helper = new CCLabel("Press space to continue", "kongtext", 12) {
+            var helper = new CCLabel("Enter/Space to start, Esc to exit", "kongtext", 10) {
                 Color = CCColor3B.Gray,
-                AnchorPoint = CCPoint.AnchorMiddle,
-                PositionX = 400,
-                PositionY = 300,
+                AnchorPoint = CCPoint.AnchorMiddleBottom,
+                PositionX = Settings.SCREEN_WIDTH/2,
+                PositionY = 0
             };
 
             AddChild(title);
+            AddChild(helper);
         }
     }
 }
