@@ -5,15 +5,44 @@ namespace EssenceShared.Entities {
     /** Основной класс для всех игровых объектов */
 
     public class Entity: CCSprite {
+        private int _imageH;
+        private  int _imageW;
         public float Direction;
+
 
         public Entity(string url, string id): base(url) {
             Id = id;
             IsAntialiased = false;
             Direction = 0;
+            Tag = Tags.Unknown;
         }
 
+        public CCRect Mask { get; private set; }
         public string Id { get; private set; }
+
+        protected override void AddedToScene() {
+            base.AddedToScene();
+
+            Schedule(Update);
+        }
+
+        public override void Update(float dt) {
+            base.Update(dt);
+
+            UpdateMask();
+        }
+
+        public virtual void Collision(Entity other) {
+        }
+
+        private void UpdateMask() {
+            // TODO: можно ли без пересоздавааний?
+            // lesser : немного уменьшаем маску столкновения
+            const int lesser = 12;
+            _imageW = (int) (Texture.PixelsWide*ScaleX) - lesser;
+            _imageH = (int)(Texture.PixelsHigh * ScaleY) - lesser;
+            Mask = new CCRect(PositionX - _imageW / 2 + lesser/2, PositionY - _imageH / 2 + lesser/2, _imageW, _imageH);
+        }
 
         internal void AppendState(EntityState es) {
             EntityState.AppendStateToEntity(this, es);
@@ -65,14 +94,15 @@ namespace EssenceShared.Entities {
         }
 
         public static CCPoint GetNormalPointByDirection(float dir) {
-            var x = (float)Math.Cos(ToRadians(dir));
-            var y = (float)Math.Sin(ToRadians(dir));
+            var x = (float) Math.Cos(ToRadians(dir));
+            var y = (float) Math.Sin(ToRadians(dir));
             return new CCPoint(x, y);
         }
 
         /** Удаляет объект со сцены */
+
         public void Remove(bool cleanup = true) {
-            if (Parent != null) {
+            if (Parent != null){
                 Parent.RemoveChild(this, cleanup);
             }
         }

@@ -45,15 +45,30 @@ namespace EssenceShared.Scenes {
         }
 
         public void AddEntity(Entity e) {
-            Log.Print("Spawn entity: " + EntityState.ParseEntity(e).Serialize());
+//            Log.Print("Spawn entity: " + EntityState.ParseEntity(e).Serialize());
             Entities.Add(e);
             AddChild(e);
         }
 
         protected override void AddedToScene() {
             base.AddedToScene();
-
             Schedule(UpdateDebug, 2);
+        }
+
+        public override void Update(float dt) {
+            base.Update(dt);
+
+            UpdateCollisions();
+        }
+
+        private void UpdateCollisions() {
+            foreach (Entity e1 in Entities.ToList()){
+                foreach (Entity e2 in Entities.ToList()) {
+                    if (e1.Id != e2.Id && e1.Mask != null && e2.Mask != null && e1.Mask.IntersectsRect(e2.Mask)){
+                        e1.Collision(e2);
+                    }
+                }
+            }
         }
 
         private void UpdateDebug(float dt) {
@@ -91,7 +106,7 @@ namespace EssenceShared.Scenes {
             }
             /** Проверяем, если у нас есть на сцене объект, которого нет в новом состоянии - убираем его*/
             foreach (Entity entity in Entities.ToList()){
-                if (gs.Entities.FindIndex(x => x.Id == entity.Id) == -1){
+                if (gs.Entities.FindIndex(x=>x.Id == entity.Id) == -1){
                     entity.Remove();
                 }
             }
@@ -119,6 +134,7 @@ namespace EssenceShared.Scenes {
         }
 
         /** Удаляет объект, вызывается автоматически при вызове Remove у объекта-сына  */
+
         public override void RemoveChild(CCNode child, bool cleanup = true) {
             base.RemoveChild(child, cleanup);
             Entities.Remove(child as Entity);

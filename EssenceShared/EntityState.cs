@@ -8,6 +8,7 @@ namespace EssenceShared {
         public float PositionY;
         public float Direction;
         public float Scale;
+        public int Tag;
         public string TextureName;
 
         public EntityState(string id) {
@@ -21,6 +22,7 @@ namespace EssenceShared {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
                 Direction = entity.Direction,
+                Tag = entity.Tag,
                 Scale = 4,
                 TextureName = entity.Texture.Name.ToString()
             };
@@ -41,6 +43,8 @@ namespace EssenceShared {
                 entity.PositionX = es.PositionX;
             if (Math.Abs(entity.PositionY - es.PositionY) > 3)
                 entity.PositionY = es.PositionY;
+
+            entity.Tag = es.Tag;
             entity.Scale = es.Scale;
             entity.Direction = es.Direction;
         }

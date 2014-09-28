@@ -24,7 +24,7 @@ namespace EssenceClient.Scenes.Game {
             AddChild(_backgroundLayer);
 
             GameLayer = new GameLayer {
-                Tag = Settings.Client
+                Tag = Tags.Client
             };
             AddChild(GameLayer);
 
@@ -111,6 +111,10 @@ namespace EssenceClient.Scenes.Game {
 
             if (e.Keys == CCKeys.Escape){
                 Window.DefaultDirector.PopScene();
+            }
+
+            if (e.Keys == CCKeys.T) {
+                Console.WriteLine(myPlayer.Mask.ToString());
             }
         }
 

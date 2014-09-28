@@ -23,6 +23,7 @@ namespace EssenceShared {
             }
         }
 
+        // TODO: заменить на один метод с параметрами по умолчанию...
         public static void Print(string text, LogType type) {
             Print(text, type, true);
         }

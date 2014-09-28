@@ -17,8 +17,5 @@ namespace EssenceShared {
         public const int Port = 4075;
         public const int MaxConnections = 5;
 
-        public const int Client = 0;
-        public const int Server = 1;
-
     }
 }

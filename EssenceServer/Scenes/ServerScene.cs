@@ -8,7 +8,7 @@ namespace EssenceServer.Scenes {
         public readonly GameLayer GameLayer;
 
         public ServerScene(CCWindow window): base(window) {
-            GameLayer = new GameLayer {Tag = Settings.Server};
+            GameLayer = new GameLayer {Tag = Tags.Server};
             AddChild(GameLayer);
 
             Log.Print("Game has started, waiting for players");
@@ -21,7 +21,6 @@ namespace EssenceServer.Scenes {
 
         protected override void AddedToScene() {
             base.AddedToScene();
-            Log.Print("SDSDSSDSDSD");
             GameLayer.AddEntity(new Enemy(Server.GetUniqueId()){PositionX = 600, PositionY = 300});
         }
 

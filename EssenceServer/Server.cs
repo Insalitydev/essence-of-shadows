@@ -130,8 +130,7 @@ namespace EssenceServer {
         }
 
         private static void CallPlayerMethod(string playerid, string data) {
-            Log.Print("Player call");
-            Log.Print(data);
+            Log.Print("Player invoke method: " + data);
             var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
             string[] args = data.Split('.');
             if (args[0] == "attack"){
