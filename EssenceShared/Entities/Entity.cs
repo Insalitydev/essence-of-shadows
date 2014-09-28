@@ -46,9 +46,6 @@ namespace EssenceShared.Entities {
             // angle in radian:
             var angle = (float) (Math.Atan2(deltaY, deltaX));
 
-
-            //            var angle = (float) (Math.Atan2(p1.Y, p1.X) - Math.Atan2(p2.Y, p2.X));
-
             // angle in degree
             angle = (float) (angle*180/(Math.PI));
 
@@ -60,7 +57,6 @@ namespace EssenceShared.Entities {
                 angle += 360;
             }
 
-            Log.Print("CAL ANGLE BETTWEN " + p1 + " " + p2 + " IS " + angle);
             return angle;
         }
 

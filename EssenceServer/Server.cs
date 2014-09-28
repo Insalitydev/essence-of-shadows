@@ -17,7 +17,7 @@ namespace EssenceServer {
         private static Thread _serverConnections;
         private static Thread _serverConsole;
         private static Thread _serverScene;
-        private static ServerGame _serverGame;
+        public static ServerGame ServerGame { get; private set; }
         private static long _lastId = 1;
 
         public static void Start() {
@@ -32,18 +32,18 @@ namespace EssenceServer {
         }
 
         private static void ServerHandleGame(object obj) {
-            _serverGame = new ServerGame();
+            ServerGame = new ServerGame();
             var application = new CCApplication(false, null);
 
-            _serverGame = new ServerGame();
-            application.ApplicationDelegate = _serverGame;
+            ServerGame = new ServerGame();
+            application.ApplicationDelegate = ServerGame;
             application.StartGame();
         }
 
         private static void ServerHandleConsole(object obj) {
             /** TODO: Ждать пока сервер полностью не загрузится */
             Thread.Sleep(2000);
-            var serverConsole = new ServerConsole();
+            var serverConsole = new ServerConsole(_server);
             serverConsole.Start();
         }
 
@@ -116,7 +116,7 @@ namespace EssenceServer {
                         break;
                     case NetCommandType.UpdatePlayerstate:
                         var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);
-                        _serverGame.ServerScene.AppendPlayerState(ps);
+                        ServerGame.ServerScene.AppendPlayerState(ps);
                         break;
                     case NetCommandType.CallPlayerMethod:
                         CallPlayerMethod(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier), nc.Data);
@@ -128,7 +128,7 @@ namespace EssenceServer {
         private static void CallPlayerMethod(string playerid, string data) {
             Log.Print("Player call");
             Log.Print(data);
-            var pl = _serverGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
+            var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
             var args = data.Split('.');
             if (args[0] == "attack"){
                 var ent = new MysticProjectile(GetUniqueId()) {
@@ -136,7 +136,7 @@ namespace EssenceServer {
                     PositionY = pl.PositionY,
                     Direction = Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY), new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])) )
                 };
-                _serverGame.ServerScene.GameLayer.AddEntity(ent);
+                ServerGame.ServerScene.GameLayer.AddEntity(ent);
             }
             else{
                 Log.Print("Not found player method;", LogType.Error);
@@ -154,7 +154,7 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
-                GameState gs = _serverGame.ServerScene.GameLayer.GetGameState();
+                GameState gs = ServerGame.ServerScene.GameLayer.GetGameState();
 
                 var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
@@ -188,7 +188,7 @@ namespace EssenceServer {
                     type = "Sniper";
                     break;
             }
-            _serverGame.AddNewPlayer(id, 300, 300, type);
+            ServerGame.AddNewPlayer(id, 300, 300, type);
         }
 
         public static string GetUniqueId() {
