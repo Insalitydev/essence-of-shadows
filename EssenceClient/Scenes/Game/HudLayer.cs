@@ -15,17 +15,18 @@ namespace EssenceClient.Scenes.Game {
         protected override void AddedToScene() {
             base.AddedToScene();
 
-            _label = new CCLabel("HUD Text", "kongtext", 16);
-            _label.Color = CCColor3B.Gray;
-            _label.AnchorPoint = CCPoint.AnchorMiddleTop;
-            _label.Position = new CCPoint(Settings.SCREEN_WIDTH/2, Settings.SCREEN_HEIGHT);
+            _label = new CCLabel("HUD Text", "kongtext", 16) {
+                Color = CCColor3B.Gray,
+                AnchorPoint = CCPoint.AnchorMiddleTop,
+                Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight)
+            };
 
             AddChild(_label);
 
             var helper = new CCLabel("Arrows to move, A - shoot, S - say to chat", "kongtext", 10) {
                 Color = CCColor3B.Gray,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
-                Position = new CCPoint(Settings.SCREEN_WIDTH/2, Settings.SCREEN_HEIGHT - 20),
+                Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight - 20),
             };
 
             AddChild(_label);

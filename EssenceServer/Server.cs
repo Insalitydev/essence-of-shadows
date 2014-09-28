@@ -11,7 +11,7 @@ namespace EssenceServer {
     /** Слушает сокет и подключает новых игроков, запускает остальные службы*/
 
     internal class Server {
-        private static NetServer server;
+        private static NetServer _server;
 
         private static Thread _serverConnections;
         private static Thread _serverConsole;
@@ -32,11 +32,11 @@ namespace EssenceServer {
 
         private static void ServerHandleGame(object obj) {
             _serverGame = new ServerGame();
-            var _application = new CCApplication(false, null);
+            var application = new CCApplication(false, null);
 
             _serverGame = new ServerGame();
-            _application.ApplicationDelegate = _serverGame;
-            _application.StartGame();
+            application.ApplicationDelegate = _serverGame;
+            application.StartGame();
         }
 
         private static void ServerHandleConsole(object obj) {
@@ -49,17 +49,18 @@ namespace EssenceServer {
         private static void ServerHandleConnections(object obj) {
             Log.Print("Starting Listen connections");
 
-            var _config = new NetPeerConfiguration(Settings.GAME_IDENTIFIER);
-            _config.Port = Settings.PORT;
-            _config.MaximumConnections = Settings.MAX_CONNECTIONS;
+            var config = new NetPeerConfiguration(Settings.GAME_IDENTIFIER) {
+                Port = Settings.PORT,
+                MaximumConnections = Settings.MAX_CONNECTIONS
+            };
 
-            server = new NetServer(_config);
-            server.Start();
+            _server = new NetServer(config);
+            _server.Start();
 
             NetIncomingMessage msg;
 
             while (true){
-                while ((msg = server.ReadMessage()) != null){
+                while ((msg = _server.ReadMessage()) != null){
                     switch (msg.MessageType){
                         case NetIncomingMessageType.VerboseDebugMessage:
                         case NetIncomingMessageType.DebugMessage:
@@ -89,7 +90,7 @@ namespace EssenceServer {
                             break;
                     }
 
-                    server.Recycle(msg);
+                    _server.Recycle(msg);
                 } // End while msg != null
 
                 Thread.Sleep(1);
@@ -104,19 +105,19 @@ namespace EssenceServer {
             if (data.StartsWith("{\"")){
                 NetCommand nc = NetCommand.Deserialize(data);
                 switch (nc.Type){
-                    case NetCommandType.CONNECT:
+                    case NetCommandType.Connect:
                         ConnectNewPlayer(msg);
                         break;
-                    case NetCommandType.DISCONNECT:
+                    case NetCommandType.Disconnect:
                         break;
-                    case NetCommandType.SAY:
+                    case NetCommandType.Say:
                         SendChatMessage(nc.Data);
                         break;
-                    case NetCommandType.UPDATE_PLAYERSTATE:
+                    case NetCommandType.UpdatePlayerstate:
                         var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);
                         _serverGame.GameScene.AppendPlayerState(ps);
                         break;
-                    case NetCommandType.CALL_PLAYER_METHOD:
+                    case NetCommandType.CallPlayerMethod:
                         CallPlayerMethod(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier), nc.Data);
                         break;
                 }
@@ -125,33 +126,33 @@ namespace EssenceServer {
 
         private static void CallPlayerMethod(string playerid, string data) {
             Log.Print("Player call");
-            var pl = _serverGame.GameScene._gameLayer.entities.Find(x=>x.Id == playerid) as Player;
+            Log.Print(data);
+            var pl = _serverGame.GameScene._gameLayer.Entities.Find(x=>x.Id == playerid) as Player;
 
-            var ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0));
-            ent.PositionX = pl.PositionX;
-            ent.PositionY = pl.PositionY;
+            var ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0)) {
+                PositionX = pl.PositionX,
+                PositionY = pl.PositionY
+            };
             _serverGame.GameScene._gameLayer.AddEntity(ent);
-
-            //            _serverGame.GameScene.AddNewEntity(GetUniqueId(), pl.PositionX, pl.PositionY);
         }
 
         public static void SendChatMessage(string chatMsg) {
-            var nc = new NetCommand(NetCommandType.SAY, chatMsg);
-            NetOutgoingMessage om = server.CreateMessage();
+            var nc = new NetCommand(NetCommandType.Say, chatMsg);
+            NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
-            server.SendMessage(om, server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+            _server.SendMessage(om, _server.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
 
         public static void SendGameStateToAll() {
-            if (server.ConnectionsCount > 0){
+            if (_server.ConnectionsCount > 0){
                 GameState gs = _serverGame.GameScene._gameLayer.GetGameState();
 
-                var nc = new NetCommand(NetCommandType.UPDATE_GAMESTATE, gs.Serialize());
+                var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
-                NetOutgoingMessage om = server.CreateMessage();
+                NetOutgoingMessage om = _server.CreateMessage();
                 om.Write(nc.Serialize());
-                server.SendMessage(om, server.Connections, NetDeliveryMethod.Unreliable, 0);
+                _server.SendMessage(om, _server.Connections, NetDeliveryMethod.Unreliable, 0);
             }
         }
 
@@ -161,12 +162,12 @@ namespace EssenceServer {
             InitNewPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
 
             /** Отдаем новому игроку его уникальный ид */
-            var tmpNC = new NetCommand(NetCommandType.CONNECT,
+            var nc = new NetCommand(NetCommandType.Connect,
                 (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
 
-            NetOutgoingMessage om = server.CreateMessage();
-            om.Write(tmpNC.Serialize());
-            server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+            NetOutgoingMessage om = _server.CreateMessage();
+            om.Write(nc.Serialize());
+            _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }
 
         private static void InitNewPlayer(string id) {

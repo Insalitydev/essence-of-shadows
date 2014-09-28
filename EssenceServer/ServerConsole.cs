@@ -21,6 +21,8 @@ namespace EssenceServer {
                 case "say":
                     Server.SendChatMessage(arg);
                     break;
+                case "restart":
+                    break;
                 case "list":
                     Log.Print("Currently online: ", LogType.INFO, false);
                     break;

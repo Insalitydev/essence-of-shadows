@@ -10,7 +10,7 @@ using Lidgren.Network;
 namespace EssenceClient.Scenes.Game {
     internal class GameScene: CCScene {
         private readonly ChatLayer _chatLayer;
-        private readonly NetGameClient netGameClient;
+        private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private HudLayer _hudLayer;
 
@@ -22,8 +22,8 @@ namespace EssenceClient.Scenes.Game {
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
 
-            _gameLayer = new GameLayer();
-            AddChild(_gameLayer);
+            GameLayer = new GameLayer();
+            AddChild(GameLayer);
 
             _chatLayer = new ChatLayer();
             AddChild(_chatLayer);
@@ -31,24 +31,27 @@ namespace EssenceClient.Scenes.Game {
             _hudLayer = new HudLayer();
             AddChild(_hudLayer);
 
-            var keyListener = new CCEventListenerKeyboard();
-            keyListener.OnKeyPressed = OnKeyPressed;
-            keyListener.OnKeyReleased = OnKeyReleased;
+            var keyListener = new CCEventListenerKeyboard {OnKeyPressed = OnKeyPressed, OnKeyReleased = OnKeyReleased};
 
             AddEventListener(keyListener, this);
 
+            var mouseListener = new CCEventListenerMouse {OnMouseDown = OnMouseDown};
+
+            AddEventListener(mouseListener, this);
+
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile("Config.ini");
-            netGameClient = new NetGameClient(data["Server"]["ip"], this);
-            netGameClient.ConnectToServer();
+            _netGameClient = new NetGameClient(data["Server"]["ip"], this);
+            _netGameClient.ConnectToServer();
 
             Schedule(UpdateNetwork, 0.03f);
             Schedule(Update);
         }
 
+
         public string Id { get; private set; }
 
-        public GameLayer _gameLayer { get; private set; }
+        public GameLayer GameLayer { get; private set; }
 
         public void UpdateNetwork(float dt) {
             base.Update(dt);
@@ -68,19 +71,19 @@ namespace EssenceClient.Scenes.Game {
             Id = id;
         }
 
-        public void getChatMessage(string msg) {
-            _chatLayer.messages.Add(msg);
+        public void GetChatMessage(string msg) {
+            _chatLayer.Messages.Add(msg);
         }
 
         private void UpdateMyState() {
             if (myPlayer != null){
                 EntityState myps = EntityState.ParseEntity(myPlayer);
 
-                var nc = new NetCommand(NetCommandType.UPDATE_PLAYERSTATE, myps.Serialize());
-                netGameClient.Send(nc, NetDeliveryMethod.Unreliable);
+                var nc = new NetCommand(NetCommandType.UpdatePlayerstate, myps.Serialize());
+                _netGameClient.Send(nc, NetDeliveryMethod.Unreliable);
             }
             else{
-                Entity myPl = _gameLayer.FindEntityById(Id);
+                Entity myPl = GameLayer.FindEntityById(Id);
                 if (myPl != null){
                     myPlayer = (Player) myPl;
                 }
@@ -95,16 +98,36 @@ namespace EssenceClient.Scenes.Game {
             Input.OnKeyRelease(e.Keys);
 
             if (e.Keys == CCKeys.S){
-                netGameClient.SendChatMessage("DASDA" + Id);
+                _netGameClient.SendChatMessage("DASDA" + Id);
             }
 
             if (e.Keys == CCKeys.A){
-                var nc = new NetCommand(NetCommandType.CALL_PLAYER_METHOD, "attack");
-                netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+                var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack");
+                _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
             }
 
             if (e.Keys == CCKeys.Escape){
                 Window.DefaultDirector.PopScene();
+            }
+        }
+
+        private void OnMouseDown(CCEventMouse obj) {
+            /** get scale coef.*/
+            float windowScaleX = Window.WindowSizeInPixels.Width/Settings.ScreenWidth;
+            float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
+
+            /** Актуальные координаты */
+            float mousePosX = (int) obj.CursorX/windowScaleX;
+            float mousePosY = (int) obj.CursorY/windowScaleY;
+
+            /** Если мышь щелкнута в пределах экрана */
+            if (mousePosX > 0 && mousePosX <= Settings.ScreenWidth && mousePosY > 0 &&
+                mousePosY <= Settings.ScreenHeight){
+                if (obj.MouseButton == CCMouseButton.LeftButton){
+                    // Стреляем при нажатой левой кнопке
+                    var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + mousePosX + "." + mousePosY);
+                    _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+                }
             }
         }
     }

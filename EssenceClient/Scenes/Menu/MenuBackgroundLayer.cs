@@ -1,7 +1,7 @@
 ﻿using CocosSharp;
 using EssenceShared;
 
-namespace EssenceClient.Scenes.Game {
+namespace EssenceClient.Scenes.Menu {
     internal class MenuBackgroundLayer: CCLayerColor {
         public MenuBackgroundLayer() {
             Color = CCColor3B.Yellow;
@@ -19,18 +19,18 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void AddCardinalImage(int p1, int p2) {
-            var tmp = new CCSprite("Cardinal.png");
-
-            tmp.Texture.IsAntialiased = false;
-            tmp.PositionX = p1;
-            tmp.PositionY = p2;
-            tmp.Scale = 4;
+            var tmp = new CCSprite(Resources.BossCardinal) {
+                Texture = {IsAntialiased = false},
+                PositionX = p1,
+                PositionY = p2,
+                Scale = 4
+            };
 
             AddChild(tmp);
         }
 
         private void AddTitle() {
-            var title = new CCLabel(Settings.GAME_NAME, "kongtext", 24) {
+            var title = new CCLabel(Settings.GameName, "kongtext", 24) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleBottom,
                 PositionX = 400,
@@ -40,7 +40,7 @@ namespace EssenceClient.Scenes.Game {
             var helper = new CCLabel("Enter/Space to start, Esc to exit", "kongtext", 10) {
                 Color = CCColor3B.Gray,
                 AnchorPoint = CCPoint.AnchorMiddleBottom,
-                PositionX = Settings.SCREEN_WIDTH/2,
+                PositionX = Settings.ScreenWidth/2,
                 PositionY = 0
             };
 

@@ -2,10 +2,10 @@
 
 namespace EssenceShared {
     public enum LogType {
-        DEBUG,
-        NETWORK,
-        INFO,
-        ERROR
+        Debug,
+        Network,
+        Info,
+        Error
     }
 
     public class Log {
@@ -18,7 +18,7 @@ namespace EssenceShared {
 
             Console.WriteLine(curTime + text);
 
-            if (Settings.IS_LOG_TO_FILE){
+            if (Settings.IsLogToFile){
                 PrintToLogFile(text);
             }
         }
@@ -28,11 +28,11 @@ namespace EssenceShared {
         }
 
         public static void Print(string text, bool isShowTime) {
-            Print(text, LogType.DEBUG, isShowTime);
+            Print(text, LogType.Debug, isShowTime);
         }
 
         public static void Print(string text) {
-            Print(text, LogType.DEBUG, true);
+            Print(text, LogType.Debug, true);
         }
 
 

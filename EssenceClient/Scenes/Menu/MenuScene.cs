@@ -1,8 +1,7 @@
 ﻿using System;
 using CocosSharp;
-using EssenceClient.Scenes.Menu;
 
-namespace EssenceClient.Scenes.Game {
+namespace EssenceClient.Scenes.Menu {
     internal class MenuScene: CCScene {
         private MenuBackgroundLayer _backgroundLayer;
         private MenuLayer _menuLayer;
@@ -16,8 +15,7 @@ namespace EssenceClient.Scenes.Game {
             _menuLayer = new MenuLayer();
             AddChild(_menuLayer);
 
-            var keyListener = new CCEventListenerKeyboard();
-            keyListener.OnKeyReleased = OnKeyReleased;
+            var keyListener = new CCEventListenerKeyboard {OnKeyReleased = OnKeyReleased};
 
             AddEventListener(keyListener, this);
         }

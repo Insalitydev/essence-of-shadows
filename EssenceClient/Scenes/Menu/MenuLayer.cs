@@ -10,7 +10,7 @@ namespace EssenceClient.Scenes.Menu {
         protected override void AddedToScene() {
             base.AddedToScene();
 
-            var _menuPos = new CCPoint(Settings.SCREEN_SIZE.Center);
+            var _menuPos = new CCPoint(Settings.ScreenSize.Center);
             // TODO: ItemLabel не работает :(
             //            CCMenuItem itemStart = new CCMenuItemLabel(GetMenuLabel("STARTGAME"), StartGame);
 
@@ -18,8 +18,7 @@ namespace EssenceClient.Scenes.Menu {
             CCMenuItem itemExit = new CCMenuItemImage("ExitGame.png", "ExitGameOver.png", ExitGame);
 
 
-            MainMenu = new CCMenu(itemStart, itemExit);
-            MainMenu.Position = _menuPos;
+            MainMenu = new CCMenu(itemStart, itemExit) {Position = _menuPos};
             MainMenu.AlignItemsVertically(10);
 
             Log.Print(MainMenu.ToString());

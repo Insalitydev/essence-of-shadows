@@ -5,12 +5,12 @@ using EssenceShared;
 
 namespace EssenceClient.Scenes.Game {
     internal class ChatLayer: CCLayerColor {
-        public List<string> messages;
+        public List<string> Messages;
         private CCLabel _label;
 
         public ChatLayer() {
             Layer.Scale = 0.3f;
-            messages = new List<string>();
+            Messages = new List<string>();
 
             AnchorPoint = CCPoint.AnchorLowerLeft;
             PositionX = 200;
@@ -22,10 +22,11 @@ namespace EssenceClient.Scenes.Game {
         protected override void AddedToScene() {
             base.AddedToScene();
 
-            _label = new CCLabel("Chat", "kongtext", 28);
-            _label.Color = CCColor3B.White;
-            _label.AnchorPoint = CCPoint.AnchorLowerLeft;
-            _label.Position = Layer.Position;
+            _label = new CCLabel("Chat", "kongtext", 28) {
+                Color = CCColor3B.White,
+                AnchorPoint = CCPoint.AnchorLowerLeft,
+                Position = Layer.Position
+            };
 
             AddChild(_label);
 
@@ -35,8 +36,8 @@ namespace EssenceClient.Scenes.Game {
         public override void Update(float dt) {
             base.Update(dt);
 
-            if (messages.Count > 0)
-                _label.Text = "Message: " + messages.Last();
+            if (Messages.Count > 0)
+                _label.Text = "Message: " + Messages.Last();
         }
     }
 }

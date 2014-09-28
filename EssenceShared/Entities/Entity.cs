@@ -7,13 +7,12 @@ namespace EssenceShared.Entities {
         public string Id { get; private set; }
 
         public Entity(string url, string id): base(url) {
-            this.Id = id;
-            this.IsAntialiased = false;
+            Id = id;
+            IsAntialiased = false;
         }
 
         internal void AppendState(EntityState es) {
-            this.PositionX = es.PositionX;
-            this.PositionY = es.PositionY;
+            EntityState.AppendStateToEntity(this, es);
         }
     }
 }

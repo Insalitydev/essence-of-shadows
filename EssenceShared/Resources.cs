@@ -2,6 +2,27 @@
 
 namespace EssenceShared {
     public class Resources {
+        
+        public const string ClassReaper = "Reaper";
+        public const string ClassSniper = "Sniper";
+        public const string ClassMystic = "Mystic";
+        public const string ProjectileMystic = "MysticProjectile";
+        public const string ProjectileSniper = "SniperProjectile";
+
+        public const string BossEmperor = "Emperor";
+        public const string BossCardinal = "Cardinal";
+        public const string BossInteritus = "Interitus";
+        public const string BossMossorus = "Mossorus";
+        
+        public const string ItemChest = "Chest";
+        public const string ItemGold = "GoldStack";
+        public const string ItemHealpot = "HealPot";
+        public const string ItemKeyCave = "KeyCave";
+        public const string ItemKeyUrban = "KeyUrban";
+        public const string ItemKeyDesert = "KeyDesert";
+
+
+
         /** Добавляет в пути поиска ресурсов необходимые папки */
 
         public static void LoadContent(CCApplication application) {

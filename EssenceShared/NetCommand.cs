@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public enum NetCommandType {
-        SAY,
-        UPDATE_GAMESTATE,
-        UPDATE_PLAYERSTATE,
-        CONNECT,
-        DISCONNECT,
-        CALL_PLAYER_METHOD
+        Say,
+        UpdateGamestate,
+        UpdatePlayerstate,
+        Connect,
+        Disconnect,
+        CallPlayerMethod
     }
 
     public class NetCommand {

@@ -17,11 +17,12 @@ namespace EssenceShared {
         }
 
         public static EntityState ParseEntity(Entity entity) {
-            var es = new EntityState(entity.Id);
-            es.PositionX = entity.PositionX;
-            es.PositionY = entity.PositionY;
-            es.Scale = 4;
-            es.TextureName = entity.Texture.Name.ToString();
+            var es = new EntityState(entity.Id) {
+                PositionX = entity.PositionX,
+                PositionY = entity.PositionY,
+                Scale = 4,
+                TextureName = entity.Texture.Name.ToString()
+            };
             return es;
         }
 

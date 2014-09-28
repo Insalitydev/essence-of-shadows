@@ -3,18 +3,18 @@
 namespace EssenceShared {
     public class Settings {
         /** General settings */
-        public const float SCREEN_WIDTH = 800f;
-        public const float SCREEN_HEIGHT = 600f;
-        public static CCSize SCREEN_SIZE = new CCSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        public const string GAME_NAME = "Essence of Shadows";
-        public const string GAME_IDENTIFIER = "EssenceOfShadows";
+        public const float ScreenWidth = 800f;
+        public const float ScreenHeight = 600f;
+        public static CCSize ScreenSize = new CCSize(ScreenWidth, ScreenHeight);
+        public const string GameName = "Essence of Shadows";
+        public const string GameIdentifier = "EssenceOfShadows";
 
         /** Log && Statistic settings */
-        public const bool IS_DEBUG = true;
-        public const bool IS_LOG_TO_FILE = false;
+        public const bool IsDebug = true;
+        public const bool IsLogToFile = false;
 
         /** Network settings */
-        public const int PORT = 4075;
-        public const int MAX_CONNECTIONS = 10;
+        public const int Port = 4075;
+        public const int MaxConnections = 10;
     }
 }

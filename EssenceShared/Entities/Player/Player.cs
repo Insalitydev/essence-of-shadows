@@ -5,7 +5,8 @@ using EssenceShared.Entities.Projectiles;
 
 namespace EssenceShared.Entities.Player {
     public class Player: Entity {
-        private float _moveSpeed = 200;
+        private const float _moveSpeed = 200;
+
         public Player(string id): base("Mystic.png", id) {
             Scale = 4;
         }
@@ -44,10 +45,6 @@ namespace EssenceShared.Entities.Player {
 
         public void Attack(CCPoint target) {
 //            Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
-        }
-
-        internal void AppendState(EntityState es) {
-            EntityState.AppendStateToEntity(this, es);
         }
     }
 }

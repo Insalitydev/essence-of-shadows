@@ -1,13 +1,11 @@
 ﻿using CocosSharp;
 using EssenceServer.Scenes;
 using EssenceShared;
-using EssenceShared.Entities.Player;
 
 namespace EssenceServer {
     /** Обрабатывает всю игровую логику */
 
     internal class ServerGame: CCApplicationDelegate {
-
         public ServerScene GameScene { get; private set; }
 
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
@@ -25,12 +23,9 @@ namespace EssenceServer {
         public void AddNewPlayer(string id, int x, int y, string type) {
             Log.Print("Spawn player " + id);
 
-            var es = new EntityState(id);
-            es.PositionX = x;
-            es.PositionY = y;
-            es.TextureName = type;
+            var es = new EntityState(id) {PositionX = x, PositionY = y, TextureName = type};
 
-            GameScene._gameLayer.AddEntity(es);
+            GameScene.GameLayer.AddEntity(es);
         }
     }
 }
