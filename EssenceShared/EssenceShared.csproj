@@ -79,7 +79,7 @@
   <ItemGroup>
     <Compile Include="Entities\Enemies\Enemy.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\Player\Player.cs" />
+    <Compile Include="Entities\Players\Player.cs" />
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
     <Compile Include="EntityState.cs" />
     <Compile Include="Resources.cs" />

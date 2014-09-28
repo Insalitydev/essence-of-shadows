@@ -3,7 +3,8 @@ using System.Linq;
 using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
-using EssenceShared.Entities.Player;
+using EssenceShared.Entities.Players;
+using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 
 namespace EssenceShared.Scenes {
@@ -45,14 +46,13 @@ namespace EssenceShared.Scenes {
         }
 
         public void AddEntity(Entity e) {
-//            Log.Print("Spawn entity: " + EntityState.ParseEntity(e).Serialize());
             Entities.Add(e);
             AddChild(e);
         }
 
         protected override void AddedToScene() {
             base.AddedToScene();
-            Schedule(UpdateDebug, 2);
+            Schedule(UpdateDebug, 5);
         }
 
         public override void Update(float dt) {
@@ -72,7 +72,7 @@ namespace EssenceShared.Scenes {
         }
 
         private void UpdateDebug(float dt) {
-            //            Log.Print(GetGameState().Serialize());
+            Log.Print(GetGameState().Serialize());
         }
 
         /** формируем игровое состояние и возвращаем его */

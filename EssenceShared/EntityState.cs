@@ -8,6 +8,7 @@ namespace EssenceShared {
         public float PositionY;
         public float Direction;
         public float Scale;
+//        public string OwnerId;
         public int Tag;
         public string TextureName;
 
@@ -22,6 +23,7 @@ namespace EssenceShared {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
                 Direction = entity.Direction,
+//                OwnerId = entity.OwnerId,
                 Tag = entity.Tag,
                 Scale = 4,
                 TextureName = entity.Texture.Name.ToString()
@@ -39,13 +41,14 @@ namespace EssenceShared {
 
         public static void AppendStateToEntity(Entity entity, EntityState es) {
             // погрешность в ~ 3 пикселя не правим
-            if (Math.Abs(entity.PositionX - es.PositionX) > 3)
+            if (Math.Abs(entity.PositionX - es.PositionX) > 4)
                 entity.PositionX = es.PositionX;
-            if (Math.Abs(entity.PositionY - es.PositionY) > 3)
+            if (Math.Abs(entity.PositionY - es.PositionY) > 4)
                 entity.PositionY = es.PositionY;
 
             entity.Tag = es.Tag;
             entity.Scale = es.Scale;
+//            entity.OwnerId = es.OwnerId;
             entity.Direction = es.Direction;
         }
 

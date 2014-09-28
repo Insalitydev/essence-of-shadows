@@ -2,7 +2,7 @@
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
-using EssenceShared.Entities.Player;
+using EssenceShared.Entities.Players;
 using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
@@ -15,7 +15,7 @@ namespace EssenceClient.Scenes.Game {
         private BackgroundLayer _backgroundLayer;
         private HudLayer _hudLayer;
 
-        private Player myPlayer;
+        public Player MyPlayer { get; private set; }
 
         public GameScene(CCWindow window): base(window) {
             Id = "888888888888888";
@@ -64,8 +64,8 @@ namespace EssenceClient.Scenes.Game {
         public override void Update(float dt) {
             base.Update(dt);
 
-            if (myPlayer != null){
-                myPlayer.Control(dt);
+            if (MyPlayer != null){
+                MyPlayer.Control(dt);
             }
         }
 
@@ -79,8 +79,8 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void UpdateMyState() {
-            if (myPlayer != null){
-                EntityState myps = EntityState.ParseEntity(myPlayer);
+            if (MyPlayer != null){
+                EntityState myps = EntityState.ParseEntity(MyPlayer);
 
                 var nc = new NetCommand(NetCommandType.UpdatePlayerstate, myps.Serialize());
                 _netGameClient.Send(nc, NetDeliveryMethod.Unreliable);
@@ -88,7 +88,7 @@ namespace EssenceClient.Scenes.Game {
             else{
                 Entity myPl = GameLayer.FindEntityById(Id);
                 if (myPl != null){
-                    myPlayer = (Player) myPl;
+                    MyPlayer = (Player) myPl;
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace EssenceClient.Scenes.Game {
             }
 
             if (e.Keys == CCKeys.T) {
-                Console.WriteLine(myPlayer.Mask.ToString());
+                Console.WriteLine(MyPlayer.Mask.ToString());
             }
         }
 

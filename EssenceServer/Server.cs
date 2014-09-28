@@ -3,7 +3,7 @@ using System.Threading;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
-using EssenceShared.Entities.Player;
+using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using Lidgren.Network;
 using Newtonsoft.Json;
@@ -139,7 +139,8 @@ namespace EssenceServer {
                     PositionY = pl.PositionY,
                     Direction =
                         Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY),
-                            new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])))
+                            new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2]))),
+                    OwnerId = playerid
                 };
                 ServerGame.ServerScene.GameLayer.AddEntity(ent);
             }

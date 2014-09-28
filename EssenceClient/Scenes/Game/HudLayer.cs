@@ -38,10 +38,14 @@ namespace EssenceClient.Scenes.Game {
         public override void Update(float dt) {
             base.Update(dt);
 
-            _fps = 1 / dt;
+            _fps = 1/dt;
             _step++;
-
-            _label.Text = "FPS: " + (int)_fps + " Step: " + _step;
+            int gold = 10;
+            var gameScene = Parent as GameScene;
+            if (gameScene != null && gameScene.MyPlayer != null){
+                gold = gameScene.MyPlayer.Gold;
+            }
+            _label.Text = "FPS: " + (int) _fps + " Step: " + _step + " Gold: " + gold;
         }
     }
 }

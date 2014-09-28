@@ -1,13 +1,15 @@
 ﻿using System;
 using CocosSharp;
+using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities {
     /** Основной класс для всех игровых объектов */
 
     public class Entity: CCSprite {
-        private int _imageH;
-        private  int _imageW;
         public float Direction;
+        public string OwnerId = null;
+        private int _imageH;
+        private int _imageW;
 
 
         public Entity(string url, string id): base(url) {
@@ -32,6 +34,12 @@ namespace EssenceShared.Entities {
             UpdateMask();
         }
 
+        public Entity GetOwner() {
+            if (Parent != null && (Parent as GameLayer) != null)
+                return (Parent as GameLayer).FindEntityById(OwnerId);
+            return null;
+        }
+
         public virtual void Collision(Entity other) {
         }
 
@@ -40,8 +48,8 @@ namespace EssenceShared.Entities {
             // lesser : немного уменьшаем маску столкновения
             const int lesser = 12;
             _imageW = (int) (Texture.PixelsWide*ScaleX) - lesser;
-            _imageH = (int)(Texture.PixelsHigh * ScaleY) - lesser;
-            Mask = new CCRect(PositionX - _imageW / 2 + lesser/2, PositionY - _imageH / 2 + lesser/2, _imageW, _imageH);
+            _imageH = (int) (Texture.PixelsHigh*ScaleY) - lesser;
+            Mask = new CCRect(PositionX - _imageW/2 + lesser/2, PositionY - _imageH/2 + lesser/2, _imageW, _imageH);
         }
 
         internal void AppendState(EntityState es) {
