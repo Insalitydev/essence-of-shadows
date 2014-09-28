@@ -24,16 +24,16 @@ namespace EssenceServer {
                 case "restart":
                     break;
                 case "list":
-                    Log.Print("Currently online: ", LogType.INFO, false);
+                    Log.Print("Currently online: ", LogType.Info, false);
                     break;
                 case "help":
-                    Log.Print("Help console stub", LogType.INFO, false);
+                    Log.Print("Help console stub", LogType.Info, false);
                     break;
                 case "exit":
                     Environment.Exit(0);
                     break;
                 default:
-                    Log.Print("Unknown command", LogType.INFO, false);
+                    Log.Print("Unknown command", LogType.Info, false);
                     break;
             }
         }

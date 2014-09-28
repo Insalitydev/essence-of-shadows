@@ -35,7 +35,7 @@ namespace EssenceShared.Scenes {
                 AddEntity(entity);
             }
             else{
-                Log.Print("Error! Entity isn't created, New entity will not be added", LogType.ERROR);
+                Log.Print("Error! Entity isn't created, New entity will not be added", LogType.Error);
             }
         }
 
@@ -65,7 +65,7 @@ namespace EssenceShared.Scenes {
             var gs = new GameState();
 
             foreach (Entity entity in Entities){
-                gs.entities.Add(EntityState.ParseEntity(entity));
+                gs.Entities.Add(EntityState.ParseEntity(entity));
             }
 
             return gs;
@@ -76,7 +76,7 @@ namespace EssenceShared.Scenes {
 
         public void AppendGameState(GameState gs, string playerId) {
             /** Updating entities */
-            foreach (EntityState entity in gs.entities){
+            foreach (EntityState entity in gs.Entities){
                 int index = Entities.FindIndex(x=>x.Id == entity.Id);
                 if (index != -1){
                     // Себя не обновляем, мы верим себе!

@@ -49,9 +49,9 @@ namespace EssenceServer {
         private static void ServerHandleConnections(object obj) {
             Log.Print("Starting Listen connections");
 
-            var config = new NetPeerConfiguration(Settings.GAME_IDENTIFIER) {
-                Port = Settings.PORT,
-                MaximumConnections = Settings.MAX_CONNECTIONS
+            var config = new NetPeerConfiguration(Settings.GameIdentifier) {
+                Port = Settings.Port,
+                MaximumConnections = Settings.MaxConnections
             };
 
             _server = new NetServer(config);
@@ -65,11 +65,11 @@ namespace EssenceServer {
                         case NetIncomingMessageType.VerboseDebugMessage:
                         case NetIncomingMessageType.DebugMessage:
                         case NetIncomingMessageType.WarningMessage:
-                            Log.Print(msg.ReadString(), LogType.NETWORK);
+                            Log.Print(msg.ReadString(), LogType.Network);
                             break;
 
                         case NetIncomingMessageType.ErrorMessage:
-                            Log.Print(msg.ReadString(), LogType.ERROR);
+                            Log.Print(msg.ReadString(), LogType.Error);
                             break;
 
                         case NetIncomingMessageType.StatusChanged:
@@ -86,7 +86,7 @@ namespace EssenceServer {
 
                         default:
                             Log.Print("Unhandled type: " + msg.MessageType + " " + msg.LengthBytes +
-                                      " bytes " + msg.DeliveryMethod + "|" + msg.SequenceChannel, LogType.INFO);
+                                      " bytes " + msg.DeliveryMethod + "|" + msg.SequenceChannel, LogType.Info);
                             break;
                     }
 
@@ -127,13 +127,13 @@ namespace EssenceServer {
         private static void CallPlayerMethod(string playerid, string data) {
             Log.Print("Player call");
             Log.Print(data);
-            var pl = _serverGame.GameScene._gameLayer.Entities.Find(x=>x.Id == playerid) as Player;
+            var pl = _serverGame.GameScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
 
             var ent = new MysticProjectile(GetUniqueId(), new CCPoint(0, 0)) {
                 PositionX = pl.PositionX,
                 PositionY = pl.PositionY
             };
-            _serverGame.GameScene._gameLayer.AddEntity(ent);
+            _serverGame.GameScene.GameLayer.AddEntity(ent);
         }
 
         public static void SendChatMessage(string chatMsg) {
@@ -146,7 +146,7 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
-                GameState gs = _serverGame.GameScene._gameLayer.GetGameState();
+                GameState gs = _serverGame.GameScene.GameLayer.GetGameState();
 
                 var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 

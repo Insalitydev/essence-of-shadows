@@ -20,9 +20,9 @@ namespace EssenceClient {
         }
 
         public void ConnectToServer() {
-            Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.PORT));
+            Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.Port));
 
-            var _config = new NetPeerConfiguration(Settings.GAME_IDENTIFIER);
+            var _config = new NetPeerConfiguration(Settings.GameIdentifier);
 
             Client = new NetClient(_config);
             Client.RegisterReceivedCallback(GotMessage);
@@ -30,14 +30,14 @@ namespace EssenceClient {
             Client.Start();
 
             NetOutgoingMessage hail = Client.CreateMessage("Hail message");
-            Log.Print("Before connect", LogType.NETWORK);
-            Client.Connect(_ip, Settings.PORT, hail);
+            Log.Print("Before connect", LogType.Network);
+            Client.Connect(_ip, Settings.Port, hail);
 
             // TODO: Сделать вразумительное ожидание завершения подключения...
             Thread.Sleep(400);
 
-            Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.NETWORK);
-            var nc = new NetCommand(NetCommandType.CONNECT, "");
+            Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.Network);
+            var nc = new NetCommand(NetCommandType.Connect, "");
             Send(nc, NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -48,7 +48,7 @@ namespace EssenceClient {
         }
 
         public void SendChatMessage(string text) {
-            var nc = new NetCommand(NetCommandType.SAY, text);
+            var nc = new NetCommand(NetCommandType.Say, text);
             Send(nc, NetDeliveryMethod.ReliableUnordered);
         }
 
@@ -63,20 +63,20 @@ namespace EssenceClient {
 //                        Log.Print("Got data" + nc.Data, LogType.NETWORK);
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
-                            case NetCommandType.CONNECT:
+                            case NetCommandType.Connect:
                                 _scene.SetMyId(nc.Data);
                                 break;
-                            case NetCommandType.DISCONNECT:
+                            case NetCommandType.Disconnect:
                                 break;
-                            case NetCommandType.SAY:
+                            case NetCommandType.Say:
                                 Log.Print("Incoming message from server: " + nc.Data);
-                                _scene.getChatMessage(nc.Data);
+                                _scene.GetChatMessage(nc.Data);
                                 break;
                                 /** Обновляем все необходимые данные об игровом состоянии */
-                            case NetCommandType.UPDATE_GAMESTATE:
+                            case NetCommandType.UpdateGamestate:
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
 
-                                _scene._gameLayer.AppendGameState(gs, _scene.Id);
+                                _scene.GameLayer.AppendGameState(gs, _scene.Id);
                                 break;
                         }
                     }
