@@ -2,6 +2,7 @@
 using System.Linq;
 using CocosSharp;
 using EssenceShared.Entities;
+using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Player;
 using EssenceShared.Entities.Projectiles;
 
@@ -19,6 +20,7 @@ namespace EssenceShared.Scenes {
             string textureName = es.TextureName;
             textureName = textureName.Replace("\\", "/").Split('/').Last();
 
+            /** TODO: можно ли вынести куда-нибудь? можно ли обойтись без этого? */
             switch (textureName){
                 case Resources.ClassMystic:
                 case Resources.ClassReaper:
@@ -27,6 +29,9 @@ namespace EssenceShared.Scenes {
                     break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.Id);
+                    break;
+                case Resources.ItemChest:
+                    entity = new Enemy(es.Id);
                     break;
             }
 

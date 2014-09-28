@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using EssenceShared;
+using EssenceShared.Entities.Enemies;
 using EssenceShared.Scenes;
 
 namespace EssenceServer.Scenes {
@@ -13,6 +14,15 @@ namespace EssenceServer.Scenes {
             Log.Print("Game has started, waiting for players");
             Schedule(Update, 0.04f);
             Schedule(UpdateLogic);
+
+            // TODO: У сцены автоматически не вызывается addedToScene?
+            AddedToScene();
+        }
+
+        protected override void AddedToScene() {
+            base.AddedToScene();
+            Log.Print("SDSDSSDSDSD");
+            GameLayer.AddEntity(new Enemy(Server.GetUniqueId()){PositionX = 600, PositionY = 300});
         }
 
         private void UpdateLogic(float dt) {
