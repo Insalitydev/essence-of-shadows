@@ -1,4 +1,6 @@
-﻿using CocosSharp;
+﻿using System.Configuration;
+using CocosSharp;
+using EssenceShared;
 
 namespace EssenceClient.Scenes.Game {
     internal class BackgroundLayer: CCLayerColor {
@@ -22,6 +24,10 @@ namespace EssenceClient.Scenes.Game {
             tmp.PositionX = p1;
             tmp.PositionY = p2;
             tmp.Scale = 4;
+
+            if (tmp.PositionX > Settings.ScreenWidth/2){
+                tmp.FlipX = true;
+            }
 
             AddChild(tmp);
         }

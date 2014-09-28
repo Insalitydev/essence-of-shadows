@@ -17,8 +17,8 @@ namespace EssenceServer {
         private static Thread _serverConnections;
         private static Thread _serverConsole;
         private static Thread _serverScene;
-        public static ServerGame ServerGame { get; private set; }
         private static long _lastId = 1;
+        public static ServerGame ServerGame { get; private set; }
 
         public static void Start() {
             _serverConnections = new Thread(ServerHandleConnections);
@@ -78,6 +78,10 @@ namespace EssenceServer {
                             string reason = msg.ReadString();
                             Log.Print((NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)) +
                                       " " + status + ": " + reason);
+                            if (status == NetConnectionStatus.Disconnected){
+                                RemoveDisconnectedPlayer(
+                                    NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
+                            }
                             break;
 
                             /** Обработка полезных данных, пришедших от клиентов */
@@ -129,19 +133,20 @@ namespace EssenceServer {
             Log.Print("Player call");
             Log.Print(data);
             var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
-            var args = data.Split('.');
+            string[] args = data.Split('.');
             if (args[0] == "attack"){
                 var ent = new MysticProjectile(GetUniqueId()) {
                     PositionX = pl.PositionX,
                     PositionY = pl.PositionY,
-                    Direction = Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY), new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])) )
+                    Direction =
+                        Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY),
+                            new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])))
                 };
                 ServerGame.ServerScene.GameLayer.AddEntity(ent);
             }
             else{
                 Log.Print("Not found player method;", LogType.Error);
             }
-            
         }
 
         public static void SendChatMessage(string chatMsg) {
@@ -160,7 +165,12 @@ namespace EssenceServer {
 
                 NetOutgoingMessage om = _server.CreateMessage();
                 om.Write(nc.Serialize());
-                _server.SendMessage(om, _server.Connections, NetDeliveryMethod.Unreliable, 0);
+                try{
+                    _server.SendMessage(om, _server.Connections, NetDeliveryMethod.Unreliable, 0);
+                }
+                catch (NetException e){
+                    Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
+                }
             }
         }
 
@@ -176,6 +186,13 @@ namespace EssenceServer {
             NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        private static void RemoveDisconnectedPlayer(string playerid) {
+            Log.Print("Player " + playerid + " distonencted. Removing his player...");
+            var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
+            if (pl != null)
+                pl.Remove();
         }
 
         private static void InitNewPlayer(string id) {

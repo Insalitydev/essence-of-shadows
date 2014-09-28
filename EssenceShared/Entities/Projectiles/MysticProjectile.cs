@@ -33,7 +33,7 @@ namespace EssenceShared.Entities.Projectiles {
 
         public void UpdateAnimation(float dt) {
             if (Parent.Tag == Settings.Client){
-                Color = new CCColor3B((byte) (PositionX*2), (byte) (PositionX*2), (byte) (PositionX*2));
+                Color = new CCColor3B((byte)((PositionX + PositionY) * 2), (byte)((PositionX + PositionY) * 2), (byte)((PositionX+PositionY) * 2));
 
                 Rotation = PositionX*3;
             }

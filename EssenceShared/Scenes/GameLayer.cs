@@ -88,6 +88,12 @@ namespace EssenceShared.Scenes {
                     AddEntity(entity);
                 }
             }
+            /** Проверяем, если у нас есть на сцене объект, которого нет в новом состоянии - убираем его*/
+            foreach (Entity entity in Entities.ToList()){
+                if (gs.Entities.FindIndex(x => x.Id == entity.Id) == -1){
+                    entity.Remove();
+                }
+            }
         }
 
 
