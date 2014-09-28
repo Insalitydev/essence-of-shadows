@@ -21,6 +21,8 @@ namespace EssenceShared {
         public const string ItemKeyUrban = "KeyUrban";
         public const string ItemKeyDesert = "KeyDesert";
 
+        public const string ParticleMysticProjectile = "MysticProjectileTrail";
+
 
 
         /** Добавляет в пути поиска ресурсов необходимые папки */
@@ -44,6 +46,9 @@ namespace EssenceShared {
             application.ContentSearchPaths.Add("Image\\Tile\\Desert");
             application.ContentSearchPaths.Add("Music");
             application.ContentSearchPaths.Add("Sound");
+
+            CCSpriteFontCache.RegisterFont("kongtext", 10, 12, 16, 20, 24);
+            CCSpriteFontCache.RegisterFont("Nine Feet Under", 24);
         }
     }
 }

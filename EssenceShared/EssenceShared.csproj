@@ -97,6 +97,9 @@
     <None Include="Resource\Font\kongtext.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resource\Font\Nine Feet Under.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resource\Icon\icon.png">

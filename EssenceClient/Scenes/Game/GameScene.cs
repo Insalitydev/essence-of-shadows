@@ -1,4 +1,5 @@
-﻿using CocosSharp;
+﻿using System;
+using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
@@ -118,9 +119,14 @@ namespace EssenceClient.Scenes.Game {
             float windowScaleX = Window.WindowSizeInPixels.Width/Settings.ScreenWidth;
             float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
 
+            Console.WriteLine("Scale: " + windowScaleX + " " + windowScaleY);
             /** Актуальные координаты */
             var mousePosX = (int) (obj.CursorX/windowScaleX);
             var mousePosY = (int) (obj.CursorY/windowScaleY);
+            Console.WriteLine("Got pos: " + mousePosX + " " + mousePosY);
+
+            //TODO: при равномерном растягивании экрана некорректно находятся координаты мыши
+
 
             /** Если мышь щелкнута в пределах экрана */
             if (mousePosX > 0 && mousePosX <= Settings.ScreenWidth && mousePosY > 0 &&

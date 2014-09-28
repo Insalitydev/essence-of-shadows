@@ -34,7 +34,7 @@ namespace EssenceClient.Scenes.Menu {
         }
 
         private void AddTitle() {
-            var title = new CCLabel(Settings.GameName, "kongtext", 24) {
+            var title = new CCLabel(Settings.GameName, "Nine Feet Under", 24) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleBottom,
                 PositionX = 400,

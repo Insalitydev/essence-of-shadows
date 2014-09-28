@@ -17,6 +17,7 @@ namespace EssenceClient {
                 CCSceneResolutionPolicy.ShowAll);
 
             Resources.LoadContent(application);
+            mainWindow.DisplayStats = true;
 
             _startScene = new MenuScene(mainWindow);
             mainWindow.RunWithScene(_startScene);

@@ -60,10 +60,6 @@ namespace EssenceShared.Scenes {
             //            Log.Print(GetGameState().Serialize());
         }
 
-        public override void Update(float dt) {
-            base.Update(dt);
-        }
-
         /** формируем игровое состояние и возвращаем его */
 
         public GameState GetGameState() {

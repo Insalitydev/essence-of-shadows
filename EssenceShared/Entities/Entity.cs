@@ -64,6 +64,12 @@ namespace EssenceShared.Entities {
             return (float) (Math.Sqrt(Math.Pow((p2.X - p1.X), 2) + Math.Pow(p2.Y - p1.Y, 2)));
         }
 
+        public static CCPoint GetNormalPointByDirection(float dir) {
+            var x = (float)Math.Cos(ToRadians(dir));
+            var y = (float)Math.Sin(ToRadians(dir));
+            return new CCPoint(x, y);
+        }
+
         /** Удаляет объект со сцены */
         public void Remove(bool cleanup = true) {
             if (Parent != null) {
