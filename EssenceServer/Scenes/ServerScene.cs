@@ -7,7 +7,7 @@ namespace EssenceServer.Scenes {
         public readonly GameLayer GameLayer;
 
         public ServerScene(CCWindow window): base(window) {
-            GameLayer = new GameLayer();
+            GameLayer = new GameLayer {Tag = Settings.Server};
             AddChild(GameLayer);
 
             Log.Print("Game has started, waiting for players");

@@ -1,5 +1,4 @@
-﻿using System;
-using CocosSharp;
+﻿using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Player;
@@ -23,7 +22,9 @@ namespace EssenceClient.Scenes.Game {
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
 
-            GameLayer = new GameLayer();
+            GameLayer = new GameLayer {
+                Tag = Settings.Client
+            };
             AddChild(GameLayer);
 
             _chatLayer = new ChatLayer();
@@ -118,8 +119,8 @@ namespace EssenceClient.Scenes.Game {
             float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
 
             /** Актуальные координаты */
-            int mousePosX = (int) (obj.CursorX/windowScaleX);
-            int mousePosY = (int) (obj.CursorY/windowScaleY);
+            var mousePosX = (int) (obj.CursorX/windowScaleX);
+            var mousePosY = (int) (obj.CursorY/windowScaleY);
 
             /** Если мышь щелкнута в пределах экрана */
             if (mousePosX > 0 && mousePosX <= Settings.ScreenWidth && mousePosY > 0 &&
@@ -128,7 +129,6 @@ namespace EssenceClient.Scenes.Game {
                     // Стреляем при нажатой левой кнопке
                     var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + mousePosX + "." + mousePosY);
                     _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
-
                 }
             }
         }
