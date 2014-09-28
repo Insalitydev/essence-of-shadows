@@ -63,5 +63,12 @@ namespace EssenceShared.Entities {
         public static float DistanceBetweenPoints(CCPoint p1, CCPoint p2) {
             return (float) (Math.Sqrt(Math.Pow((p2.X - p1.X), 2) + Math.Pow(p2.Y - p1.Y, 2)));
         }
+
+        /** Удаляет объект со сцены */
+        public void Remove(bool cleanup = true) {
+            if (Parent != null) {
+                Parent.RemoveChild(this, cleanup);
+            }
+        }
     }
 }

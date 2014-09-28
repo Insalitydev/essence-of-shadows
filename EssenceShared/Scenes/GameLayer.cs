@@ -110,5 +110,11 @@ namespace EssenceShared.Scenes {
             }
             return Entities[result];
         }
+
+        /** Удаляет объект, вызывается автоматически при вызове Remove у объекта-сына  */
+        public override void RemoveChild(CCNode child, bool cleanup = true) {
+            base.RemoveChild(child, cleanup);
+            Entities.Remove(child as Entity);
+        }
     }
 }

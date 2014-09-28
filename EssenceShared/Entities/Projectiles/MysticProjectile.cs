@@ -15,6 +15,7 @@ namespace EssenceShared.Entities.Projectiles {
 
 //            AddAction(new CCRepeat( new CCRotateBy(2, 170f) ));
             Schedule(Update);
+            Schedule(Delete, 2);
         }
 
         public override void Update(float dt) {
@@ -23,6 +24,10 @@ namespace EssenceShared.Entities.Projectiles {
             UpdateAnimation(dt);
             MoveByAngle(Direction, _speed*dt);
             
+        }
+
+        public void Delete(float dt) {
+            this.Remove();
         }
 
 
