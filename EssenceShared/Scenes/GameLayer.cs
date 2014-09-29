@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
 using EssenceShared.Entities;
@@ -13,6 +14,7 @@ namespace EssenceShared.Scenes {
 
     public class GameLayer: CCLayer {
         public List<Entity> Entities = new List<Entity>();
+        private readonly Object lockThis = new Object();
 
         public void AddEntity(EntityState es) {
             Entity entity = null;
@@ -80,7 +82,7 @@ namespace EssenceShared.Scenes {
         public GameState GetGameState() {
             var gs = new GameState();
 
-            foreach (Entity entity in Entities){
+            foreach (Entity entity in Entities.ToList()){
                 gs.Entities.Add(EntityState.ParseEntity(entity));
             }
 
@@ -136,8 +138,10 @@ namespace EssenceShared.Scenes {
         /** Удаляет объект, вызывается автоматически при вызове Remove у объекта-сына  */
 
         public override void RemoveChild(CCNode child, bool cleanup = true) {
-            base.RemoveChild(child, cleanup);
-            Entities.Remove(child as Entity);
+            lock (lockThis){
+                Entities.Remove(child as Entity);
+                base.RemoveChild(child, cleanup);
+            }
         }
     }
 }

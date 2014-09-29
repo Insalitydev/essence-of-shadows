@@ -25,6 +25,7 @@ namespace EssenceShared.Entities.Projectiles {
 
                 Emmiter.Gravity = GetNormalPointByDirection(Direction)*-2000;
                 Emmiter.Scale = 0.08f;
+                Emmiter.SpeedVar = 200;
                 Emmiter.Texture = CCTextureCache.SharedTextureCache.AddImage(Resources.ParticleMysticProjectile);
 
                 AddChild(Emmiter, -1);
