@@ -52,11 +52,6 @@ namespace EssenceShared.Scenes {
             AddChild(e);
         }
 
-        protected override void AddedToScene() {
-            base.AddedToScene();
-            Schedule(UpdateDebug, 5);
-        }
-
         public override void Update(float dt) {
             base.Update(dt);
 
@@ -71,22 +66,6 @@ namespace EssenceShared.Scenes {
                     }
                 }
             }
-        }
-
-        private void UpdateDebug(float dt) {
-            Log.Print(GetGameState().Serialize());
-        }
-
-        /** формируем игровое состояние и возвращаем его */
-
-        public GameState GetGameState() {
-            var gs = new GameState();
-
-            foreach (Entity entity in Entities.ToList()){
-                gs.Entities.Add(EntityState.ParseEntity(entity));
-            }
-
-            return gs;
         }
 
 

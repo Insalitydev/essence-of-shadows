@@ -134,6 +134,7 @@ namespace EssenceServer {
             var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
             string[] args = data.Split('.');
             if (args[0] == "attack"){
+                //TODO: вынести в отдельные методы
                 var ent = new MysticProjectile(GetUniqueId()) {
                     PositionX = pl.PositionX,
                     PositionY = pl.PositionY,
@@ -177,10 +178,17 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
-                GameState gs = ServerGame.ServerScene.GameLayer.GetGameState();
+                GameState gs = ServerGame.ServerScene.GetGameState();
 
                 var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
-
+                // TODO: В будущем рассылать для всех свои геймстейт:
+                /* gs = getGS();
+                 * foreach player:
+                 *      gs.as = getAccountState(player);
+                 *      gs.entities = getEntitiesAround(player);
+                 * 
+                 * or just gs = getGS(Player); gs.send();
+                 * */
                 NetOutgoingMessage om = _server.CreateMessage();
                 om.Write(nc.Serialize());
                 try{
