@@ -6,10 +6,12 @@ namespace EssenceClient.Scenes.Game {
         private float _fps;
         private CCLabel _label;
         private int _step;
+        private int _lastGold;
 
         public HudLayer() {
             _fps = 0;
             _step = 0;
+            _lastGold = 0;
         }
 
         protected override void AddedToScene() {
@@ -42,10 +44,16 @@ namespace EssenceClient.Scenes.Game {
             _step++;
             int gold = 10;
             var gameScene = Parent as GameScene;
-            if (gameScene != null && gameScene.MyPlayer != null){
-                gold = gameScene.MyPlayer.Gold;
+            if (gameScene != null && gameScene.GameLayer.MyAccountState != null) {
+                gold = gameScene.GameLayer.MyAccountState.Gold;
+                if (_lastGold < gold){
+                    _lastGold += 4;
+                }
+                else{
+                    _lastGold = gold;
+                }
             }
-            _label.Text = "FPS: " + (int) _fps + " Step: " + _step + " Gold: " + gold;
+            _label.Text = "FPS: " + (int) _fps + " Step: " + _step + " Gold: " + _lastGold;
         }
     }
 }

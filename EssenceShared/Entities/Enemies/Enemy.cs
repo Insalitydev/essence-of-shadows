@@ -1,4 +1,5 @@
 ﻿using EssenceShared.Entities.Players;
+using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Enemies {
     public class Enemy: Entity {
@@ -13,9 +14,10 @@ namespace EssenceShared.Entities.Enemies {
             if (other.Tag == Tags.Projectile){
                 Log.Print("Enemy trigger collision");
                 var player = other.GetOwner() as Player;
+                
                 if (player != null){
-                    player.Gold += 40;
-                    Log.Print("Player " + player.Id + " have gold: " + player.Gold);
+                    player.accState.Gold += 40;
+                    Log.Print("Player " + player.Id + " have gold: " + player.accState.Gold);
                 }
             }
         }

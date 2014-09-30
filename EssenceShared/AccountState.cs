@@ -5,6 +5,7 @@ namespace EssenceShared {
     public class AccountState {
         public int Exp;
         public int Gold;
+        public string HeroId;
 
         public AccountState(string id) {
             HeroId = id;
@@ -12,7 +13,7 @@ namespace EssenceShared {
             Exp = 0;
         }
 
-        public string HeroId { get; private set; }
+        
 
 
         public static AccountState LoadAccountState(string AccountId) {

@@ -15,8 +15,11 @@ namespace EssenceShared.Scenes {
     public class GameLayer: CCLayer {
         public List<Entity> Entities = new List<Entity>();
         private readonly Object lockThis = new Object();
+        /** Состояние игрока на клиенте */
+        public AccountState MyAccountState;
 
-        public void AddEntity(EntityState es) {
+        /** AccState - если создается игрок, ему передается для связывания... (что плохо :( )*/
+        public void AddEntity(EntityState es, AccountState accState = null) {
             Entity entity = null;
 
             /* Получаем название объекта по изображению */
@@ -28,7 +31,7 @@ namespace EssenceShared.Scenes {
                 case Resources.ClassMystic:
                 case Resources.ClassReaper:
                 case Resources.ClassSniper:
-                    entity = new Player(es.Id, textureName);
+                    entity = new Player(es.Id, textureName, accState);
                     break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.Id);
@@ -90,6 +93,11 @@ namespace EssenceShared.Scenes {
                 if (gs.Entities.FindIndex(x=>x.Id == entity.Id) == -1){
                     entity.Remove();
                 }
+            }
+            /** обновляем состояние аккаунта */
+            if (gs.Account != null && gs.Account.HeroId == playerId){
+                Log.Print("ApadteAPDATEAPDATE");
+                MyAccountState = gs.Account;
             }
         }
 

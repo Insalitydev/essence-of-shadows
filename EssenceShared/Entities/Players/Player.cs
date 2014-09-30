@@ -5,17 +5,13 @@ namespace EssenceShared.Entities.Players {
         private const float _moveSpeed = 200;
         // TODO: Временно кол-во золото находится здесь
         public int Gold;
+        public AccountState accState;
 
-        public Player(string id): base("Mystic.png", id) {
+        public Player(string id, string type, AccountState account): base(type, id) {
             Scale = 4;
             Tag = Tags.Player;
-            Gold = 0;
-        }
 
-        public Player(string id, string type): base(type, id) {
-            Scale = 4;
-            Tag = Tags.Player;
-            Gold = 0;
+            accState = account;
         }
 
         public void Control(float dt) {

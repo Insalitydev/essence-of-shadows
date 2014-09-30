@@ -1,6 +1,9 @@
-﻿using CocosSharp;
+﻿using System;
+using System.Linq;
+using CocosSharp;
 using EssenceServer.Scenes;
 using EssenceShared;
+using EssenceShared.Entities.Players;
 
 namespace EssenceServer {
     /** Обрабатывает всю игровую логику */
@@ -25,7 +28,22 @@ namespace EssenceServer {
 
             var es = new EntityState(id) {PositionX = x, PositionY = y, TextureName = type};
 
-            ServerScene.GameLayer.AddEntity(es);
+            var accState = new AccountState(id);
+            ServerScene.GameLayer.AddEntity(es, accState);
+            ServerScene.Accounts.Add(accState);
+        }
+
+        public void RemovePlayer(string id) {
+            try{
+                var pl = ServerScene.GameLayer.Entities.Find(x=>x.Id == id) as Player;
+                if (pl != null)
+                    pl.Remove();
+
+                ServerScene.Accounts.Remove(ServerScene.Accounts.Single(x=>x.HeroId == id));
+            }
+            catch (NullReferenceException e){
+                Log.Print("Player "+ id + " not found in the Game", LogType.Error);
+            }
         }
     }
 }

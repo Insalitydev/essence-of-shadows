@@ -25,13 +25,17 @@ namespace EssenceServer.Scenes {
 
         /** формируем игровое состояние и возвращаем его */
 
-        public GameState GetGameState() {
+        public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
             foreach (Entity entity in GameLayer.Entities.ToList()) {
                 gs.Entities.Add(EntityState.ParseEntity(entity));
             }
 
+            var accState  = Accounts.Find(x=>x.HeroId == playerId);
+            if (accState != null){
+                gs.Account = accState;
+            }
 
             return gs;
         }

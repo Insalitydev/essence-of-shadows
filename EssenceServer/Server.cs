@@ -178,25 +178,23 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
-                GameState gs = ServerGame.ServerScene.GetGameState();
 
-                var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
-                // TODO: В будущем рассылать для всех свои геймстейт:
-                /* gs = getGS();
-                 * foreach player:
-                 *      gs.as = getAccountState(player);
-                 *      gs.entities = getEntitiesAround(player);
-                 * 
-                 * or just gs = getGS(Player); gs.send();
-                 * */
-                NetOutgoingMessage om = _server.CreateMessage();
-                om.Write(nc.Serialize());
-                try{
-                    _server.SendMessage(om, _server.Connections, NetDeliveryMethod.Unreliable, 0);
+                foreach (var netConnection in _server.Connections){
+                    // TODO: не формировать каждый раз одни и те же данные
+                    GameState gs = ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
+
+//                    Log.Print(gs.Serialize());
+                    var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
+
+                    NetOutgoingMessage om = _server.CreateMessage();
+                    om.Write(nc.Serialize());
+                    try {
+                        _server.SendMessage(om, netConnection, NetDeliveryMethod.Unreliable, 0);
+                    } catch (NetException e) {
+                        Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
+                    }
                 }
-                catch (NetException e){
-                    Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
-                }
+                
             }
         }
 
@@ -216,9 +214,8 @@ namespace EssenceServer {
 
         private static void RemoveDisconnectedPlayer(string playerid) {
             Log.Print("Player " + playerid + " distonencted. Removing his player...");
-            var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
-            if (pl != null)
-                pl.Remove();
+            ServerGame.RemovePlayer(playerid);
+            
         }
 
         private static void InitNewPlayer(string id) {
