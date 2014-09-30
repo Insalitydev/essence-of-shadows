@@ -7,6 +7,7 @@ using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
 using Lidgren.Network;
+using SharpDX;
 
 namespace EssenceClient.Scenes.Game {
     internal class GameScene: CCScene {
@@ -14,6 +15,8 @@ namespace EssenceClient.Scenes.Game {
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private HudLayer _hudLayer;
+        private CameraLayer _camLayer;
+        private int cameraHight = 700;
 
         public Player MyPlayer { get; private set; }
 
@@ -23,8 +26,15 @@ namespace EssenceClient.Scenes.Game {
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
 
+//            _camLayer = new CameraLayer();
+
+            var cameraVisibleBounds = new CCSize(800, 600);
+            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(600, 300, 10));
+
             GameLayer = new GameLayer {
-                Tag = Tags.Client
+                Tag = Tags.Client,
+                Camera =  camera
+                
             };
             AddChild(GameLayer);
 
@@ -33,6 +43,8 @@ namespace EssenceClient.Scenes.Game {
 
             _hudLayer = new HudLayer();
             AddChild(_hudLayer);
+
+            
 
             var keyListener = new CCEventListenerKeyboard {OnKeyPressed = OnKeyPressed, OnKeyReleased = OnKeyReleased};
 
@@ -66,6 +78,16 @@ namespace EssenceClient.Scenes.Game {
 
             if (MyPlayer != null){
                 MyPlayer.Control(dt);
+            }
+
+            UpdateCamera();
+        }
+
+        private void UpdateCamera() {
+            if (MyPlayer != null){
+                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight);
+                GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
+//                Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }
 

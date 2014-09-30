@@ -5,7 +5,7 @@ namespace EssenceClient.Scenes.Game {
     internal class HudLayer: CCLayer {
         private float _fps;
         private CCLabel _label;
-        private int _step;
+        public int _step { get; private set; }
         private int _lastGold;
 
         public HudLayer() {

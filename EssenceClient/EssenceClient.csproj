@@ -120,6 +120,7 @@
     <Compile Include="NetGameClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\Game\CameraLayer.cs" />
     <Compile Include="Scenes\Game\ChatLayer.cs" />
     <Compile Include="Scenes\Game\GameScene.cs" />
     <Compile Include="Scenes\Game\BackgroundLayer.cs" />
