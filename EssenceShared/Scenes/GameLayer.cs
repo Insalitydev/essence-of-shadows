@@ -62,8 +62,9 @@ namespace EssenceShared.Scenes {
         }
 
         private void UpdateCollisions() {
-            foreach (Entity e1 in Entities.ToList()){
-                foreach (Entity e2 in Entities.ToList()) {
+            var tmpList = Entities.ToList();
+            foreach (Entity e1 in tmpList) {
+                foreach (Entity e2 in tmpList) {
                     if (e1.Id != e2.Id && e1.Mask != null && e2.Mask != null && e1.Mask.IntersectsRect(e2.Mask)){
                         e1.Collision(e2);
                     }

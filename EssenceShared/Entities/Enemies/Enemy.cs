@@ -12,12 +12,10 @@ namespace EssenceShared.Entities.Enemies {
             base.Collision(other);
 
             if (other.Tag == Tags.Projectile){
-                Log.Print("Enemy trigger collision");
                 var player = other.GetOwner() as Player;
                 
                 if (player != null){
                     player.accState.Gold += 40;
-                    Log.Print("Player " + player.Id + " have gold: " + player.accState.Gold);
                 }
             }
         }

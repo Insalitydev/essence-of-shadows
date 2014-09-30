@@ -50,7 +50,7 @@ namespace EssenceShared.Entities.Projectiles {
             base.Collision(other);
 
             if (other.Tag == Tags.Enemy){
-                Log.Print("Enemy hit!", LogType.Debug);
+
                 Remove();
             }
         }
