@@ -30,6 +30,9 @@ namespace EssenceShared {
         public static void LoadContent(CCApplication application) {
             Log.Print("Loading resources");
             application.ContentRootDirectory = "Resource";
+
+            CCSpriteFontCache.DefaultFont = "kongtext";
+
             application.ContentSearchPaths.Add("Font");
             application.ContentSearchPaths.Add("Icon");
             application.ContentSearchPaths.Add("Image");
@@ -48,7 +51,8 @@ namespace EssenceShared {
             application.ContentSearchPaths.Add("Sound");
 
             CCSpriteFontCache.FontScale = 1f;
-            CCSpriteFontCache.RegisterFont("kongtext", 10, 12, 16, 20, 24);
+            CCSpriteFontCache.RegisterFont("kongtext", 14, 24);
+            CCSpriteFontCache.RegisterFont("arial", 24);
             CCSpriteFontCache.RegisterFont("Nine Feet Under", 24);
             CCSpriteFontCache.RegisterFont("Abberancy", 24);
         }

@@ -4,7 +4,7 @@ using EssenceShared;
 namespace EssenceClient.Scenes.Game {
     internal class HudLayer: CCLayer {
         private float _fps;
-        private CCLabel _label;
+        private CCLabelTtf _label;
         public int _step { get; private set; }
         private int _lastGold;
 
@@ -17,7 +17,7 @@ namespace EssenceClient.Scenes.Game {
         protected override void AddedToScene() {
             base.AddedToScene();
 
-            _label = new CCLabel("HUD Text", "kongtext", 16) {
+            _label = new CCLabelTtf("HUD Text", "kongtesxt", 14) {
                 Color = CCColor3B.Gray,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
                 Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight)
@@ -25,7 +25,7 @@ namespace EssenceClient.Scenes.Game {
 
             AddChild(_label);
 
-            var helper = new CCLabel("Arrows to move, A - shoot, S - say to chat", "kongtext", 10) {
+            var helper = new CCLabelTtf("Arrows to move, A - shoot, S - say to chat", "kongtext", 10) {
                 Color = CCColor3B.Gray,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
                 Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight - 20),

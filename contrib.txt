@@ -1,5 +1,5 @@
 ; List of used libs:
-CocosSharp.PCL.Shared.GL
+CocosSharp.WindowsDX
 Newtonsoft.Json
 Lidgren
 INIFileParser

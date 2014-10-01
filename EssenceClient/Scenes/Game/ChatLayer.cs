@@ -6,7 +6,7 @@ using EssenceShared;
 namespace EssenceClient.Scenes.Game {
     internal class ChatLayer: CCLayerColor {
         public List<string> Messages;
-        private CCLabel _label;
+        private CCLabelTtf _label;
 
         public ChatLayer() {
             Layer.Scale = 0.3f;
@@ -22,7 +22,7 @@ namespace EssenceClient.Scenes.Game {
         protected override void AddedToScene() {
             base.AddedToScene();
 
-            _label = new CCLabel("Chat", "kongtext", 28) {
+            _label = new CCLabelTtf("Chat", "kongtext", 24) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorLowerLeft,
                 Position = Layer.Position

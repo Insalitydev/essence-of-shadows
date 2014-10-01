@@ -122,10 +122,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Resource\Font\kongtext.ttf">
+    <None Include="Resource\fonts\arial-24.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resource\Font\Nine Feet Under.ttf">
+    <None Include="Resource\fonts\kongtext-14.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resource\fonts\kongtext-24.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resource\fonts\Nine Feet Under.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
