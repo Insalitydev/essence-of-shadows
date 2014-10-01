@@ -5,7 +5,6 @@ using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Players;
-using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 
 namespace EssenceShared.Scenes {
@@ -13,12 +12,13 @@ namespace EssenceShared.Scenes {
      * и на этой сцене рисуются все данные на стороне клиента */
 
     public class GameLayer: CCLayer {
-        public List<Entity> Entities = new List<Entity>();
         private readonly Object lockThis = new Object();
+        public List<Entity> Entities = new List<Entity>();
         /** Состояние игрока на клиенте */
         public AccountState MyAccountState;
 
         /** AccState - если создается игрок, ему передается для связывания... (что плохо :( )*/
+
         public void AddEntity(EntityState es, AccountState accState = null) {
             Entity entity = null;
 
@@ -62,9 +62,9 @@ namespace EssenceShared.Scenes {
         }
 
         private void UpdateCollisions() {
-            var tmpList = Entities.ToList();
-            foreach (Entity e1 in tmpList) {
-                foreach (Entity e2 in tmpList) {
+            List<Entity> tmpList = Entities.ToList();
+            foreach (Entity e1 in tmpList){
+                foreach (Entity e2 in tmpList){
                     if (e1.Id != e2.Id && e1.Mask != null && e2.Mask != null && e1.Mask.IntersectsRect(e2.Mask)){
                         e1.Collision(e2);
                     }
@@ -77,7 +77,7 @@ namespace EssenceShared.Scenes {
 
         public void AppendGameState(GameState gs, string playerId) {
             /** Updating entities */
-            foreach (EntityState entity in gs.Entities){
+            foreach (EntityState entity in gs.Entities.ToList()){
                 int index = Entities.FindIndex(x=>x.Id == entity.Id);
                 if (index != -1){
                     // Себя не обновляем, мы верим себе!
@@ -97,7 +97,6 @@ namespace EssenceShared.Scenes {
             }
             /** обновляем состояние аккаунта */
             if (gs.Account != null && gs.Account.HeroId == playerId){
-                Log.Print("ApadteAPDATEAPDATE");
                 MyAccountState = gs.Account;
             }
         }
@@ -127,8 +126,10 @@ namespace EssenceShared.Scenes {
 
         public override void RemoveChild(CCNode child, bool cleanup = true) {
             lock (lockThis){
-                Entities.Remove(child as Entity);
-                base.RemoveChild(child, cleanup);
+                if  (child != null){
+                    Entities.Remove(child as Entity);
+                    base.RemoveChild(child, cleanup);
+                }
             }
         }
     }

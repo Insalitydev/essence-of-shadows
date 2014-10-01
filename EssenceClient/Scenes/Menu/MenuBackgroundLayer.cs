@@ -34,22 +34,23 @@ namespace EssenceClient.Scenes.Menu {
         }
 
         private void AddTitle() {
+//            CCSpriteFontCache.RegisterFont("kongtext", 26);
             var title = new CCLabel(Settings.GameName, "kongtext", 24) {
                 Color = CCColor3B.White,
-                AnchorPoint = CCPoint.AnchorMiddleBottom,
+                AnchorPoint = CCPoint.AnchorMiddleTop,
                 PositionX = 400,
                 PositionY = 400,
             };
 
-            var helper = new CCLabel("Enter/Space to start, Esc to exit", "kongtext", 10) {
-                Color = CCColor3B.Gray,
-                AnchorPoint = CCPoint.AnchorMiddleBottom,
-                PositionX = Settings.ScreenWidth/2,
-                PositionY = 0
-            };
+//            var helper = new CCLabel("Enter/Space to start, Esc to exit", "kongtext", 10) {
+//                Color = CCColor3B.Gray,
+//                AnchorPoint = CCPoint.AnchorMiddleBottom,
+//                PositionX = Settings.ScreenWidth/2,
+//                PositionY = 0
+//            };
 
             AddChild(title);
-            AddChild(helper);
+//            AddChild(helper);
         }
     }
 }

@@ -47,8 +47,10 @@ namespace EssenceShared {
             application.ContentSearchPaths.Add("Music");
             application.ContentSearchPaths.Add("Sound");
 
+            CCSpriteFontCache.FontScale = 1f;
             CCSpriteFontCache.RegisterFont("kongtext", 10, 12, 16, 20, 24);
             CCSpriteFontCache.RegisterFont("Nine Feet Under", 24);
+            CCSpriteFontCache.RegisterFont("Abberancy", 24);
         }
     }
 }

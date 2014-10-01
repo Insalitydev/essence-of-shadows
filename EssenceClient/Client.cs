@@ -7,17 +7,22 @@ namespace EssenceClient {
 
     internal class Client: CCApplicationDelegate {
         private CCScene _startScene;
+        static CCWindow sharedWindow;
 
         /** Вызывается после загрузки приложения */
 
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
             base.ApplicationDidFinishLaunching(application, mainWindow);
-            
+            sharedWindow = mainWindow;
+
             mainWindow.SetDesignResolutionSize(Settings.ScreenWidth, Settings.ScreenHeight, CCSceneResolutionPolicy.ShowAll);
+
+//            mainWindow.PreferMultiSampling = false;
 
             Resources.LoadContent(application);
             mainWindow.DisplayStats = true;
             mainWindow.AllowUserResizing = false;
+            
 
             _startScene = new MenuScene(mainWindow);
             mainWindow.RunWithScene(_startScene);

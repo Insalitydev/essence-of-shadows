@@ -3,7 +3,6 @@
 namespace EssenceShared.Entities.Projectiles {
     public class MysticProjectile: Entity {
         private const float _speed = 450;
-        private CCParticleMeteor Emmiter;
         private float _angle;
         private CCPoint _target;
 
@@ -21,15 +20,25 @@ namespace EssenceShared.Entities.Projectiles {
             Schedule(Delete, 2);
 
             if (Parent.Tag == Tags.Client){
-                Emmiter = new CCParticleMeteor(new CCPoint(6, 6));
-
-                Emmiter.Gravity = GetNormalPointByDirection(Direction)*-2000;
-                Emmiter.Scale = 0.08f;
-                Emmiter.SpeedVar = 200;
-                Emmiter.Texture = CCTextureCache.SharedTextureCache.AddImage(Resources.ParticleMysticProjectile);
-
-                AddChild(Emmiter, -1);
+               
             }
+        }
+
+        public override void OnEnter() {
+            base.OnEnter();
+
+
+            if (Parent != null && Parent.Tag == Tags.Client){
+                var Emmiter = new CCParticleMeteor(new CCPoint(6, 6)) {
+                    Gravity = GetNormalPointByDirection(Direction)*-2000,
+                    Scale = 0.08f,
+                    SpeedVar = 200,
+                    Texture = CCTextureCache.SharedTextureCache.AddImage(Resources.ParticleMysticProjectile)
+                };
+                AddChild(Emmiter, -10);
+            }
+
+            
         }
 
         public override void Update(float dt) {
@@ -43,6 +52,7 @@ namespace EssenceShared.Entities.Projectiles {
         }
 
         public void Delete(float dt) {
+            RemoveAllChildren(true);
             Remove();
         }
 
@@ -58,7 +68,6 @@ namespace EssenceShared.Entities.Projectiles {
         public void UpdateAnimation(float dt) {
             Color = new CCColor3B((byte) ((PositionX + PositionY)*2), (byte) ((PositionX + PositionY)*2),
                 (byte) ((PositionX + PositionY)*2));
-            //                Rotation = PositionX*3;
         }
     }
 }
