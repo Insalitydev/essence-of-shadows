@@ -131,9 +131,6 @@
     <None Include="Resource\fonts\kongtext-24.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resource\fonts\Nine Feet Under.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resource\Icon\icon.png">

@@ -183,7 +183,6 @@ namespace EssenceServer {
                     // TODO: не формировать каждый раз одни и те же данные
                     GameState gs = ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
 
-//                    Log.Print(gs.Serialize());
                     var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
                     NetOutgoingMessage om = _server.CreateMessage();

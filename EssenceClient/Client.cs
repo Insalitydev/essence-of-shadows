@@ -17,8 +17,6 @@ namespace EssenceClient {
 
             mainWindow.SetDesignResolutionSize(Settings.ScreenWidth, Settings.ScreenHeight, CCSceneResolutionPolicy.ShowAll);
 
-//            mainWindow.PreferMultiSampling = false;
-
             Resources.LoadContent(application);
             mainWindow.DisplayStats = true;
             mainWindow.AllowUserResizing = false;

@@ -53,8 +53,6 @@ namespace EssenceShared {
             CCSpriteFontCache.FontScale = 1f;
             CCSpriteFontCache.RegisterFont("kongtext", 14, 24);
             CCSpriteFontCache.RegisterFont("arial", 24);
-            CCSpriteFontCache.RegisterFont("Nine Feet Under", 24);
-            CCSpriteFontCache.RegisterFont("Abberancy", 24);
         }
     }
 }

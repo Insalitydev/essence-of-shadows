@@ -34,7 +34,6 @@ namespace EssenceClient.Scenes.Menu {
         }
 
         private void AddTitle() {
-//            CCSpriteFontCache.RegisterFont("kongtext", 26);
             var title = new CCLabelTtf(Settings.GameName, "kongtext", 24) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
