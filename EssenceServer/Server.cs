@@ -33,7 +33,7 @@ namespace EssenceServer {
 
         private static void ServerHandleGame(object obj) {
             ServerGame = new ServerGame();
-            var application = new CCApplication(false, null);
+            var application = new CCApplication(false, new CCSize(1, 1));
 
             ServerGame = new ServerGame();
             application.ApplicationDelegate = ServerGame;

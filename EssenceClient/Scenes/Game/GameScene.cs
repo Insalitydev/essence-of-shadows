@@ -7,7 +7,6 @@ using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
 using Lidgren.Network;
-using SharpDX;
 
 namespace EssenceClient.Scenes.Game {
     internal class GameScene: CCScene {
@@ -15,7 +14,6 @@ namespace EssenceClient.Scenes.Game {
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private HudLayer _hudLayer;
-        private CameraLayer _camLayer;
         private int cameraHight = 700;
 
         public Player MyPlayer { get; private set; }
@@ -34,7 +32,6 @@ namespace EssenceClient.Scenes.Game {
             GameLayer = new GameLayer {
                 Tag = Tags.Client,
                 Camera =  camera
-                
             };
             AddChild(GameLayer);
 
