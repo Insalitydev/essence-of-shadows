@@ -206,9 +206,13 @@ namespace EssenceServer {
             var nc = new NetCommand(NetCommandType.Connect,
                 (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
 
+            NetOutgoingMessage om = _server.CreateMessage();
+            om.Write(nc.Serialize());
+            _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
 
             // TODO: отдать начальное состояние мира (карта)
-            NetOutgoingMessage om = _server.CreateMessage();
+            nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GameLayer.SerializeMap());
+            om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }

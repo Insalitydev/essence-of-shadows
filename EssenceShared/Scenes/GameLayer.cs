@@ -7,16 +7,18 @@ using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
+using Newtonsoft.Json;
 
 namespace EssenceShared.Scenes {
     /** В этой сцене обрабатывается вся игровая логика на стороне сервера 
      * и на этой сцене рисуются все данные на стороне клиента */
 
-    public class GameLayer : CCLayer {
+    public class GameLayer: CCLayer {
         private readonly Object lockThis = new Object();
         public List<Entity> Entities = new List<Entity>();
         /** Состояние игрока на клиенте */
         public AccountState MyAccountState;
+        public List<string> currentMap;
 
         /** AccState - если создается игрок, ему передается для связывания... (что плохо :( )*/
 
@@ -28,7 +30,7 @@ namespace EssenceShared.Scenes {
             textureName = textureName.Replace("\\", "/").Split('/').Last();
 
             /** TODO: можно ли вынести куда-нибудь? можно ли обойтись без этого? */
-            switch (textureName) {
+            switch (textureName){
                 case Resources.ClassMystic:
                 case Resources.ClassReaper:
                 case Resources.ClassSniper:
@@ -42,11 +44,11 @@ namespace EssenceShared.Scenes {
                     break;
             }
 
-            if (entity != null) {
+            if (entity != null){
                 EntityState.AppendStateToEntity(entity, es);
                 AddEntity(entity);
             }
-            else {
+            else{
                 Log.Print("Error! Entity isn't created, New entity will not be added", LogType.Error);
             }
         }
@@ -62,47 +64,55 @@ namespace EssenceShared.Scenes {
             UpdateCollisions();
         }
 
-        public override void OnEnter() {
-            base.OnEnter();
 
-            // TODO: Test-client-only map
-//            var map = new char[,] { { '#', '#', '#', '#', '#', '#', '#', } };
-            var map = new char[][] {new char[] {'#', '#', '~'}, new char[] {'#', '#', '#'}, };
-            
-            CreateNewMap(map);
-        }
-
-        public void CreateNewMap(char[][] tileMap) {
+        public void CreateNewMap(List<string> tileMap) {
             // удаляем предыдущую карту
             RemoveAllChildrenByTag(Tags.MapTile);
-//            var tileMap = '#';
 
-            Tile tile;
-            for (int i = 0; i < tileMap.Length; i++) {
-                for (int j = 0; j < tileMap[i].Length; j++) {
-                    switch (tileMap[i][j]) {
-                        case '#':
-                            tile = new Tile(Resources.MapTileSand, "????");
-                            break;
-                        case '~':
-                            tile = new Tile(Resources.MapTileWater, "????");
-                            break;
-                        default:
-                            tile = new Tile(Resources.MapTileSand, "????");
-                            break;
+            // запоминаем текущую карту
+            currentMap = tileMap;
+
+            // создаем карту (на клиенте)
+            if (Tag == Tags.Client){
+                Tile tile;
+                for (int i = 0; i < tileMap.Count; i++){
+                    for (int j = 0; j < tileMap[i].Length; j++){
+                        switch (tileMap[i][j]){
+                            case '#':
+                                tile = new Tile(Resources.MapTileSand, "????");
+                                break;
+                            case '~':
+                                tile = new Tile(Resources.MapTileWater, "????");
+                                break;
+                            default:
+                                tile = new Tile(Resources.MapTileSand, "????");
+                                break;
+                        }
+                        tile.Scale = 4;
+                        // Поворачиваем карту на 90 (поэтому поменяны местами i и j)
+                        tile.Position = new CCPoint(j*Settings.TileSize*tile.ScaleX, i*Settings.TileSize*tile.ScaleY);
+                        AddChild(tile, -10, Tags.MapTile);
                     }
-                    tile.Scale = 4;
-                    tile.Position = new CCPoint(i * Settings.TileSize * tile.ScaleX, j * Settings.TileSize * tile.ScaleY);
-                    AddChild(tile, -10, Tags.MapTile);
                 }
             }
         }
 
+        public string SerializeMap() {
+            Log.Print("Serialize map");
+            return JsonConvert.SerializeObject(currentMap);
+        }
+
+        public void DeserializeMap(string jsonMap) {
+            Log.Print("Deserialize map");
+            var tileMap = JsonConvert.DeserializeObject<List<string>>(jsonMap);
+            CreateNewMap(tileMap);
+        }
+
         private void UpdateCollisions() {
             List<Entity> tmpList = Entities.ToList();
-            foreach (Entity e1 in tmpList) {
-                foreach (Entity e2 in tmpList) {
-                    if (e1.Id != e2.Id && e1.Mask != null && e2.Mask != null && e1.Mask.IntersectsRect(e2.Mask)) {
+            foreach (Entity e1 in tmpList){
+                foreach (Entity e2 in tmpList){
+                    if (e1.Id != e2.Id && e1.Mask.IntersectsRect(e2.Mask)){
                         e1.Collision(e2);
                     }
                 }
@@ -114,26 +124,26 @@ namespace EssenceShared.Scenes {
 
         public void AppendGameState(GameState gs, string playerId) {
             /** Updating entities */
-            foreach (EntityState entity in gs.Entities.ToList()) {
-                int index = Entities.FindIndex(x => x.Id == entity.Id);
-                if (index != -1) {
+            foreach (EntityState entity in gs.Entities.ToList()){
+                int index = Entities.FindIndex(x=>x.Id == entity.Id);
+                if (index != -1){
                     // Себя не обновляем, мы верим себе!
-                    if (entity.Id != playerId) {
+                    if (entity.Id != playerId){
                         Entities[index].AppendState(entity);
                     }
                 }
-                else {
+                else{
                     AddEntity(entity);
                 }
             }
             /** Проверяем, если у нас есть на сцене объект, которого нет в новом состоянии - убираем его*/
-            foreach (Entity entity in Entities.ToList()) {
-                if (gs.Entities.FindIndex(x => x.Id == entity.Id) == -1) {
+            foreach (Entity entity in Entities.ToList()){
+                if (gs.Entities.FindIndex(x=>x.Id == entity.Id) == -1){
                     entity.Remove();
                 }
             }
             /** обновляем состояние аккаунта */
-            if (gs.Account != null && gs.Account.HeroId == playerId) {
+            if (gs.Account != null && gs.Account.HeroId == playerId){
                 MyAccountState = gs.Account;
             }
         }
@@ -142,18 +152,18 @@ namespace EssenceShared.Scenes {
         /** Вызваем на сервере, обновляем состояние объекта в игре, если нет такого объекта - создаем */
 
         public void UpdateEntity(EntityState es) {
-            int index = Entities.FindIndex(x => x.Id == es.Id);
-            if (index == -1) {
+            int index = Entities.FindIndex(x=>x.Id == es.Id);
+            if (index == -1){
                 AddEntity(es);
             }
-            else {
+            else{
                 EntityState.AppendStateToEntity(Entities[index], es);
             }
         }
 
         public Entity FindEntityById(string id) {
-            int result = Entities.FindIndex(x => x.Id == id);
-            if (result == -1) {
+            int result = Entities.FindIndex(x=>x.Id == id);
+            if (result == -1){
                 return null;
             }
             return Entities[result];
@@ -162,8 +172,8 @@ namespace EssenceShared.Scenes {
         /** Удаляет объект, вызывается автоматически при вызове Remove у объекта-сына  */
 
         public override void RemoveChild(CCNode child, bool cleanup = true) {
-            lock (lockThis) {
-                if (child != null) {
+            lock (lockThis){
+                if (child != null){
                     Entities.Remove(child as Entity);
                     base.RemoveChild(child, cleanup);
                 }

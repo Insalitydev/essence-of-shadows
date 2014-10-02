@@ -6,6 +6,7 @@ namespace EssenceShared {
         Say,
         UpdateGamestate,
         UpdatePlayerstate,
+        SendMap,
         Connect,
         Disconnect,
         CallPlayerMethod

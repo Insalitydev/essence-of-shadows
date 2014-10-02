@@ -40,7 +40,6 @@ namespace EssenceServer {
                     Server.SendChatMessage(arg);
                     break;
                 case "restart":
-                    ParseMap();
                     break;
                 case "online":
                     Log.Print("Currently online: " + _server.ConnectionsCount, LogType.Info, false);
@@ -61,15 +60,6 @@ namespace EssenceServer {
             }
         }
 
-        private void ParseMap() {
-            string s = File.ReadAllText("TestMap.txt");
-            Console.WriteLine();
-            var smap = new List<String> (s.Split('\n'));
 
-            for (int i = 0; i < smap.Count; i++) {
-                smap[i] = smap[i].TrimEnd('\r');
-            }
-            
-        }
     }
 }

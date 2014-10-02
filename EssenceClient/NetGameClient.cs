@@ -73,6 +73,9 @@ namespace EssenceClient {
                                 _scene.GetChatMessage(nc.Data);
                                 break;
                                 /** Обновляем все необходимые данные об игровом состоянии */
+                            case NetCommandType.SendMap:
+                                _scene.GameLayer.DeserializeMap(nc.Data);
+                                break;
                             case NetCommandType.UpdateGamestate:
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
 
