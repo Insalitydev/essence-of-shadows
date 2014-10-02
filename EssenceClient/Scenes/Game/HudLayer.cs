@@ -18,15 +18,13 @@ namespace EssenceClient.Scenes.Game {
             base.AddedToScene();
 
             _label = new CCLabelTtf("HUD Text", "kongtesxt", 14) {
-                Color = CCColor3B.Gray,
+                Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
                 Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight)
             };
 
-            AddChild(_label);
-
             var helper = new CCLabelTtf("Arrows to move, A - shoot, S - say to chat", "kongtext", 10) {
-                Color = CCColor3B.Gray,
+                Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
                 Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight - 20),
             };

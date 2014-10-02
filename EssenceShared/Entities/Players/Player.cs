@@ -2,7 +2,7 @@
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
-        private const float _moveSpeed = 200;
+        private const float _moveSpeed = 300;
         // TODO: Временно кол-во золото находится здесь
         public int Gold;
         public AccountState accState;

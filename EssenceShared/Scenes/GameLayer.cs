@@ -12,7 +12,7 @@ namespace EssenceShared.Scenes {
     /** В этой сцене обрабатывается вся игровая логика на стороне сервера 
      * и на этой сцене рисуются все данные на стороне клиента */
 
-    public class GameLayer: CCLayer {
+    public class GameLayer : CCLayer {
         private readonly Object lockThis = new Object();
         public List<Entity> Entities = new List<Entity>();
         /** Состояние игрока на клиенте */
@@ -28,7 +28,7 @@ namespace EssenceShared.Scenes {
             textureName = textureName.Replace("\\", "/").Split('/').Last();
 
             /** TODO: можно ли вынести куда-нибудь? можно ли обойтись без этого? */
-            switch (textureName){
+            switch (textureName) {
                 case Resources.ClassMystic:
                 case Resources.ClassReaper:
                 case Resources.ClassSniper:
@@ -42,11 +42,11 @@ namespace EssenceShared.Scenes {
                     break;
             }
 
-            if (entity != null){
+            if (entity != null) {
                 EntityState.AppendStateToEntity(entity, es);
                 AddEntity(entity);
             }
-            else{
+            else {
                 Log.Print("Error! Entity isn't created, New entity will not be added", LogType.Error);
             }
         }
@@ -66,9 +66,28 @@ namespace EssenceShared.Scenes {
             base.OnEnter();
 
             // TODO: Test-client-only map
+//            var map = new char[][] { { '#', '#', '#', '#', '#', '#', '#', } };
+            CreateNewMap();
+        }
+
+        public void CreateNewMap() {
+            RemoveAllChildrenByTag(Tags.MapTile);
+            var tileMap = '#';
+
+            Tile tile;
             for (int i = 0; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
-                    var tile = new Tile("testId");
+                    switch (tileMap) {
+                        case '#':
+                            tile = new Tile("?????");
+                            break;
+                        case '%':
+                            tile = new Tile("?????");
+                            break;
+                        default:
+                            tile = new Tile("?????");
+                            break;
+                    }
                     tile.Scale = 4;
                     tile.Position = new CCPoint(i * Settings.TileSize * tile.ScaleX, j * Settings.TileSize * tile.ScaleY);
                     AddChild(tile, -10, Tags.MapTile);
@@ -78,9 +97,9 @@ namespace EssenceShared.Scenes {
 
         private void UpdateCollisions() {
             List<Entity> tmpList = Entities.ToList();
-            foreach (Entity e1 in tmpList){
-                foreach (Entity e2 in tmpList){
-                    if (e1.Id != e2.Id && e1.Mask != null && e2.Mask != null && e1.Mask.IntersectsRect(e2.Mask)){
+            foreach (Entity e1 in tmpList) {
+                foreach (Entity e2 in tmpList) {
+                    if (e1.Id != e2.Id && e1.Mask != null && e2.Mask != null && e1.Mask.IntersectsRect(e2.Mask)) {
                         e1.Collision(e2);
                     }
                 }
@@ -92,26 +111,26 @@ namespace EssenceShared.Scenes {
 
         public void AppendGameState(GameState gs, string playerId) {
             /** Updating entities */
-            foreach (EntityState entity in gs.Entities.ToList()){
-                int index = Entities.FindIndex(x=>x.Id == entity.Id);
-                if (index != -1){
+            foreach (EntityState entity in gs.Entities.ToList()) {
+                int index = Entities.FindIndex(x => x.Id == entity.Id);
+                if (index != -1) {
                     // Себя не обновляем, мы верим себе!
-                    if (entity.Id != playerId){
+                    if (entity.Id != playerId) {
                         Entities[index].AppendState(entity);
                     }
                 }
-                else{
+                else {
                     AddEntity(entity);
                 }
             }
             /** Проверяем, если у нас есть на сцене объект, которого нет в новом состоянии - убираем его*/
-            foreach (Entity entity in Entities.ToList()){
-                if (gs.Entities.FindIndex(x=>x.Id == entity.Id) == -1){
+            foreach (Entity entity in Entities.ToList()) {
+                if (gs.Entities.FindIndex(x => x.Id == entity.Id) == -1) {
                     entity.Remove();
                 }
             }
             /** обновляем состояние аккаунта */
-            if (gs.Account != null && gs.Account.HeroId == playerId){
+            if (gs.Account != null && gs.Account.HeroId == playerId) {
                 MyAccountState = gs.Account;
             }
         }
@@ -120,18 +139,18 @@ namespace EssenceShared.Scenes {
         /** Вызваем на сервере, обновляем состояние объекта в игре, если нет такого объекта - создаем */
 
         public void UpdateEntity(EntityState es) {
-            int index = Entities.FindIndex(x=>x.Id == es.Id);
-            if (index == -1){
+            int index = Entities.FindIndex(x => x.Id == es.Id);
+            if (index == -1) {
                 AddEntity(es);
             }
-            else{
+            else {
                 EntityState.AppendStateToEntity(Entities[index], es);
             }
         }
 
         public Entity FindEntityById(string id) {
-            int result = Entities.FindIndex(x=>x.Id == id);
-            if (result == -1){
+            int result = Entities.FindIndex(x => x.Id == id);
+            if (result == -1) {
                 return null;
             }
             return Entities[result];
@@ -140,8 +159,8 @@ namespace EssenceShared.Scenes {
         /** Удаляет объект, вызывается автоматически при вызове Remove у объекта-сына  */
 
         public override void RemoveChild(CCNode child, bool cleanup = true) {
-            lock (lockThis){
-                if  (child != null){
+            lock (lockThis) {
+                if (child != null) {
                     Entities.Remove(child as Entity);
                     base.RemoveChild(child, cleanup);
                 }
