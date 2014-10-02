@@ -1,5 +1,6 @@
 ﻿using System;
 using CocosSharp;
+using EssenceShared.Game;
 using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities {
@@ -10,6 +11,7 @@ namespace EssenceShared.Entities {
         public string OwnerId = null;
         private int _imageH;
         private int _imageW;
+        public Stat Hp;
 
 
         public Entity(string url, string id): base(url) {
@@ -17,6 +19,7 @@ namespace EssenceShared.Entities {
             IsAntialiased = false;
             Direction = 0;
             Tag = Tags.Unknown;
+            Hp = new Stat(0);
         }
 
         public CCRect Mask { get; private set; }

@@ -81,13 +81,13 @@ namespace EssenceShared.Scenes {
                     for (int j = 0; j < tileMap[i].Length; j++){
                         switch (tileMap[i][j]){
                             case '#':
-                                tile = new Tile(Resources.MapTileSand, "????");
+                                tile = new Tile(Resources.MapTileSand);
                                 break;
                             case '~':
-                                tile = new Tile(Resources.MapTileWater, "????");
+                                tile = new Tile(Resources.MapTileWater);
                                 break;
                             default:
-                                tile = new Tile(Resources.MapTileSand, "????");
+                                tile = new Tile(Resources.MapTileSand);
                                 break;
                         }
                         tile.Scale = 4;

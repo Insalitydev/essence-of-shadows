@@ -1,5 +1,6 @@
 ﻿using System;
 using EssenceShared.Entities;
+using EssenceShared.Game;
 using Newtonsoft.Json;
 
 namespace EssenceShared {
@@ -11,6 +12,7 @@ namespace EssenceShared {
 //        public string OwnerId;
         public int Tag;
         public string TextureName;
+        public Stat Hp;
 
         public EntityState(string id) {
             Id = id;
@@ -26,7 +28,10 @@ namespace EssenceShared {
 //                OwnerId = entity.OwnerId,
                 Tag = entity.Tag,
                 Scale = 4,
-                TextureName = entity.Texture.Name.ToString()
+                TextureName = entity.Texture.Name.ToString(),
+                Hp = new Stat(entity.Hp.Maximum) {
+                    Current = entity.Hp.Current,
+                }
             };
             return es;
         }
@@ -50,6 +55,7 @@ namespace EssenceShared {
             entity.Scale = es.Scale;
 //            entity.OwnerId = es.OwnerId;
             entity.Direction = es.Direction;
+            entity.Hp = es.Hp;
         }
 
         /** Пакует все необходимые данные в строку json

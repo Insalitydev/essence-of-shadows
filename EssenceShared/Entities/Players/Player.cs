@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
@@ -10,7 +11,6 @@ namespace EssenceShared.Entities.Players {
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = 4;
             Tag = Tags.Player;
-
             accState = account;
         }
 

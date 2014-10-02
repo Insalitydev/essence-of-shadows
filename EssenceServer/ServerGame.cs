@@ -26,10 +26,14 @@ namespace EssenceServer {
         public void AddNewPlayer(string id, int x, int y, string type) {
             Log.Print("Spawn player " + id);
 
-            var es = new EntityState(id) {PositionX = x, PositionY = y, TextureName = type};
+            //            var es = new EntityState(id) {PositionX = x, PositionY = y, TextureName = type};
 
             var accState = new AccountState(id);
-            ServerScene.GameLayer.AddEntity(es, accState);
+            var player = new Player(id, type, accState) {
+                PositionX = x,
+                PositionY = y
+            };
+            ServerScene.GameLayer.AddEntity(player);
             ServerScene.Accounts.Add(accState);
         }
 
@@ -42,7 +46,7 @@ namespace EssenceServer {
                 ServerScene.Accounts.Remove(ServerScene.Accounts.Single(x=>x.HeroId == id));
             }
             catch (NullReferenceException e){
-                Log.Print("Player "+ id + " not found in the Game", LogType.Error);
+                Log.Print("Player " + id + " not found in the Game", LogType.Error);
             }
         }
     }
