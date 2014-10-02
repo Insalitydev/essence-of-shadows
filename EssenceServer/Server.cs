@@ -165,42 +165,46 @@ namespace EssenceServer {
                     GameState gs =
                         ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
 
-                    var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
+                    if (netConnection.Status == NetConnectionStatus.Connected){
 
-                    NetOutgoingMessage om = _server.CreateMessage();
-                    om.Write(nc.Serialize());
-                    try{
-                        _server.SendMessage(om, netConnection, NetDeliveryMethod.Unreliable, 0);
+                        var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
+
+                        NetOutgoingMessage om = _server.CreateMessage();
+                        om.Write(nc.Serialize());
+                        try{
+                            _server.SendMessage(om, netConnection, NetDeliveryMethod.Unreliable, 0);
+                        }
+                        catch (NetException e){
+                            Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
+                        }
                     }
-                    catch (NetException e){
-                        Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
-                    }
+                    //                    Log.Print("Sended GS to " + NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
                 }
             }
         }
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
+            // TODO: отдать начальное состояние мира (карта)
+            var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GameLayer.SerializeMap());
+            var om = _server.CreateMessage();
+            om.Write(nc.Serialize());
+            _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+
             Log.Print("Creating new player");
             /** Создаем нового игрока в игре */
             InitNewPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
 
             /** Отдаем новому игроку его уникальный ид */
-            var nc = new NetCommand(NetCommandType.Connect,
+            nc = new NetCommand(NetCommandType.Connect,
                 (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
 
-            NetOutgoingMessage om = _server.CreateMessage();
-            om.Write(nc.Serialize());
-            _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-
-            // TODO: отдать начальное состояние мира (карта)
-            nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GameLayer.SerializeMap());
             om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }
 
         private static void RemoveDisconnectedPlayer(string playerid) {
-            Log.Print("Player " + playerid + " distonencted. Removing his player...");
+            Log.Print("Player " + playerid + " disconected. Removing his player...");
             ServerGame.RemovePlayer(playerid);
         }
 

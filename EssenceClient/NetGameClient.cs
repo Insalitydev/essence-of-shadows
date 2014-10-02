@@ -20,6 +20,7 @@ namespace EssenceClient {
         }
 
         public void ConnectToServer() {
+            Log.Print("Hello");
             Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.Port));
 
             var _config = new NetPeerConfiguration(Settings.GameIdentifier);
@@ -59,7 +60,7 @@ namespace EssenceClient {
                 lock (lockThis){
                     if (tmp.StartsWith("{\"")){
                         NetCommand nc = NetCommand.Deserialize(tmp);
-                        //                        Log.Print("Got data" + nc.Data, LogType.NETWORK);
+//                        Log.Print("Got data" + nc.Type + "Data: " + nc.Data.Length, LogType.Network);
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.Connect:
@@ -79,6 +80,9 @@ namespace EssenceClient {
                                 var gs = JsonConvert.DeserializeObject<GameState>(nc.Data);
 
                                 _scene.GameLayer.AppendGameState(gs, _scene.Id);
+                                break;
+                            default:
+                                Log.Print("Unknown NetcommandType delivered");
                                 break;
                         }
                     }
