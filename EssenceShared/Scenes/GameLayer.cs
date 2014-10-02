@@ -66,26 +66,29 @@ namespace EssenceShared.Scenes {
             base.OnEnter();
 
             // TODO: Test-client-only map
-//            var map = new char[][] { { '#', '#', '#', '#', '#', '#', '#', } };
-            CreateNewMap();
+//            var map = new char[,] { { '#', '#', '#', '#', '#', '#', '#', } };
+            var map = new char[][] {new char[] {'#', '#', '~'}, new char[] {'#', '#', '#'}, };
+            
+            CreateNewMap(map);
         }
 
-        public void CreateNewMap() {
+        public void CreateNewMap(char[][] tileMap) {
+            // удаляем предыдущую карту
             RemoveAllChildrenByTag(Tags.MapTile);
-            var tileMap = '#';
+//            var tileMap = '#';
 
             Tile tile;
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    switch (tileMap) {
+            for (int i = 0; i < tileMap.Length; i++) {
+                for (int j = 0; j < tileMap[i].Length; j++) {
+                    switch (tileMap[i][j]) {
                         case '#':
-                            tile = new Tile("?????");
+                            tile = new Tile(Resources.MapTileSand, "????");
                             break;
-                        case '%':
-                            tile = new Tile("?????");
+                        case '~':
+                            tile = new Tile(Resources.MapTileWater, "????");
                             break;
                         default:
-                            tile = new Tile("?????");
+                            tile = new Tile(Resources.MapTileSand, "????");
                             break;
                     }
                     tile.Scale = 4;

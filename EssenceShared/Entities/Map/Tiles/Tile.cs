@@ -2,7 +2,7 @@
 
 namespace EssenceShared.Entities.Map.Tiles {
     internal class Tile : Entity {
-        public Tile(string id) : base(Resources.MapTileSand, id) {
+        public Tile(string url, string id) : base(url, id) {
             Tag = Tags.MapTile;
         }
     }

@@ -206,6 +206,8 @@ namespace EssenceServer {
             var nc = new NetCommand(NetCommandType.Connect,
                 (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
 
+
+            // TODO: отдать начальное состояние мира (карта)
             NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);

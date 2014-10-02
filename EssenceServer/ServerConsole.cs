@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using EssenceShared;
 using Lidgren.Network;
@@ -39,6 +40,7 @@ namespace EssenceServer {
                     Server.SendChatMessage(arg);
                     break;
                 case "restart":
+                    ParseMap();
                     break;
                 case "online":
                     Log.Print("Currently online: " + _server.ConnectionsCount, LogType.Info, false);
@@ -57,6 +59,17 @@ namespace EssenceServer {
                     Log.Print("Unknown command", LogType.Info, false);
                     break;
             }
+        }
+
+        private void ParseMap() {
+            string s = File.ReadAllText("TestMap.txt");
+            Console.WriteLine();
+            var smap = new List<String> (s.Split('\n'));
+
+            for (int i = 0; i < smap.Count; i++) {
+                smap[i] = smap[i].TrimEnd('\r');
+            }
+            
         }
     }
 }
