@@ -2,7 +2,7 @@
 
 namespace EssenceShared.Entities.Projectiles {
     public class MysticProjectile: Entity {
-        private const float _speed = 600;
+        private const float _speed = 700;
         private float _angle;
         private CCPoint _target;
 

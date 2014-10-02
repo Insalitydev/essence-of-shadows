@@ -25,7 +25,7 @@ namespace EssenceShared.Entities.Enemies {
         }
 
         private void Damage(int p) {
-            Hp.Current -= 10;
+            Hp.Current -= 20;
             if (Hp.GetPerc() == 0){
                 Schedule(Die, 0.1f);
             }
