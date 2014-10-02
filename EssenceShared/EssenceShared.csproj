@@ -134,7 +134,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resource\Icon\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Icon\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Icon\icon_server.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\Boss\Cardinal.png">

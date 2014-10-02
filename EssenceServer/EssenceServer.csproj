@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon_server.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BitMiracle.LibTiff.NET">
       <HintPath>..\packages\CocosSharp.WindowsDX.1.0.1.0\lib\net40\BitMiracle.LibTiff.NET.dll</HintPath>
@@ -120,6 +123,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon_server.ico" />
     <Content Include="TestMap.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
