@@ -6,7 +6,6 @@ using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
 using EssenceShared.Scenes;
-using Newtonsoft.Json;
 
 namespace EssenceServer.Scenes {
     internal class ServerScene: CCScene {
@@ -26,9 +25,18 @@ namespace EssenceServer.Scenes {
 
         public override void OnEnter() {
             base.OnEnter();
-
-            GameLayer.AddEntity(new Enemy(Server.GetUniqueId()) {PositionX = 600, PositionY = 300});
             InitMap();
+
+            // Adding test enemies:
+            int mapW = GameLayer.currentMap[0].Length*Settings.TileSize * Settings.Scale;
+            int mapH = GameLayer.currentMap.Count*Settings.TileSize * Settings.Scale;
+            Log.Print(mapW.ToString() + " " + mapH.ToString());
+            for (int i = 0; i < 45; i++){
+                GameLayer.AddEntity(new Enemy(Server.GetUniqueId()) {
+                    PositionX = CCRandom.Next(100, mapW - 100),
+                    PositionY = CCRandom.Next(100, mapH - 100)
+                });
+            }
         }
 
         private void InitMap() {
@@ -39,7 +47,7 @@ namespace EssenceServer.Scenes {
             string s = File.ReadAllText("TestMap.txt");
             var tileMap = new List<string>(s.Split('\n'));
 
-            for (int i = 0; i < tileMap.Count; i++) {
+            for (int i = 0; i < tileMap.Count; i++){
                 tileMap[i] = tileMap[i].TrimEnd('\r');
             }
             Log.Print("Map parsed");

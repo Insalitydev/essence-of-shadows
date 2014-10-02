@@ -17,14 +17,25 @@ namespace EssenceShared.Entities.Enemies {
             base.Collision(other);
 
             if (other.Tag == Tags.Projectile){
-
-                Hp.Current -= 10;
                 var player = other.GetOwner() as Player;
                 
                 if (player != null){
                     player.accState.Gold += 40;
                 }
+
+                Damage(10);
             }
+        }
+
+        private void Damage(int p) {
+            Hp.Current -= 10;
+            if (Hp.GetPerc() == 0){
+                Schedule(Die, 0.1f);
+            }
+        }
+
+        private void Die(float dt) {
+            Remove();
         }
 
         protected override void Draw() {

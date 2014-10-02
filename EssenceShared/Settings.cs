@@ -8,6 +8,7 @@ namespace EssenceShared {
         public static CCSize ScreenSize = new CCSize(ScreenWidth, ScreenHeight);
         public const string GameName = "Essence of Shadows";
         public const string GameIdentifier = "EssenceOfShadows";
+        public const int Scale = 4;
 
         /** Log && Statistic settings */
         public const bool IsDebug = true;
