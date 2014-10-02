@@ -23,6 +23,12 @@ namespace EssenceShared {
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
 
+        public const string MapTileSand = "Sand.png";
+        public const string MapTileGrass = "Grass.png";
+        public const string MapTileStone = "Stone.png";
+        public const string MapTileWater = "Water.png";
+        public const string MapTileRoad = "Road.png";
+        public const string MapTileDirt = "Dirt.png";
 
 
         /** Добавляет в пути поиска ресурсов необходимые папки */

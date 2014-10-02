@@ -105,6 +105,7 @@
     <Compile Include="AccountState.cs" />
     <Compile Include="Entities\Enemies\Enemy.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Map\Tiles\Tile.cs" />
     <Compile Include="Entities\Players\Player.cs" />
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
     <Compile Include="EntityState.cs" />

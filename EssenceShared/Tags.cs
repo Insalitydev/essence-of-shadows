@@ -9,5 +9,6 @@
         public const int Player = 5;
         public const int Enemy = 6;
         public const int Projectile = 7;
+        public const int MapTile = 8;
     }
 }

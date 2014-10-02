@@ -13,6 +13,9 @@ namespace EssenceShared {
         public const bool IsDebug = true;
         public const bool IsLogToFile = false;
 
+        /** Map settings */
+        public const int TileSize = 32;
+
         /** Network settings */
         public const int Port = 4075;
         public const int MaxConnections = 5;

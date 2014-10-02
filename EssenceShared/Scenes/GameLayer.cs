@@ -4,6 +4,7 @@ using System.Linq;
 using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
+using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 
@@ -59,6 +60,20 @@ namespace EssenceShared.Scenes {
             base.Update(dt);
 
             UpdateCollisions();
+        }
+
+        public override void OnEnter() {
+            base.OnEnter();
+
+            // TODO: Test-client-only map
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    var tile = new Tile("testId");
+                    tile.Scale = 4;
+                    tile.Position = new CCPoint(i * Settings.TileSize * tile.ScaleX, j * Settings.TileSize * tile.ScaleY);
+                    AddChild(tile, -10, Tags.MapTile);
+                }
+            }
         }
 
         private void UpdateCollisions() {
