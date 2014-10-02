@@ -16,22 +16,20 @@ namespace EssenceClient.Scenes.Game {
         private HudLayer _hudLayer;
         private int cameraHight = 700;
 
-        public Player MyPlayer { get; private set; }
-
         public GameScene(CCWindow window): base(window) {
             Id = "888888888888888";
 
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
 
-//            _camLayer = new CameraLayer();
+            //            _camLayer = new CameraLayer();
 
-            var cameraVisibleBounds = new CCSize(800, 600);
-            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(600, 300, 10));
+            var cameraVisibleBounds = new CCSize(Settings.ScreenWidth, Settings.ScreenHeight);
+            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(800, 600, 10));
 
             GameLayer = new GameLayer {
                 Tag = Tags.Client,
-                Camera =  camera
+                Camera = camera
             };
             AddChild(GameLayer);
 
@@ -41,7 +39,6 @@ namespace EssenceClient.Scenes.Game {
             _hudLayer = new HudLayer();
             AddChild(_hudLayer);
 
-            
 
             var keyListener = new CCEventListenerKeyboard {OnKeyPressed = OnKeyPressed, OnKeyReleased = OnKeyReleased};
 
@@ -59,6 +56,8 @@ namespace EssenceClient.Scenes.Game {
             Schedule(UpdateNetwork, 0.03f);
             Schedule(Update);
         }
+
+        public Player MyPlayer { get; private set; }
 
 
         public string Id { get; private set; }
@@ -84,7 +83,7 @@ namespace EssenceClient.Scenes.Game {
             if (MyPlayer != null){
                 GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
-//                Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, 0);
+                //                Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }
 
@@ -132,7 +131,7 @@ namespace EssenceClient.Scenes.Game {
                 Window.DefaultDirector.PopScene();
             }
 
-            if (e.Keys == CCKeys.T) {
+            if (e.Keys == CCKeys.T){
                 Console.WriteLine(MyPlayer.Mask.ToString());
             }
         }
@@ -142,23 +141,21 @@ namespace EssenceClient.Scenes.Game {
             float windowScaleX = Window.WindowSizeInPixels.Width/Settings.ScreenWidth;
             float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
 
-            Console.WriteLine("Scale: " + windowScaleX + " " + windowScaleY);
             /** Актуальные координаты */
             var mousePosX = (int) (obj.CursorX/windowScaleX);
             var mousePosY = (int) (obj.CursorY/windowScaleY);
-            Console.WriteLine("Got pos: " + mousePosX + " " + mousePosY);
+            // поправка на камеру:
+            if (GameLayer.Camera != null){
+                //Correcting by camera
+                mousePosX += (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
+                mousePosY += (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
+            }
+//            Console.WriteLine("Got pos: " + mousePosX + " " + mousePosY);
 
-            //TODO: при равномерном растягивании экрана некорректно находятся координаты мыши
-
-
-            /** Если мышь щелкнута в пределах экрана */
-            if (mousePosX > 0 && mousePosX <= Settings.ScreenWidth && mousePosY > 0 &&
-                mousePosY <= Settings.ScreenHeight){
-                if (obj.MouseButton == CCMouseButton.LeftButton){
-                    // Стреляем при нажатой левой кнопке
-                    var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + mousePosX + "." + mousePosY);
-                    _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
-                }
+            if (obj.MouseButton == CCMouseButton.LeftButton){
+                // Стреляем при нажатой левой кнопке
+                var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + mousePosX + "." + mousePosY);
+                _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
             }
         }
     }

@@ -143,25 +143,7 @@ namespace EssenceServer {
                             new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2]))),
                     OwnerId = playerid
                 };
-                var ent2 = new MysticProjectile(GetUniqueId()) {
-                    PositionX = pl.PositionX,
-                    PositionY = pl.PositionY,
-                    Direction =
-                        Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY),
-                            new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])))+30,
-                    OwnerId = playerid
-                };
-                var ent3 = new MysticProjectile(GetUniqueId()) {
-                    PositionX = pl.PositionX,
-                    PositionY = pl.PositionY,
-                    Direction =
-                        Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY),
-                            new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2])))-30,
-                    OwnerId = playerid
-                };
                 ServerGame.ServerScene.GameLayer.AddEntity(ent);
-                ServerGame.ServerScene.GameLayer.AddEntity(ent2);
-                ServerGame.ServerScene.GameLayer.AddEntity(ent3);
             }
             else{
                 Log.Print("Not found player method;", LogType.Error);
