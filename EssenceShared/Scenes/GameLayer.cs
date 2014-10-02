@@ -69,11 +69,13 @@ namespace EssenceShared.Scenes {
             // удаляем предыдущую карту
             RemoveAllChildrenByTag(Tags.MapTile);
 
+
             // запоминаем текущую карту
             currentMap = tileMap;
 
             // создаем карту (на клиенте)
             if (Tag == Tags.Client){
+                Log.Print("Creating new map");
                 Tile tile;
                 for (int i = 0; i < tileMap.Count; i++){
                     for (int j = 0; j < tileMap[i].Length; j++){
@@ -94,6 +96,7 @@ namespace EssenceShared.Scenes {
                         AddChild(tile, -100, Tags.MapTile);
                     }
                 }
+                Log.Print("Map created");
             }
         }
 
