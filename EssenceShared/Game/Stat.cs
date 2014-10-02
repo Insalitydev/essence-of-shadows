@@ -13,7 +13,7 @@
                 return 1;
             }
 
-            var perc = (Current/(float) Maximum);
+            float perc = (Current/(float) Maximum);
 
             if (perc >= 0){
                 return perc;

@@ -5,7 +5,6 @@ namespace EssenceClient.Scenes.Game {
     internal class HudLayer: CCLayer {
         private float _fps;
         private CCLabelTtf _label;
-        public int _step { get; private set; }
         private int _lastGold;
 
         public HudLayer() {
@@ -13,6 +12,8 @@ namespace EssenceClient.Scenes.Game {
             _step = 0;
             _lastGold = 0;
         }
+
+        public int _step { get; private set; }
 
         protected override void AddedToScene() {
             base.AddedToScene();
@@ -42,7 +43,7 @@ namespace EssenceClient.Scenes.Game {
             _step++;
             int gold = 10;
             var gameScene = Parent as GameScene;
-            if (gameScene != null && gameScene.GameLayer.MyAccountState != null) {
+            if (gameScene != null && gameScene.GameLayer.MyAccountState != null){
                 gold = gameScene.GameLayer.MyAccountState.Gold;
                 if (_lastGold < gold){
                     _lastGold += 4;

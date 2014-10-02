@@ -26,7 +26,7 @@ namespace EssenceClient.Scenes.Menu {
                 Scale = 4
             };
 
-            if (tmp.PositionX > Settings.ScreenWidth / 2) {
+            if (tmp.PositionX > Settings.ScreenWidth/2){
                 tmp.FlipX = true;
             }
 

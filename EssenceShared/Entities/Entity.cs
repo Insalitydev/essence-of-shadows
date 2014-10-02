@@ -8,10 +8,10 @@ namespace EssenceShared.Entities {
 
     public class Entity: CCSprite {
         public float Direction;
+        public Stat Hp;
         public string OwnerId = null;
         private int _imageH;
         private int _imageW;
-        public Stat Hp;
 
 
         public Entity(string url, string id): base(url) {

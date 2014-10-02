@@ -2,7 +2,6 @@
 
 namespace EssenceShared {
     public class Resources {
-        
         public const string ClassReaper = "Reaper";
         public const string ClassSniper = "Sniper";
         public const string ClassMystic = "Mystic";
@@ -13,7 +12,7 @@ namespace EssenceShared {
         public const string BossCardinal = "Cardinal";
         public const string BossInteritus = "Interitus";
         public const string BossMossorus = "Mossorus";
-        
+
         public const string ItemChest = "Chest";
         public const string ItemGold = "GoldStack";
         public const string ItemHealpot = "HealPot";

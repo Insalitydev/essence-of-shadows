@@ -28,9 +28,9 @@ namespace EssenceServer.Scenes {
             InitMap();
 
             // Adding test enemies:
-            int mapW = GameLayer.currentMap[0].Length*Settings.TileSize * Settings.Scale;
-            int mapH = GameLayer.currentMap.Count*Settings.TileSize * Settings.Scale;
-            Log.Print(mapW.ToString() + " " + mapH.ToString());
+            int mapW = GameLayer.currentMap[0].Length*Settings.TileSize*Settings.Scale;
+            int mapH = GameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
+            Log.Print(mapW + " " + mapH);
             for (int i = 0; i < 45; i++){
                 GameLayer.AddEntity(new Enemy(Server.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),

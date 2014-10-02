@@ -1,12 +1,9 @@
 ﻿using CocosSharp;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
-using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Enemies {
     public class Enemy: Entity {
-
-       
         public Enemy(string id): base(Resources.ItemChest, id) {
             Scale = 4;
             Tag = Tags.Enemy;
@@ -18,9 +15,9 @@ namespace EssenceShared.Entities.Enemies {
 
             if (other.Tag == Tags.Projectile){
                 var player = other.GetOwner() as Player;
-                
+
                 if (player != null){
-                    player.accState.Gold += 40;
+                    player.accState.Gold += 10;
                 }
 
                 Damage(10);
@@ -47,10 +44,10 @@ namespace EssenceShared.Entities.Enemies {
             CCDrawingPrimitives.Begin();
 
             CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide, -2), CCColor4B.Black);
-            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide * Hp.GetPerc(), -2), CCColor4B.Red);
+            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide*Hp.GetPerc(), -2),
+                CCColor4B.Red);
 
             CCDrawingPrimitives.End();
-            
         }
     }
 }

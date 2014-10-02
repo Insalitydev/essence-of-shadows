@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using EssenceShared;
 using Lidgren.Network;
 
 namespace EssenceServer {
     /** Содержит всю логику по работе с сервером из консоли */
-    
-    internal class ServerConsole {
 
-        private List<string> commandsList = new List<string>() {
+    internal class ServerConsole {
+        private readonly NetServer _server;
+
+        private readonly List<string> commandsList = new List<string> {
             "say",
             "restart",
             "online",
@@ -18,7 +18,6 @@ namespace EssenceServer {
             "help",
             "exit"
         };
-        private NetServer _server;
 
         public ServerConsole(NetServer _server) {
             this._server = _server;
@@ -33,7 +32,7 @@ namespace EssenceServer {
 
         private void ProcessCommand(string command) {
             // TODO: реализовать нормальное разделение на комманду:аргументы
-            var arg = command.Split(' ').Last();
+            string arg = command.Split(' ').Last();
             command = command.Split(' ').First();
             switch (command){
                 case "say":
@@ -46,7 +45,8 @@ namespace EssenceServer {
                     break;
                 case "count":
                     // TODO: Долой безопасность, даёшь паблик поля везде!
-                    Log.Print("Entities count: " + Server.ServerGame.ServerScene.GameLayer.Entities.Count, LogType.Info, false);
+                    Log.Print("Entities count: " + Server.ServerGame.ServerScene.GameLayer.Entities.Count, LogType.Info,
+                        false);
                     break;
                 case "help":
                     Log.Print(String.Join("\n", commandsList), false);
@@ -59,7 +59,5 @@ namespace EssenceServer {
                     break;
             }
         }
-
-
     }
 }

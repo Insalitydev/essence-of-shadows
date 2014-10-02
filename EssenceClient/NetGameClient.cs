@@ -44,7 +44,7 @@ namespace EssenceClient {
         public void Send(NetCommand command, NetDeliveryMethod method) {
             NetOutgoingMessage om = Client.CreateMessage(command.Serialize());
             Client.SendMessage(om, method);
-//            Log.Print("Sending '" + command.Data + "'", LogType.NETWORK);
+            //            Log.Print("Sending '" + command.Data + "'", LogType.NETWORK);
         }
 
         public void SendChatMessage(string text) {
@@ -53,14 +53,13 @@ namespace EssenceClient {
         }
 
         private void GotMessage(object data) {
-
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
                 lock (lockThis){
                     if (tmp.StartsWith("{\"")){
                         NetCommand nc = NetCommand.Deserialize(tmp);
-//                        Log.Print("Got data" + nc.Data, LogType.NETWORK);
+                        //                        Log.Print("Got data" + nc.Data, LogType.NETWORK);
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.Connect:

@@ -160,22 +160,22 @@ namespace EssenceServer {
 
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
-
-                foreach (var netConnection in _server.Connections){
+                foreach (NetConnection netConnection in _server.Connections){
                     // TODO: не формировать каждый раз одни и те же данные
-                    GameState gs = ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
+                    GameState gs =
+                        ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
 
                     var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
                     NetOutgoingMessage om = _server.CreateMessage();
                     om.Write(nc.Serialize());
-                    try {
+                    try{
                         _server.SendMessage(om, netConnection, NetDeliveryMethod.Unreliable, 0);
-                    } catch (NetException e) {
+                    }
+                    catch (NetException e){
                         Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
                     }
                 }
-                
             }
         }
 
@@ -202,7 +202,6 @@ namespace EssenceServer {
         private static void RemoveDisconnectedPlayer(string playerid) {
             Log.Print("Player " + playerid + " distonencted. Removing his player...");
             ServerGame.RemovePlayer(playerid);
-            
         }
 
         private static void InitNewPlayer(string id) {

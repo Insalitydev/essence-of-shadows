@@ -20,7 +20,6 @@ namespace EssenceShared.Entities.Projectiles {
             Schedule(Delete, 2);
 
             if (Parent.Tag == Tags.Client){
-               
             }
         }
 
@@ -37,8 +36,6 @@ namespace EssenceShared.Entities.Projectiles {
                 };
                 AddChild(Emmiter, -10);
             }
-
-            
         }
 
         public override void Update(float dt) {
@@ -60,7 +57,6 @@ namespace EssenceShared.Entities.Projectiles {
             base.Collision(other);
 
             if (other.Tag == Tags.Enemy){
-
                 Remove();
             }
         }

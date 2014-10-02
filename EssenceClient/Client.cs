@@ -6,8 +6,8 @@ namespace EssenceClient {
     /** Инициализирует игру и запускает её */
 
     internal class Client: CCApplicationDelegate {
+        private static CCWindow sharedWindow;
         private CCScene _startScene;
-        static CCWindow sharedWindow;
 
         /** Вызывается после загрузки приложения */
 
@@ -15,12 +15,13 @@ namespace EssenceClient {
             base.ApplicationDidFinishLaunching(application, mainWindow);
             sharedWindow = mainWindow;
 
-            mainWindow.SetDesignResolutionSize(Settings.ScreenWidth, Settings.ScreenHeight, CCSceneResolutionPolicy.ShowAll);
+            mainWindow.SetDesignResolutionSize(Settings.ScreenWidth, Settings.ScreenHeight,
+                CCSceneResolutionPolicy.ShowAll);
 
             Resources.LoadContent(application);
             mainWindow.DisplayStats = true;
             mainWindow.AllowUserResizing = false;
-            
+
 
             _startScene = new MenuScene(mainWindow);
             mainWindow.RunWithScene(_startScene);

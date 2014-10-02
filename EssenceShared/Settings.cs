@@ -5,7 +5,6 @@ namespace EssenceShared {
         /** General settings */
         public const float ScreenWidth = 800f;
         public const float ScreenHeight = 600f;
-        public static CCSize ScreenSize = new CCSize(ScreenWidth, ScreenHeight);
         public const string GameName = "Essence of Shadows";
         public const string GameIdentifier = "EssenceOfShadows";
         public const int Scale = 4;
@@ -20,6 +19,6 @@ namespace EssenceShared {
         /** Network settings */
         public const int Port = 4075;
         public const int MaxConnections = 5;
-
+        public static CCSize ScreenSize = new CCSize(ScreenWidth, ScreenHeight);
     }
 }

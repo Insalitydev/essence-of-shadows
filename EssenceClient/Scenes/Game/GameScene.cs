@@ -59,7 +59,6 @@ namespace EssenceClient.Scenes.Game {
 
         public Player MyPlayer { get; private set; }
 
-
         public string Id { get; private set; }
 
         public GameLayer GameLayer { get; private set; }
@@ -149,7 +148,7 @@ namespace EssenceClient.Scenes.Game {
                 mousePosX += (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
                 mousePosY += (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
             }
-//            Console.WriteLine("Got pos: " + mousePosX + " " + mousePosY);
+            //            Console.WriteLine("Got pos: " + mousePosX + " " + mousePosY);
 
             if (obj.MouseButton == CCMouseButton.LeftButton){
                 // Стреляем при нажатой левой кнопке

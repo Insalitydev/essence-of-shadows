@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class EntityState {
+        public float Direction;
+        public Stat Hp;
         public float PositionX;
         public float PositionY;
-        public float Direction;
         public float Scale;
-//        public string OwnerId;
+        //        public string OwnerId;
         public int Tag;
         public string TextureName;
-        public Stat Hp;
 
         public EntityState(string id) {
             Id = id;
@@ -25,7 +25,7 @@ namespace EssenceShared {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
                 Direction = entity.Direction,
-//                OwnerId = entity.OwnerId,
+                //                OwnerId = entity.OwnerId,
                 Tag = entity.Tag,
                 Scale = 4,
                 TextureName = entity.Texture.Name.ToString(),
@@ -53,7 +53,7 @@ namespace EssenceShared {
 
             entity.Tag = es.Tag;
             entity.Scale = es.Scale;
-//            entity.OwnerId = es.OwnerId;
+            //            entity.OwnerId = es.OwnerId;
             entity.Direction = es.Direction;
             entity.Hp = es.Hp;
         }

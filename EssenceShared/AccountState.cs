@@ -13,8 +13,6 @@ namespace EssenceShared {
             Exp = 0;
         }
 
-        
-
 
         public static AccountState LoadAccountState(string AccountId) {
             //TODO: грузить из базы
