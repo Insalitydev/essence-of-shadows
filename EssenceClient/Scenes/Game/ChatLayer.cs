@@ -25,7 +25,7 @@ namespace EssenceClient.Scenes.Game {
             _label = new CCLabelTtf("Chat", "kongtext", 24) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorLowerLeft,
-                Position = Layer.Position
+                Position = new CCPoint(20, 100)
             };
 
             AddChild(_label);

@@ -5,12 +5,14 @@ namespace EssenceShared {
     public class AccountState {
         public int Exp;
         public int Gold;
+        public int Level;
         public string HeroId;
 
         public AccountState(string id) {
             HeroId = id;
             Gold = 0;
             Exp = 0;
+            Level = 1;
         }
 
 

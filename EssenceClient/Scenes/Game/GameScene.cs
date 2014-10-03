@@ -79,6 +79,12 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void UpdateCamera() {
+            if (Input.IsKeyIn(CCKeys.O)) {
+                cameraHight -= 3;
+            }
+            if (Input.IsKeyIn(CCKeys.P)) {
+                cameraHight += 3;
+            }
             if (MyPlayer != null){
                 GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
@@ -132,12 +138,12 @@ namespace EssenceClient.Scenes.Game {
             if (e.Keys == CCKeys.T){
                 Console.WriteLine(MyPlayer.Mask.ToString());
             }
-            if (e.Keys == CCKeys.O) {
-                cameraHight += 100;
-            }
-            if (e.Keys == CCKeys.P) {
-                cameraHight -= 100;
-            }
+//            if (e.Keys == CCKeys.O) {
+//                cameraHight += 10;
+//            }
+//            if (e.Keys == CCKeys.P) {
+//                cameraHight -= 10;
+//            }
         }
 
         private void OnMouseDown(CCEventMouse obj) {

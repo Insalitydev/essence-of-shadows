@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
@@ -11,6 +12,7 @@ namespace EssenceShared.Entities.Players {
             Scale = Settings.Scale;
             Tag = Tags.Player;
             accState = account;
+            Hp = new Stat(200);
         }
 
         public void Control(float dt) {
@@ -28,6 +30,15 @@ namespace EssenceShared.Entities.Players {
 
             if (Input.IsKeyIn(CCKeys.Left)){
                 PositionX -= _moveSpeed*dt;
+            }
+        }
+
+        public override void Collision(Entity other) {
+            base.Collision(other);
+
+            if (other.Tag == Tags.Enemy) {
+                Hp.Current -= 1;
+                Log.Print("Collision" + Hp.Current);
             }
         }
 
