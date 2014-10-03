@@ -29,7 +29,7 @@ namespace EssenceClient.Scenes.Game {
 
             GameLayer = new GameLayer {
                 Tag = Tags.Client,
-                Camera = camera
+                Camera = camera,
             };
             AddChild(GameLayer);
 
@@ -80,7 +80,7 @@ namespace EssenceClient.Scenes.Game {
 
         private void UpdateCamera() {
             if (MyPlayer != null){
-                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight);
+                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight+300);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }
@@ -131,6 +131,12 @@ namespace EssenceClient.Scenes.Game {
 
             if (e.Keys == CCKeys.T){
                 Console.WriteLine(MyPlayer.Mask.ToString());
+            }
+            if (e.Keys == CCKeys.O) {
+                cameraHight += 100;
+            }
+            if (e.Keys == CCKeys.P) {
+                cameraHight -= 100;
             }
         }
 
