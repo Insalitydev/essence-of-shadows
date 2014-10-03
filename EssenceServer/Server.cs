@@ -113,6 +113,7 @@ namespace EssenceServer {
                         ConnectNewPlayer(msg);
                         break;
                     case NetCommandType.Disconnect:
+                        RemoveDisconnectedPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
                         break;
                     case NetCommandType.Say:
                         SendChatMessage(nc.Data);

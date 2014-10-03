@@ -83,11 +83,13 @@ namespace EssenceServer.Scenes {
         }
 
         internal void AppendPlayerState(EntityState es) {
-//            GameLayer.UpdateEntity(es);
+            //            GameLayer.UpdateEntity(es);
             // От игрока принимаем только его позицию
             var player = GameLayer.FindEntityById(es.Id);
-            player.PositionX = es.PositionX;
-            player.PositionY = es.PositionY;
+            if (player != null){
+                player.PositionX = es.PositionX;
+                player.PositionY = es.PositionY;
+            }
         }
     }
 }

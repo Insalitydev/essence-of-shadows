@@ -130,18 +130,15 @@ namespace EssenceClient.Scenes.Game {
             }
 
             if (e.Keys == CCKeys.Escape){
+                // Недоработано, плохо работает
+                //   var nc = new NetCommand(NetCommandType.Disconnect, "");
+                //  _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
                 Window.DefaultDirector.PopScene();
             }
 
             if (e.Keys == CCKeys.T){
                 Console.WriteLine(MyPlayer.Mask.ToString());
             }
-            //            if (e.Keys == CCKeys.O) {
-            //                cameraHight += 10;
-            //            }
-            //            if (e.Keys == CCKeys.P) {
-            //                cameraHight -= 10;
-            //            }
         }
 
         private void OnMouseDown(CCEventMouse obj) {
