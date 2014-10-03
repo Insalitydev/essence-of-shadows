@@ -13,6 +13,7 @@ namespace EssenceShared.Entities.Players {
             Tag = Tags.Player;
             accState = account;
             Hp = new Stat(200);
+            AttackDamage = 25;
         }
 
         public void Control(float dt) {

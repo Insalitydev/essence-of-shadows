@@ -1,4 +1,5 @@
 ﻿using CocosSharp;
+using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
     public class MysticProjectile: Entity {
@@ -9,7 +10,7 @@ namespace EssenceShared.Entities.Projectiles {
 
         public MysticProjectile(string id): base(Resources.ProjectileMystic, id) {
             Scale = Settings.Scale;
-            Tag = Tags.Projectile;
+            Tag = Tags.PlayerProjectile;
         }
 
         protected override void AddedToScene() {
@@ -57,6 +58,8 @@ namespace EssenceShared.Entities.Projectiles {
             base.Collision(other);
 
             if (other.Tag == Tags.Enemy){
+                if (GetOwner() as Player != null)
+                    (GetOwner() as Player).accState.Exp.Current += 10;
                 Remove();
             }
         }

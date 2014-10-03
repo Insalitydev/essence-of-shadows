@@ -7,6 +7,7 @@ namespace EssenceShared {
     public class EntityState {
         public float Direction;
         public Stat Hp;
+        public int AttackDamage;
         public float PositionX;
         public float PositionY;
         public float Scale;
@@ -25,7 +26,7 @@ namespace EssenceShared {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
                 Direction = entity.Direction,
-                //                OwnerId = entity.OwnerId,
+                AttackDamage = entity.AttackDamage,
                 Tag = entity.Tag,
                 Scale = 4,
                 TextureName = entity.Texture.Name.ToString(),
@@ -53,7 +54,7 @@ namespace EssenceShared {
 
             entity.Tag = es.Tag;
             entity.Scale = es.Scale;
-            //            entity.OwnerId = es.OwnerId;
+            entity.AttackDamage = es.AttackDamage;
             entity.Direction = es.Direction;
             entity.Hp = es.Hp;
         }

@@ -3,8 +3,8 @@ using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Enemies {
-    public class Enemy: Entity {
-        public Enemy(string id): base(Resources.ItemChest, id) {
+    public abstract class Enemy: Entity {
+        public Enemy(string url, string id): base(url, id) {
             Scale = Settings.Scale;
             Tag = Tags.Enemy;
             Hp = new Stat(100);
@@ -13,22 +13,17 @@ namespace EssenceShared.Entities.Enemies {
         public override void Collision(Entity other) {
             base.Collision(other);
 
-            if (other.Tag == Tags.Projectile){
+            if (other.Tag == Tags.PlayerProjectile){
                 var player = other.GetOwner() as Player;
-
-                if (player != null){
-                    player.accState.Gold += 10;
-                    player.accState.Exp.Current += 5;
-                }
-
-                Damage(10);
+                if (player != null)
+                    Damage(player.AttackDamage);
             }
         }
 
         private void Damage(int p) {
-            Hp.Current -= 20;
+            Hp.Current -= p;
             if (Hp.Perc == 0){
-                Schedule(Die, 0.1f);
+                Schedule(Die, 0.01f);
             }
         }
 

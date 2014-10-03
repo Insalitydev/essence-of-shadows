@@ -32,7 +32,7 @@ namespace EssenceServer.Scenes {
             int mapH = GameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
             Log.Print(mapW + " " + mapH);
             for (int i = 0; i < 45; i++){
-                GameLayer.AddEntity(new Enemy(Server.GetUniqueId()) {
+                GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
@@ -83,7 +83,11 @@ namespace EssenceServer.Scenes {
         }
 
         internal void AppendPlayerState(EntityState es) {
-            GameLayer.UpdateEntity(es);
+//            GameLayer.UpdateEntity(es);
+            // От игрока принимаем только его позицию
+            var player = GameLayer.FindEntityById(es.Id);
+            player.PositionX = es.PositionX;
+            player.PositionY = es.PositionY;
         }
     }
 }

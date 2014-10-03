@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
@@ -8,6 +9,7 @@ using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using Newtonsoft.Json;
+using SharpDX.DXGI;
 
 namespace EssenceShared.Scenes {
     /** В этой сцене обрабатывается вся игровая логика на стороне сервера 
@@ -39,8 +41,11 @@ namespace EssenceShared.Scenes {
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.Id);
                     break;
-                case Resources.ItemChest:
-                    entity = new Enemy(es.Id);
+                case Resources.ProjectileSniper:
+                    entity = new EnemyProjectile(es.AttackDamage, Resources.ProjectileSniper, es.Id);
+                    break;
+                case Resources.EnemyStinger:
+                    entity = new RangeEnemy(textureName, es.Id);
                     break;
             }
 
@@ -135,6 +140,7 @@ namespace EssenceShared.Scenes {
                         Entities[index].AppendState(entity);
                     }
                     else{
+                        // Наш персонаж
                         var pos = Entities[index].Position;
                         Entities[index].AppendState(entity);
                         Entities[index].Position = pos;

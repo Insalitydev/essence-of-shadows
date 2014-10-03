@@ -5,8 +5,11 @@ namespace EssenceShared {
         public const string ClassReaper = "Reaper";
         public const string ClassSniper = "Sniper";
         public const string ClassMystic = "Mystic";
+        
         public const string ProjectileMystic = "MysticProjectile";
         public const string ProjectileSniper = "SniperProjectile";
+
+        public const string EnemyStinger = "Stinger";
 
         public const string BossEmperor = "Emperor";
         public const string BossCardinal = "Cardinal";
@@ -52,6 +55,7 @@ namespace EssenceShared {
             application.ContentSearchPaths.Add("Image\\Tile\\Cave");
             application.ContentSearchPaths.Add("Image\\Tile\\City");
             application.ContentSearchPaths.Add("Image\\Tile\\Desert");
+            application.ContentSearchPaths.Add("Image\\Enemy");
             application.ContentSearchPaths.Add("Music");
             application.ContentSearchPaths.Add("Sound");
 

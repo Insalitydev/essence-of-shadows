@@ -9,6 +9,7 @@ namespace EssenceShared.Entities {
     public class Entity: CCSprite {
         public float Direction;
         public Stat Hp;
+        public int AttackDamage;
         public string OwnerId = null;
         private int _imageH;
         private int _imageW;
@@ -20,6 +21,7 @@ namespace EssenceShared.Entities {
             Direction = 0;
             Tag = Tags.Unknown;
             Hp = new Stat(0);
+            AttackDamage = 0;
         }
 
         public CCRect Mask { get; private set; }

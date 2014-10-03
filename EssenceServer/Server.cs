@@ -17,7 +17,6 @@ namespace EssenceServer {
         private static Thread _serverConnections;
         private static Thread _serverConsole;
         private static Thread _serverScene;
-        private static long _lastId = 1;
         public static ServerGame ServerGame { get; private set; }
 
         public static void Start() {
@@ -135,7 +134,7 @@ namespace EssenceServer {
             string[] args = data.Split('.');
             if (args[0] == "attack"){
                 //TODO: вынести в отдельные методы
-                var ent = new MysticProjectile(GetUniqueId()) {
+                var ent = new MysticProjectile(Util.GetUniqueId()) {
                     PositionX = pl.PositionX,
                     PositionY = pl.PositionY,
                     Direction =
@@ -219,10 +218,6 @@ namespace EssenceServer {
                     break;
             }
             ServerGame.AddNewPlayer(id, 300, 300, type);
-        }
-
-        public static string GetUniqueId() {
-            return (_lastId++).ToString();
         }
     }
 }
