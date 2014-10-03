@@ -80,7 +80,7 @@ namespace EssenceClient.Scenes.Game {
 
         private void UpdateCamera() {
             if (MyPlayer != null){
-                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight+300);
+                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }
