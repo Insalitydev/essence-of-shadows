@@ -18,6 +18,7 @@ namespace EssenceShared.Entities.Enemies {
 
                 if (player != null){
                     player.accState.Gold += 10;
+                    player.accState.Exp.Current += 5;
                 }
 
                 Damage(10);
@@ -26,7 +27,7 @@ namespace EssenceShared.Entities.Enemies {
 
         private void Damage(int p) {
             Hp.Current -= 20;
-            if (Hp.GetPerc() == 0){
+            if (Hp.Perc == 0){
                 Schedule(Die, 0.1f);
             }
         }
@@ -44,7 +45,7 @@ namespace EssenceShared.Entities.Enemies {
             CCDrawingPrimitives.Begin();
 
             CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide, -2), CCColor4B.Black);
-            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide*Hp.GetPerc(), -2),
+            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide*Hp.Perc, -2),
                 CCColor4B.Red);
 
             CCDrawingPrimitives.End();

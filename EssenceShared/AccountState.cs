@@ -1,9 +1,10 @@
 ﻿using System;
+using EssenceShared.Game;
 using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class AccountState {
-        public int Exp;
+        public Stat Exp;
         public int Gold;
         public int Level;
         public string HeroId;
@@ -11,7 +12,8 @@ namespace EssenceShared {
         public AccountState(string id) {
             HeroId = id;
             Gold = 0;
-            Exp = 0;
+            Exp = new Stat(1000);
+            Exp.Current = 0;
             Level = 1;
         }
 

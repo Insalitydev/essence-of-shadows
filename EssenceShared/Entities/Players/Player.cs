@@ -38,7 +38,6 @@ namespace EssenceShared.Entities.Players {
 
             if (other.Tag == Tags.Enemy) {
                 Hp.Current -= 1;
-                Log.Print("Collision" + Hp.Current);
             }
         }
 

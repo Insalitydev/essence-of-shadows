@@ -130,9 +130,14 @@ namespace EssenceShared.Scenes {
             foreach (EntityState entity in gs.Entities.ToList()){
                 int index = Entities.FindIndex(x=>x.Id == entity.Id);
                 if (index != -1){
-                    // Себя не обновляем, мы верим себе!
+                    // У себя обновляем все, кроме местоположения
                     if (entity.Id != playerId){
                         Entities[index].AppendState(entity);
+                    }
+                    else{
+                        var pos = Entities[index].Position;
+                        Entities[index].AppendState(entity);
+                        Entities[index].Position = pos;
                     }
                 }
                 else{

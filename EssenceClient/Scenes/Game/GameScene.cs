@@ -22,8 +22,6 @@ namespace EssenceClient.Scenes.Game {
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
 
-            //            _camLayer = new CameraLayer();
-
             var cameraVisibleBounds = new CCSize(Settings.ScreenWidth, Settings.ScreenHeight);
             var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(800, 600, 10));
 
@@ -79,10 +77,10 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void UpdateCamera() {
-            if (Input.IsKeyIn(CCKeys.O)) {
+            if (Input.IsKeyIn(CCKeys.O)){
                 cameraHight -= 3;
             }
-            if (Input.IsKeyIn(CCKeys.P)) {
+            if (Input.IsKeyIn(CCKeys.P)){
                 cameraHight += 3;
             }
             if (MyPlayer != null){
@@ -138,12 +136,12 @@ namespace EssenceClient.Scenes.Game {
             if (e.Keys == CCKeys.T){
                 Console.WriteLine(MyPlayer.Mask.ToString());
             }
-//            if (e.Keys == CCKeys.O) {
-//                cameraHight += 10;
-//            }
-//            if (e.Keys == CCKeys.P) {
-//                cameraHight -= 10;
-//            }
+            //            if (e.Keys == CCKeys.O) {
+            //                cameraHight += 10;
+            //            }
+            //            if (e.Keys == CCKeys.P) {
+            //                cameraHight -= 10;
+            //            }
         }
 
         private void OnMouseDown(CCEventMouse obj) {
