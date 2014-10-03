@@ -8,7 +8,7 @@ namespace EssenceShared.Entities.Players {
         public AccountState accState;
 
         public Player(string id, string type, AccountState account): base(type, id) {
-            Scale = 4;
+            Scale = Settings.Scale;
             Tag = Tags.Player;
             accState = account;
         }

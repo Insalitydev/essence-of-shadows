@@ -59,7 +59,8 @@ namespace EssenceServer.Scenes {
         public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
-            foreach (Entity entity in GameLayer.Entities.ToList()){
+            var entities = GameLayer.Entities.ToArray();
+            foreach (Entity entity in entities){
                 gs.Entities.Add(EntityState.ParseEntity(entity));
             }
 

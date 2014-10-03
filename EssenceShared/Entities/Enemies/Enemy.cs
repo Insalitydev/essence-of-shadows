@@ -5,7 +5,7 @@ using EssenceShared.Game;
 namespace EssenceShared.Entities.Enemies {
     public class Enemy: Entity {
         public Enemy(string id): base(Resources.ItemChest, id) {
-            Scale = 4;
+            Scale = Settings.Scale;
             Tag = Tags.Enemy;
             Hp = new Stat(100);
         }

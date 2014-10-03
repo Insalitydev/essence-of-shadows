@@ -12,7 +12,7 @@ namespace EssenceClient {
         public static NetClient Client;
         private static GameScene _scene;
         private readonly string _ip;
-        private readonly Object lockThis = new Object();
+        private readonly Object _lockThis = new Object();
 
         public NetGameClient(string ip, GameScene scene) {
             _ip = ip;
@@ -23,9 +23,9 @@ namespace EssenceClient {
             Log.Print("Hello");
             Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.Port));
 
-            var _config = new NetPeerConfiguration(Settings.GameIdentifier);
+            var config = new NetPeerConfiguration(Settings.GameIdentifier);
 
-            Client = new NetClient(_config);
+            Client = new NetClient(config);
             Client.RegisterReceivedCallback(GotMessage);
 
             Client.Start();
@@ -45,7 +45,6 @@ namespace EssenceClient {
         public void Send(NetCommand command, NetDeliveryMethod method) {
             NetOutgoingMessage om = Client.CreateMessage(command.Serialize());
             Client.SendMessage(om, method);
-            //            Log.Print("Sending '" + command.Data + "'", LogType.NETWORK);
         }
 
         public void SendChatMessage(string text) {
@@ -57,7 +56,7 @@ namespace EssenceClient {
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){
                 string tmp = im.ReadString();
-                lock (lockThis){
+                lock (_lockThis){
                     if (tmp.StartsWith("{\"")){
                         NetCommand nc = NetCommand.Deserialize(tmp);
 //                        Log.Print("Got data" + nc.Type + "Data: " + nc.Data.Length, LogType.Network);

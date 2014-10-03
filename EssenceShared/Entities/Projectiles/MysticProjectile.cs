@@ -8,7 +8,7 @@ namespace EssenceShared.Entities.Projectiles {
 
 
         public MysticProjectile(string id): base(Resources.ProjectileMystic, id) {
-            Scale = 4;
+            Scale = Settings.Scale;
             Tag = Tags.Projectile;
         }
 
@@ -28,13 +28,13 @@ namespace EssenceShared.Entities.Projectiles {
 
 
             if (Parent != null && Parent.Tag == Tags.Client){
-                var Emmiter = new CCParticleMeteor(new CCPoint(6, 6)) {
+                var emiter = new CCParticleMeteor(new CCPoint(6, 6)) {
                     Gravity = GetNormalPointByDirection(Direction)*-2000,
                     Scale = 0.08f,
                     SpeedVar = 200,
                     Texture = CCTextureCache.SharedTextureCache.AddImage(Resources.ParticleMysticProjectile)
                 };
-                AddChild(Emmiter, -10);
+                AddChild(emiter, -10);
             }
         }
 

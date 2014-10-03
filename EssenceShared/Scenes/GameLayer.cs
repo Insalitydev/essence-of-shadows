@@ -126,7 +126,6 @@ namespace EssenceShared.Scenes {
         /** Вызывается на клиенте для обновления текущего состояния игры */
 
         public void AppendGameState(GameState gs, string playerId) {
-            Log.Print("Update GS: " + gs.Entities.Count);
             /** Updating entities */
             foreach (EntityState entity in gs.Entities.ToList()){
                 int index = Entities.FindIndex(x=>x.Id == entity.Id);
