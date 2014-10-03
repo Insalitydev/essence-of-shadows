@@ -120,11 +120,11 @@ namespace EssenceClient.Scenes.Game {
         private void OnKeyReleased(CCEventKeyboard e) {
             Input.OnKeyRelease(e.Keys);
 
-            if (e.Keys == CCKeys.S){
+            if (e.Keys == CCKeys.C){
                 _netGameClient.SendChatMessage("DASDA" + Id);
             }
 
-            if (e.Keys == CCKeys.A){
+            if (e.Keys == CCKeys.X){
                 var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack.100.100");
                 _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
             }

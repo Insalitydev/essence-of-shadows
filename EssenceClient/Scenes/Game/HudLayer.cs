@@ -31,7 +31,7 @@ namespace EssenceClient.Scenes.Game {
                 Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight)
             };
 
-            var helper = new CCLabelTtf("Arrows to move, A - shoot, S - say to chat", "kongtext", 10) {
+            var helper = new CCLabelTtf("Arrows/WASD to move, Mouse/X - shoot, C - say to chat", "kongtext", 10) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
                 Position = new CCPoint(Settings.ScreenWidth/2, Settings.ScreenHeight - 20),

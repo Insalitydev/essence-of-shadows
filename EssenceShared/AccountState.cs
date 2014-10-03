@@ -17,6 +17,19 @@ namespace EssenceShared {
             Level = 1;
         }
 
+        /** Call by player */
+        public void Update() {
+            if (Exp.Perc == 1){
+                LevelUp();
+            }
+            
+        }
+
+        private void LevelUp() {
+            Level++;
+            Exp.Current = 0;
+            Exp.Maximum = (int)(1.5f * Exp.Maximum);
+        }
 
         public static AccountState LoadAccountState(string AccountId) {
             //TODO: грузить из базы
