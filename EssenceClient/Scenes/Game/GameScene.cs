@@ -63,6 +63,7 @@ namespace EssenceClient.Scenes.Game {
         public void UpdateNetwork(float dt) {
             base.Update(dt);
             UpdateMyState();
+            Log.Print(GameLayer.Entities.Count.ToString());
         }
 
         public override void Update(float dt) {

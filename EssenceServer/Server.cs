@@ -163,12 +163,14 @@ namespace EssenceServer {
             if (_server.ConnectionsCount > 0){
                 foreach (NetConnection netConnection in _server.Connections){
                     // TODO: не формировать каждый раз одни и те же данные
-                    GameState gs =
-                        ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
 
                     /** TODO: Отсылать каждому только недалеко расположенные сущности от игрока
                         TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)*/
                     if (netConnection.Status == NetConnectionStatus.Connected){
+
+                        // TODO: Временное решение. Вместо убирания ненужных элементов из полного геймстейта, сразу формируем с нуля для каждого игрока
+                        GameState gs =
+                        ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
                         var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
                         NetOutgoingMessage om = _server.CreateMessage();

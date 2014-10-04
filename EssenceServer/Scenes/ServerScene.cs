@@ -4,6 +4,7 @@ using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
+using EssenceShared.Entities.Players;
 using EssenceShared.Scenes;
 
 namespace EssenceServer.Scenes {
@@ -58,14 +59,19 @@ namespace EssenceServer.Scenes {
         public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
-            Entity[] entities = GameLayer.Entities.ToArray();
-            foreach (Entity entity in entities){
-                gs.Entities.Add(EntityState.ParseEntity(entity));
-            }
+            var pl = GameLayer.FindEntityById(playerId) as Player;
 
-            AccountState accState = Accounts.Find(x=>x.HeroId == playerId);
-            if (accState != null){
-                gs.Account = accState;
+            if (pl != null){
+                Entity[] entities = GameLayer.Entities.ToArray();
+                foreach (Entity entity in entities){
+                    if (pl.DistanceTo(entity.Position) < 800)
+                        gs.Entities.Add(EntityState.ParseEntity(entity));
+                }
+
+                AccountState accState = Accounts.Find(x=>x.HeroId == playerId);
+                if (accState != null){
+                    gs.Account = accState;
+                }
             }
 
             return gs;
