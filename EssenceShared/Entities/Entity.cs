@@ -70,11 +70,11 @@ namespace EssenceShared.Entities {
             PositionY += speed*(float) Math.Sin(ToRadians(angle));
         }
 
-        protected float AngleTo(CCPoint p) {
+        public float AngleTo(CCPoint p) {
             return AngleBetweenPoints(Position, p);
         }
 
-        protected float DistanceTo(CCPoint p) {
+        public float DistanceTo(CCPoint p) {
             return DistanceBetweenPoints(Position, p);
         }
 

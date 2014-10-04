@@ -65,6 +65,7 @@ namespace EssenceShared.Scenes {
             base.Update(dt);
 
             UpdateCollisions();
+
         }
 
 

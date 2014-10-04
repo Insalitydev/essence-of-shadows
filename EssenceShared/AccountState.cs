@@ -1,4 +1,5 @@
 ﻿using System;
+using CocosSharp;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
@@ -34,7 +35,8 @@ namespace EssenceShared {
             Exp.Current = 0;
             Exp.Maximum = (int) (Settings.ExpMultiplier*Exp.Maximum);
 
-            GetPlayer().Hp.Current = GetPlayer().Hp.Maximum;
+            var player = GetPlayer();
+            player.Hp.Current = GetPlayer().Hp.Maximum;
         }
 
         private Player GetPlayer() {

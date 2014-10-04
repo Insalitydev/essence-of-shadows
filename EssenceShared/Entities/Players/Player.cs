@@ -57,7 +57,6 @@ namespace EssenceShared.Entities.Players {
         }
 
         public void Attack(CCPoint target) {
-            //            Parent.AddChild(new MysticProjectile("sdsdss", new CCPoint(0, 0) ));
         }
     }
 }

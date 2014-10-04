@@ -33,6 +33,11 @@ namespace EssenceShared {
 
                     break;
                 case ParticleType.LevelUp:
+                    emiter = new CCParticleSun(pos) {
+                        Scale = 0.1f,
+                        SpeedVar = 150,
+                        Texture = CCTextureCache.SharedTextureCache.AddImage(texture)
+                    };
                     break;
 
             }

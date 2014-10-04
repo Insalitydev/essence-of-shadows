@@ -25,6 +25,7 @@ namespace EssenceShared {
         public const string ItemKeyDesert = "KeyDesert";
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
+        public const string ParticleLevelUp = "ExpParticle";
 
         public const string MapTileSand = "Sand.png";
         public const string MapTileGrass = "Grass.png";

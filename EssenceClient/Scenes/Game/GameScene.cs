@@ -14,6 +14,7 @@ namespace EssenceClient.Scenes.Game {
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private int _cameraHeight = 700;
+        private int _sightRadius = 600;
         private HudLayer _hudLayer;
 
         public GameScene(CCWindow window): base(window) {
@@ -72,6 +73,16 @@ namespace EssenceClient.Scenes.Game {
             }
 
             UpdateCamera();
+
+            if (MyPlayer != null)
+                foreach (CCNode ccNode in GameLayer.Children){
+                    if (MyPlayer.DistanceTo(ccNode.Position) < _sightRadius) {
+                        ccNode.Visible = true;
+                    }
+                    else{
+                        ccNode.Visible = false;
+                    }
+                }
         }
 
         private void UpdateCamera() {
