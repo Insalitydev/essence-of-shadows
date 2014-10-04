@@ -51,7 +51,9 @@ namespace EssenceServer {
 
             var config = new NetPeerConfiguration(Settings.GameIdentifier) {
                 Port = Settings.Port,
-                MaximumConnections = Settings.MaxConnections
+                MaximumConnections = Settings.MaxConnections,
+                SendBufferSize = 400000,
+                ReceiveBufferSize = 500000
             };
 
             _server = new NetServer(config);
@@ -165,6 +167,8 @@ namespace EssenceServer {
                     GameState gs =
                         ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
 
+                    /** TODO: Отсылать каждому только недалеко расположенные сущности от игрока
+                        TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)*/
                     if (netConnection.Status == NetConnectionStatus.Connected){
 
                         var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
