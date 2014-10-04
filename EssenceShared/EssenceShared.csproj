@@ -228,6 +228,9 @@
     <Content Include="Resource\Image\Projectile\CardinalRocketProjectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\Projectile\LaserProjectile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\Projectile\MysticProjectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

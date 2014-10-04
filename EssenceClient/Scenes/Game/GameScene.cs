@@ -14,7 +14,7 @@ namespace EssenceClient.Scenes.Game {
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private HudLayer _hudLayer;
-        private int cameraHight = 700;
+        private int _cameraHeight = 700;
 
         public GameScene(CCWindow window): base(window) {
             Id = "888888888888888";
@@ -78,13 +78,13 @@ namespace EssenceClient.Scenes.Game {
 
         private void UpdateCamera() {
             if (Input.IsKeyIn(CCKeys.O)){
-                cameraHight -= 3;
+                _cameraHeight -= 3;
             }
             if (Input.IsKeyIn(CCKeys.P)){
-                cameraHight += 3;
+                _cameraHeight += 3;
             }
             if (MyPlayer != null){
-                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, cameraHight);
+                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, _cameraHeight);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }

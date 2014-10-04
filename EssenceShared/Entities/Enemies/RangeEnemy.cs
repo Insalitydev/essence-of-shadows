@@ -10,7 +10,7 @@ using EssenceShared.Scenes;
 namespace EssenceShared.Entities.Enemies {
     public class RangeEnemy: Enemy {
         public RangeEnemy(string url, string id): base(url, id) {
-            AttackDamage = 5;
+            AttackDamage = 10;
         }
 
         public override void OnEnter() {
@@ -23,7 +23,7 @@ namespace EssenceShared.Entities.Enemies {
                 var pl = Parent.GetChildByTag(Tags.Player);
 
                 if (pl != null && DistanceTo(pl.Position) < Settings.ScreenWidth){
-                    var projectile = new EnemyProjectile(AttackDamage, Resources.ProjectileSniper, Util.GetUniqueId()) {
+                    var projectile = new EnemyProjectile(AttackDamage, Resources.ProjectileLaser, Util.GetUniqueId()) {
                         PositionX = PositionX,
                         PositionY = PositionY,
                         Direction =

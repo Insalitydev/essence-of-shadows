@@ -7,6 +7,7 @@ namespace EssenceShared {
         public Stat Exp;
         public int Gold;
         public int Level;
+        // TODO: заменить на Player player
         public string HeroId;
 
         public AccountState(string id) {
@@ -28,7 +29,9 @@ namespace EssenceShared {
         private void LevelUp() {
             Level++;
             Exp.Current = 0;
-            Exp.Maximum = (int)(1.5f * Exp.Maximum);
+            Exp.Maximum = (int)(1.3f * Exp.Maximum);
+
+            
         }
 
         public static AccountState LoadAccountState(string AccountId) {

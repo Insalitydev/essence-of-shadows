@@ -59,7 +59,7 @@ namespace EssenceShared.Entities.Projectiles {
 
             if (other.Tag == Tags.Enemy){
                 if (GetOwner() as Player != null)
-                    (GetOwner() as Player).accState.Exp.Current += 500;
+                    (GetOwner() as Player).accState.Exp.Current += 200;
                 Remove();
             }
         }

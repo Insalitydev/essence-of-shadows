@@ -8,6 +8,7 @@ namespace EssenceShared {
         
         public const string ProjectileMystic = "MysticProjectile";
         public const string ProjectileSniper = "SniperProjectile";
+        public const string ProjectileLaser = "LaserProjectile";
 
         public const string EnemyStinger = "Stinger";
 

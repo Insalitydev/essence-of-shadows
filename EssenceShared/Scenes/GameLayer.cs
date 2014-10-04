@@ -41,8 +41,8 @@ namespace EssenceShared.Scenes {
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.Id);
                     break;
-                case Resources.ProjectileSniper:
-                    entity = new EnemyProjectile(es.AttackDamage, Resources.ProjectileSniper, es.Id);
+                case Resources.ProjectileLaser:
+                    entity = new EnemyProjectile(es.AttackDamage, textureName, es.Id);
                     break;
                 case Resources.EnemyStinger:
                     entity = new RangeEnemy(textureName, es.Id);
