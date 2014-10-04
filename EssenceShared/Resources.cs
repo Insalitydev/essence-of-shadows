@@ -5,7 +5,7 @@ namespace EssenceShared {
         public const string ClassReaper = "Reaper";
         public const string ClassSniper = "Sniper";
         public const string ClassMystic = "Mystic";
-        
+
         public const string ProjectileMystic = "MysticProjectile";
         public const string ProjectileSniper = "SniperProjectile";
         public const string ProjectileLaser = "LaserProjectile";

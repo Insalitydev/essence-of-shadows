@@ -131,7 +131,7 @@ namespace EssenceServer {
         }
 
         private static void CallPlayerMethod(string playerid, string data) {
-//            Log.Print("Player invoke method: " + data);
+            //            Log.Print("Player invoke method: " + data);
             var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
             string[] args = data.Split('.');
             if (args[0] == "attack"){
@@ -169,7 +169,6 @@ namespace EssenceServer {
                     /** TODO: Отсылать каждому только недалеко расположенные сущности от игрока
                         TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)*/
                     if (netConnection.Status == NetConnectionStatus.Connected){
-
                         var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
                         NetOutgoingMessage om = _server.CreateMessage();
@@ -189,7 +188,7 @@ namespace EssenceServer {
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
             // TODO: отдать начальное состояние мира (карта)
             var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GameLayer.SerializeMap());
-            var om = _server.CreateMessage();
+            NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
 

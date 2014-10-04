@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
@@ -59,7 +58,7 @@ namespace EssenceServer.Scenes {
         public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
-            var entities = GameLayer.Entities.ToArray();
+            Entity[] entities = GameLayer.Entities.ToArray();
             foreach (Entity entity in entities){
                 gs.Entities.Add(EntityState.ParseEntity(entity));
             }
@@ -85,7 +84,7 @@ namespace EssenceServer.Scenes {
         internal void AppendPlayerState(EntityState es) {
             //            GameLayer.UpdateEntity(es);
             // От игрока принимаем только его позицию
-            var player = GameLayer.FindEntityById(es.Id);
+            Entity player = GameLayer.FindEntityById(es.Id);
             if (player != null){
                 player.PositionX = es.PositionX;
                 player.PositionY = es.PositionY;

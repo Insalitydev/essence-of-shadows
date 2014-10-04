@@ -7,9 +7,9 @@ namespace EssenceShared.Entities {
     /** Основной класс для всех игровых объектов */
 
     public class Entity: CCSprite {
+        public int AttackDamage;
         public float Direction;
         public Stat Hp;
-        public int AttackDamage;
         public string OwnerId = null;
         private int _imageH;
         private int _imageW;

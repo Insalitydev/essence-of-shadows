@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EssenceShared {
+﻿namespace EssenceShared {
     public class Util {
         private static long _lastId = 1;
 

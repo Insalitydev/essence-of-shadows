@@ -59,7 +59,7 @@ namespace EssenceClient {
                 lock (_lockThis){
                     if (tmp.StartsWith("{\"")){
                         NetCommand nc = NetCommand.Deserialize(tmp);
-//                        Log.Print("Got data" + nc.Type + "Data: " + nc.Data.Length, LogType.Network);
+                        //                        Log.Print("Got data" + nc.Type + "Data: " + nc.Data.Length, LogType.Network);
                         switch (nc.Type){
                                 /** Ответ на запрос соединения */
                             case NetCommandType.Connect:

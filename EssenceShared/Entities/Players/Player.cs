@@ -25,7 +25,7 @@ namespace EssenceShared.Entities.Players {
         }
 
         private void UpdateAccState() {
-            if (accState != null) {
+            if (accState != null){
                 accState.Update();
             }
         }
@@ -35,15 +35,15 @@ namespace EssenceShared.Entities.Players {
                 PositionY += _moveSpeed*dt;
             }
 
-            if (Input.IsKeyIn(CCKeys.Down) || Input.IsKeyIn(CCKeys.S)) {
+            if (Input.IsKeyIn(CCKeys.Down) || Input.IsKeyIn(CCKeys.S)){
                 PositionY -= _moveSpeed*dt;
             }
 
-            if (Input.IsKeyIn(CCKeys.Right) || Input.IsKeyIn(CCKeys.D)) {
+            if (Input.IsKeyIn(CCKeys.Right) || Input.IsKeyIn(CCKeys.D)){
                 PositionX += _moveSpeed*dt;
             }
 
-            if (Input.IsKeyIn(CCKeys.Left) || Input.IsKeyIn(CCKeys.A)) {
+            if (Input.IsKeyIn(CCKeys.Left) || Input.IsKeyIn(CCKeys.A)){
                 PositionX -= _moveSpeed*dt;
             }
         }
@@ -51,7 +51,7 @@ namespace EssenceShared.Entities.Players {
         public override void Collision(Entity other) {
             base.Collision(other);
 
-            if (other.Tag == Tags.Enemy) {
+            if (other.Tag == Tags.Enemy){
                 Hp.Current -= 1;
             }
         }

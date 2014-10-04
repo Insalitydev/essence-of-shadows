@@ -1,5 +1,4 @@
 ﻿using CocosSharp;
-using EssenceShared;
 
 namespace EssenceClient.Scenes.Game {
     internal class BackgroundLayer: CCLayerColor {

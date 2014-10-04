@@ -11,6 +11,5 @@
         public const int PlayerProjectile = 7;
         public const int MapTile = 8;
         public const int EnemyProjectile = 9;
-
     }
 }

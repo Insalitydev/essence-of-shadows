@@ -8,11 +8,10 @@ namespace EssenceShared {
     public class AccountState {
         public Stat Exp;
         public int Gold;
-        public int Level;
         public string HeroId;
+        public int Level;
 
-        [JsonIgnore]
-        public GameLayer gameLayer;
+        [JsonIgnore] public GameLayer gameLayer;
 
         public AccountState(string id, GameLayer gameLayer) {
             HeroId = id;
@@ -23,16 +22,17 @@ namespace EssenceShared {
         }
 
         /** Call by player */
+
         public void Update() {
             if (Exp.Perc == 1){
                 LevelUp();
-            }            
+            }
         }
 
         private void LevelUp() {
             Level++;
             Exp.Current = 0;
-            Exp.Maximum = (int)(Settings.ExpMultiplier * Exp.Maximum);
+            Exp.Maximum = (int) (Settings.ExpMultiplier*Exp.Maximum);
 
             GetPlayer().Hp.Current = GetPlayer().Hp.Maximum;
         }

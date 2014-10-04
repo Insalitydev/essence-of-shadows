@@ -98,7 +98,8 @@ namespace EssenceClient.Scenes.Game {
 
             // Draw a circle about level label
 
-            CCDrawingPrimitives.DrawSolidCircle(new CCPoint(Settings.ScreenWidth / 2, BarHeight), 25, 0, 12, new CCColor4B(0.2f, 0.2f, 0.2f, 1f));
+            CCDrawingPrimitives.DrawSolidCircle(new CCPoint(Settings.ScreenWidth/2, BarHeight), 25, 0, 12,
+                new CCColor4B(0.2f, 0.2f, 0.2f, 1f));
 
             CCDrawingPrimitives.End();
         }

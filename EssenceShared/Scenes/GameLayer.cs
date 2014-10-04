@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
@@ -9,7 +8,6 @@ using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using Newtonsoft.Json;
-using SharpDX.DXGI;
 
 namespace EssenceShared.Scenes {
     /** В этой сцене обрабатывается вся игровая логика на стороне сервера 
@@ -141,7 +139,7 @@ namespace EssenceShared.Scenes {
                     }
                     else{
                         // Наш персонаж
-                        var pos = Entities[index].Position;
+                        CCPoint pos = Entities[index].Position;
                         Entities[index].AppendState(entity);
                         Entities[index].Position = pos;
                     }

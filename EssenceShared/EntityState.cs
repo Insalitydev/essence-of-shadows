@@ -7,9 +7,9 @@ namespace EssenceShared {
     public class EntityState {
         // Ниже все параметры, которые мы передаем для сущностей
         // TODO: Обновлять каждый раз не все параметры
+        public int AttackDamage;
         public float Direction;
         public Stat Hp;
-        public int AttackDamage;
         public float PositionX;
         public float PositionY;
         public float Scale;
