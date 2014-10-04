@@ -1,5 +1,7 @@
 ﻿using System;
+using EssenceShared.Entities.Players;
 using EssenceShared.Game;
+using EssenceShared.Scenes;
 using Newtonsoft.Json;
 
 namespace EssenceShared {
@@ -7,11 +9,14 @@ namespace EssenceShared {
         public Stat Exp;
         public int Gold;
         public int Level;
-        // TODO: заменить на Player player
         public string HeroId;
 
-        public AccountState(string id) {
+        [JsonIgnore]
+        public GameLayer gameLayer;
+
+        public AccountState(string id, GameLayer gameLayer) {
             HeroId = id;
+            this.gameLayer = gameLayer;
             Gold = 0;
             Exp = new Stat(1000);
             Exp.Current = 0;
@@ -22,8 +27,7 @@ namespace EssenceShared {
         public void Update() {
             if (Exp.Perc == 1){
                 LevelUp();
-            }
-            
+            }            
         }
 
         private void LevelUp() {
@@ -31,7 +35,12 @@ namespace EssenceShared {
             Exp.Current = 0;
             Exp.Maximum = (int)(1.3f * Exp.Maximum);
 
-            
+            getPlayer().Hp.Current = getPlayer().Hp.Maximum;
+        }
+
+        private Player getPlayer() {
+            var pl = gameLayer.FindEntityById(HeroId) as Player;
+            return pl;
         }
 
         public static AccountState LoadAccountState(string AccountId) {
