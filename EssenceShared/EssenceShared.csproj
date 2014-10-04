@@ -112,6 +112,7 @@
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
     <Compile Include="EntityState.cs" />
     <Compile Include="Game\Stat.cs" />
+    <Compile Include="Particle.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Scenes\GameLayer.cs" />
     <Compile Include="Settings.cs" />

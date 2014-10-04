@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using EssenceShared.Entities.Players;
+using SharpDX.DXGI;
 
 namespace EssenceShared.Entities.Projectiles {
     public class MysticProjectile: Entity {
@@ -29,12 +30,9 @@ namespace EssenceShared.Entities.Projectiles {
 
 
             if (Parent != null && Parent.Tag == Tags.Client){
-                var emiter = new CCParticleMeteor(new CCPoint(6, 6)) {
-                    Gravity = GetNormalPointByDirection(Direction)*-2000,
-                    Scale = 0.08f,
-                    SpeedVar = 200,
-                    Texture = CCTextureCache.SharedTextureCache.AddImage(Resources.ParticleMysticProjectile)
-                };
+                var emiter = Particle.GetEmiter(Resources.ParticleMysticProjectile, ParticleType.ProjectileTrail, 3,
+                    new CCPoint(0, 0), this);
+
                 AddChild(emiter, -10);
             }
         }
