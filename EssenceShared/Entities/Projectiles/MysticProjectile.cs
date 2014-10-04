@@ -58,8 +58,9 @@ namespace EssenceShared.Entities.Projectiles {
             base.Collision(other);
 
             if (other.Tag == Tags.Enemy){
-                if (GetOwner() as Player != null)
-                    (GetOwner() as Player).accState.Exp.Current += 200;
+                var player = GetOwner() as Player;
+                if (player != null) player.accState.Exp.Current += 200;
+
                 Remove();
             }
         }

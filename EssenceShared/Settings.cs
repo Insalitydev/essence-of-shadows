@@ -9,6 +9,10 @@ namespace EssenceShared {
         public const string GameIdentifier = "EssenceOfShadows";
         public const int Scale = 4;
 
+        /** Gameplay settings */
+        public const int StartExp = 1000;
+        public const float ExpMultiplier = 1.3f;
+
         /** Log && Statistic settings */
         public const bool IsDebug = true;
         public const bool IsLogToFile = false;

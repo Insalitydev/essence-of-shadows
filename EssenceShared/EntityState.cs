@@ -5,13 +5,14 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class EntityState {
+        // Ниже все параметры, которые мы передаем для сущностей
+        // TODO: Обновлять каждый раз не все параметры
         public float Direction;
         public Stat Hp;
         public int AttackDamage;
         public float PositionX;
         public float PositionY;
         public float Scale;
-        //        public string OwnerId;
         public int Tag;
         public string TextureName;
 
@@ -59,18 +60,8 @@ namespace EssenceShared {
             entity.Hp = es.Hp;
         }
 
-        /** Пакует все необходимые данные в строку json
-         Метод выполняется на стороне клиента */
-
         public string Serialize() {
             return JsonConvert.SerializeObject(this);
-        }
-
-        /** Здесь необходимо перезаписывать все изменяемые данные состояния игрока 
-         Метод выполняется на сервере */
-
-        public void Deserialize(string json) {
-            throw new NotImplementedException();
         }
     }
 }

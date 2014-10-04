@@ -13,11 +13,11 @@ namespace EssenceClient.Scenes.Game {
         private readonly ChatLayer _chatLayer;
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
-        private HudLayer _hudLayer;
         private int _cameraHeight = 700;
+        private HudLayer _hudLayer;
 
         public GameScene(CCWindow window): base(window) {
-            Id = "888888888888888";
+            Id = "";
 
             _backgroundLayer = new BackgroundLayer();
             AddChild(_backgroundLayer);
@@ -39,11 +39,9 @@ namespace EssenceClient.Scenes.Game {
 
 
             var keyListener = new CCEventListenerKeyboard {OnKeyPressed = OnKeyPressed, OnKeyReleased = OnKeyReleased};
-
             AddEventListener(keyListener, this);
 
             var mouseListener = new CCEventListenerMouse {OnMouseDown = OnMouseDown};
-
             AddEventListener(mouseListener, this);
 
             var parser = new FileIniDataParser();
@@ -121,7 +119,7 @@ namespace EssenceClient.Scenes.Game {
             Input.OnKeyRelease(e.Keys);
 
             if (e.Keys == CCKeys.C){
-                _netGameClient.SendChatMessage("DASDA" + Id);
+                _netGameClient.SendChatMessage("Chat from " + Id);
             }
 
             if (e.Keys == CCKeys.X){
@@ -153,7 +151,6 @@ namespace EssenceClient.Scenes.Game {
                 mousePosX += (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
                 mousePosY += (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
             }
-            //            Console.WriteLine("Got pos: " + mousePosX + " " + mousePosY);
 
             if (obj.MouseButton == CCMouseButton.LeftButton){
                 // Стреляем при нажатой левой кнопке

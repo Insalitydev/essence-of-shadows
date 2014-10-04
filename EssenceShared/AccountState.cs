@@ -18,8 +18,7 @@ namespace EssenceShared {
             HeroId = id;
             this.gameLayer = gameLayer;
             Gold = 0;
-            Exp = new Stat(1000);
-            Exp.Current = 0;
+            Exp = new Stat(Settings.StartExp) {Current = 0};
             Level = 1;
         }
 
@@ -33,12 +32,12 @@ namespace EssenceShared {
         private void LevelUp() {
             Level++;
             Exp.Current = 0;
-            Exp.Maximum = (int)(1.3f * Exp.Maximum);
+            Exp.Maximum = (int)(Settings.ExpMultiplier * Exp.Maximum);
 
-            getPlayer().Hp.Current = getPlayer().Hp.Maximum;
+            GetPlayer().Hp.Current = GetPlayer().Hp.Maximum;
         }
 
-        private Player getPlayer() {
+        private Player GetPlayer() {
             var pl = gameLayer.FindEntityById(HeroId) as Player;
             return pl;
         }
