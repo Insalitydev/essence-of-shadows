@@ -53,7 +53,6 @@ namespace EssenceServer {
                 Port = Settings.Port,
                 MaximumConnections = Settings.MaxConnections,
                 SendBufferSize = 400000,
-                ReceiveBufferSize = 500000
             };
 
             _server = new NetServer(config);

@@ -130,9 +130,7 @@ namespace EssenceClient.Scenes.Game {
             }
 
             if (e.Keys == CCKeys.Escape){
-                // Недоработано, плохо работает
-                //   var nc = new NetCommand(NetCommandType.Disconnect, "");
-                //  _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+                NetGameClient.Client.Shutdown("Exit by client");
                 Window.DefaultDirector.PopScene();
             }
 
