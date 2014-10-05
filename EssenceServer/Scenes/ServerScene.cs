@@ -30,7 +30,8 @@ namespace EssenceServer.Scenes {
             // Adding test enemies:
             int mapW = GameLayer.currentMap[0].Length*Settings.TileSize*Settings.Scale;
             int mapH = GameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
-            Log.Print(mapW + " " + mapH);
+            Log.Print("Map size: " + mapW + " " + mapH);
+
             for (int i = 0; i < 45; i++){
                 GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
@@ -50,7 +51,6 @@ namespace EssenceServer.Scenes {
             for (int i = 0; i < tileMap.Count; i++){
                 tileMap[i] = tileMap[i].TrimEnd('\r');
             }
-            Log.Print("Map parsed");
             // Переворачиваем её сверху вниз
             tileMap.Reverse();
             return tileMap;

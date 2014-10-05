@@ -3,10 +3,7 @@ using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
     public class EnemyProjectile: Entity {
-        private const float _speed = 600;
-        private float _angle;
-        private CCPoint _target;
-
+        private const float Speed = 600;
 
         public EnemyProjectile(int damage, string url, string id)
             : base(url, id) {
@@ -26,7 +23,7 @@ namespace EssenceShared.Entities.Projectiles {
         public override void Update(float dt) {
             base.Update(dt);
 
-            MoveByAngle(Direction, _speed*dt);
+            MoveByAngle(Direction, Speed*dt);
         }
 
         public void Delete(float dt) {

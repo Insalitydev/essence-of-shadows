@@ -4,9 +4,7 @@ using SharpDX.DXGI;
 
 namespace EssenceShared.Entities.Projectiles {
     public class MysticProjectile: Entity {
-        private const float _speed = 700;
-        private float _angle;
-        private CCPoint _target;
+        private const float Speed = 700;
 
 
         public MysticProjectile(string id): base(Resources.ProjectileMystic, id) {
@@ -17,12 +15,8 @@ namespace EssenceShared.Entities.Projectiles {
         protected override void AddedToScene() {
             base.AddedToScene();
 
-            //            AddAction(new CCRepeat( new CCRotateBy(2, 170f) ));
             Schedule(Update);
             Schedule(Delete, 2);
-
-            if (Parent.Tag == Tags.Client){
-            }
         }
 
         public override void OnEnter() {
@@ -40,7 +34,7 @@ namespace EssenceShared.Entities.Projectiles {
         public override void Update(float dt) {
             base.Update(dt);
 
-            MoveByAngle(Direction, _speed*dt);
+            MoveByAngle(Direction, Speed*dt);
 
             if (Parent != null && Parent.Tag == Tags.Client){
                 UpdateAnimation(dt);

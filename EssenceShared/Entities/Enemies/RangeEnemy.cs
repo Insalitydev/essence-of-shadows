@@ -1,4 +1,6 @@
-﻿using CocosSharp;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CocosSharp;
 using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 
@@ -15,18 +17,22 @@ namespace EssenceShared.Entities.Enemies {
 
         public void TryAttack(float dt) {
             if (Parent.Tag == Tags.Server){
-                CCNode pl = Parent.GetChildByTag(Tags.Player);
+                var players = Parent.Children.Where(x=>x.Tag == Tags.Player).OrderBy(x=>DistanceTo(x.Position));
 
-                if (pl != null && DistanceTo(pl.Position) < Settings.ScreenWidth){
-                    var projectile = new EnemyProjectile(AttackDamage, Resources.ProjectileLaser, Util.GetUniqueId()) {
-                        PositionX = PositionX,
-                        PositionY = PositionY,
-                        Direction =
-                            AngleBetweenPoints(new CCPoint(PositionX, PositionY),
-                                new CCPoint(pl.PositionX, pl.PositionY)),
-                        OwnerId = Id
-                    };
-                    (Parent as GameLayer).AddEntity(projectile);
+                if (players.Count() > 0){
+                    var pl = players.First();
+
+                    if (DistanceTo(pl.Position) < Settings.ScreenWidth){
+                        var projectile = new EnemyProjectile(AttackDamage, Resources.ProjectileLaser, Util.GetUniqueId()) {
+                            PositionX = PositionX,
+                            PositionY = PositionY,
+                            Direction =
+                                AngleBetweenPoints(new CCPoint(PositionX, PositionY),
+                                    new CCPoint(pl.PositionX, pl.PositionY)),
+                            OwnerId = Id
+                        };
+                        (Parent as GameLayer).AddEntity(projectile);
+                    }
                 }
             }
         }
