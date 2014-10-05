@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using CocosSharp;
 using EssenceShared;
@@ -10,8 +11,9 @@ using Lidgren.Network;
 using Newtonsoft.Json;
 
 namespace EssenceServer {
-    /** Слушает сокет и подключает новых игроков, запускает остальные службы*/
-
+    /// <summary>
+    ///     Слушает серверный сокет, подключает новых игроков запускает остальные службы для работы сервера
+    /// </summary>
     internal class Server {
         private static NetServer _server;
 
@@ -31,6 +33,9 @@ namespace EssenceServer {
             _serverScene.Start();
         }
 
+        /// <summary>
+        ///     Метод для работы потока обработчика логики игры
+        /// </summary>
         private static void ServerHandleGame(object obj) {
             ServerGame = new ServerGame();
             var application = new CCApplication(false, new CCSize(1, 1));
@@ -40,6 +45,10 @@ namespace EssenceServer {
             application.StartGame();
         }
 
+
+        /// <summary>
+        ///     Метод для работы потока обработчика работы с сервером из консоли
+        /// </summary>
         private static void ServerHandleConsole(object obj) {
             /** TODO: Ждать пока сервер полностью не загрузится */
             Thread.Sleep(2000);
@@ -47,6 +56,9 @@ namespace EssenceServer {
             serverConsole.Start();
         }
 
+        /// <summary>
+        ///     Метод для работып отока обработчика входящих новых соединений с сервером
+        /// </summary>
         private static void ServerHandleConnections(object obj) {
             Log.Print("Starting Listen connections");
 
@@ -57,21 +69,28 @@ namespace EssenceServer {
                 UseMessageRecycling = true,
             };
 
-            /** Получаем адрес сервера */
+            /* Получаем возможные адреса сервера */
             Log.Print("Server IP's:");
             Log.Print("-------");
             IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress IP in IpList) {
-                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork){
+            foreach (IPAddress IP in IpList){
+                if (IP.AddressFamily == AddressFamily.InterNetwork){
                     Log.Print(IP.ToString());
                 }
             }
             Log.Print("-------");
-            
+
             _server = new NetServer(config);
             _server.Start();
-            
 
+            // Запускаем обработчик пакетов
+            StartProcessIncomingMessages();
+        }
+
+        /// <summary>
+        ///     Обрабатывает все входящие пакеты от клиентов
+        /// </summary>
+        private static void StartProcessIncomingMessages() {
             NetIncomingMessage msg;
 
             while (true){
@@ -98,7 +117,7 @@ namespace EssenceServer {
                             }
                             break;
 
-                            /** Обработка полезных данных, пришедших от клиентов */
+                            /* Обработка данных, пришедших от клиентов */
                         case NetIncomingMessageType.Data:
                             ProcessIncomingData(msg);
                             break;
@@ -116,7 +135,7 @@ namespace EssenceServer {
             } // End while true
         }
 
-        /** Обработка входящего сообщения сервером */
+        /** Обработка входящих данных (Команд) от клиентов*/
 
         private static void ProcessIncomingData(NetIncomingMessage msg) {
             string data = msg.ReadString();
@@ -131,7 +150,9 @@ namespace EssenceServer {
                         RemoveDisconnectedPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
                         break;
                     case NetCommandType.Say:
-                        SendChatMessage(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier).Substring(0, 4) + ": " + nc.Data);
+                        SendChatMessage(
+                            NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier).Substring(0, 4) + ": " +
+                            nc.Data);
                         break;
                     case NetCommandType.UpdatePlayerstate:
                         var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);
@@ -144,8 +165,11 @@ namespace EssenceServer {
             }
         }
 
+        /// <summary>
+        ///     Вызывает метод у игрока. Формат должен быть следующим:
+        ///     {MethodName}.{arg[0]}.{arg[1]}
+        /// </summary>
         private static void CallPlayerMethod(string playerid, string data) {
-            //            Log.Print("Player invoke method: " + data);
             var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
             string[] args = data.Split('.');
             if (args[0] == "attack"){
@@ -165,6 +189,9 @@ namespace EssenceServer {
             }
         }
 
+        /// <summary>
+        ///     Отсылает всем подключенным клиентам сообщение в чат
+        /// </summary>
         public static void SendChatMessage(string chatMsg) {
             var nc = new NetCommand(NetCommandType.Say, chatMsg);
             NetOutgoingMessage om = _server.CreateMessage();
@@ -173,6 +200,9 @@ namespace EssenceServer {
         }
 
 
+        /// <summary>
+        ///     Отсылает всем подключенным клиентам текущее игровое состояние
+        /// </summary>
         public static void SendGameStateToAll() {
             if (_server.ConnectionsCount > 0){
                 foreach (NetConnection netConnection in _server.Connections){
@@ -181,10 +211,10 @@ namespace EssenceServer {
                     /** TODO: Отсылать каждому только недалеко расположенные сущности от игрока
                         TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)*/
                     if (netConnection.Status == NetConnectionStatus.Connected){
-
                         // TODO: Временное решение. Вместо убирания ненужных элементов из полного геймстейта, сразу формируем с нуля для каждого игрока
                         GameState gs =
-                        ServerGame.ServerScene.GetGameState(NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
+                            ServerGame.ServerScene.GetGameState(
+                                NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
                         var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
                         NetOutgoingMessage om = _server.CreateMessage();
@@ -196,10 +226,10 @@ namespace EssenceServer {
                             Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
                         }
                     }
-                    //                    Log.Print("Sended GS to " + NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
                 }
             }
         }
+
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
             // TODO: отдать начальное состояние мира (карта)
@@ -209,10 +239,10 @@ namespace EssenceServer {
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
 
             Log.Print("Creating new player");
-            /** Создаем нового игрока в игре */
+            /* Создаем нового игрока в игре */
             InitNewPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
 
-            /** Отдаем новому игроку его уникальный ид */
+            /* Отдаем новому игроку его уникальный ид */
             nc = new NetCommand(NetCommandType.Connect,
                 (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
 
@@ -221,11 +251,9 @@ namespace EssenceServer {
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }
 
-        private static void RemoveDisconnectedPlayer(string playerid) {
-            Log.Print("Player " + playerid + " disconected. Removing his player...");
-            ServerGame.RemovePlayer(playerid);
-        }
-
+        /// <summary>
+        ///     Создает нового игрока в игре
+        /// </summary>
         private static void InitNewPlayer(string id) {
             string type = "Mystic";
             switch (new Random().Next(3)){
@@ -237,6 +265,11 @@ namespace EssenceServer {
                     break;
             }
             ServerGame.AddNewPlayer(id, 300, 300, type);
+        }
+
+        private static void RemoveDisconnectedPlayer(string playerid) {
+            Log.Print("Player " + playerid + " disconected. Removing his player...");
+            ServerGame.RemovePlayer(playerid);
         }
     }
 }

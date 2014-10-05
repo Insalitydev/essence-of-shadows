@@ -9,6 +9,9 @@ using IniParser.Model;
 using Lidgren.Network;
 
 namespace EssenceClient.Scenes.Game {
+    /// <summary>
+    ///     Основная сцена для игры на клиенте. Создает игровой слой и управляет общим состоянием игры для клиента
+    /// </summary>
     internal class GameScene: CCScene {
         private readonly ChatLayer _chatLayer;
         private readonly NetGameClient _netGameClient;
@@ -50,8 +53,8 @@ namespace EssenceClient.Scenes.Game {
             _netGameClient = new NetGameClient(data["Server"]["ip"], this);
             _netGameClient.ConnectToServer();
 
-            Schedule(UpdateNetwork, 0.03f);
             Schedule(Update);
+            Schedule(UpdateNetwork, 0.03f);
         }
 
         public Player MyPlayer { get; private set; }
@@ -60,11 +63,6 @@ namespace EssenceClient.Scenes.Game {
 
         public GameLayer GameLayer { get; private set; }
 
-        public void UpdateNetwork(float dt) {
-            base.Update(dt);
-
-            UpdateMyState();
-        }
 
         public override void Update(float dt) {
             base.Update(dt);
@@ -74,7 +72,20 @@ namespace EssenceClient.Scenes.Game {
             }
 
             UpdateCamera();
+            UpdateVisibility();
+        }
 
+        public void UpdateNetwork(float dt) {
+            base.Update(dt);
+
+            UpdateMyState();
+        }
+
+        /// <summary>
+        ///     Помечает объекты, которые находятся все зоны видимости, скрытыми.
+        ///     Позволяет не тратить на них ресурсы при отрисовке
+        /// </summary>
+        private void UpdateVisibility() {
             if (MyPlayer != null)
                 foreach (CCNode ccNode in GameLayer.Children){
                     if (MyPlayer.DistanceTo(ccNode.Position) < _sightRadius){
@@ -86,6 +97,9 @@ namespace EssenceClient.Scenes.Game {
                 }
         }
 
+        /// <summary>
+        ///     Обеспечивает работу камеры: Слежение за игроком и позицию над полем игры
+        /// </summary>
         private void UpdateCamera() {
             if (Input.IsKeyIn(CCKeys.O)){
                 _cameraHeight -= 3;
@@ -99,15 +113,11 @@ namespace EssenceClient.Scenes.Game {
             }
         }
 
-        public void SetMyId(string newId) {
-            Log.Print("Set new Id: " + newId);
-            Id = newId;
-        }
 
-        public void AppendChatMessage(string msg) {
-            _chatLayer.Messages.Add(msg);
-        }
-
+        /// <summary>
+        ///     Формирует состояние своего игрока и отсылает его на сервер
+        ///     Если игрок клиента не найден - ищет его
+        /// </summary>
         private void UpdateMyState() {
             if (MyPlayer != null){
                 EntityState myps = EntityState.ParseEntity(MyPlayer);
@@ -121,6 +131,15 @@ namespace EssenceClient.Scenes.Game {
                     MyPlayer = (Player) myPl;
                 }
             }
+        }
+
+        public void SetMyId(string newId) {
+            Log.Print("Set new Id: " + newId);
+            Id = newId;
+        }
+
+        public void AppendChatMessage(string msg) {
+            _chatLayer.Messages.Add(msg);
         }
 
         private void OnKeyPressed(CCEventKeyboard e) {

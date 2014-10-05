@@ -144,9 +144,9 @@ namespace EssenceClient.Scenes.Game {
                 }
             }
 
-            _label.Text = "FPS: " + (int) _fps + " Step: " + _step + " Gold: " + _lastGold;
+            _label.Text = "FPS: " + (int) _fps + " Step: " + _step;
 
-            /** Updating HUD Labels */
+            /* Updating HUD Labels */
             _goldLabel.Text = "Gold: " + _lastGold;
 
             if (gameScene.MyPlayer != null){

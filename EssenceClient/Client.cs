@@ -3,14 +3,17 @@ using EssenceClient.Scenes.Menu;
 using EssenceShared;
 
 namespace EssenceClient {
-    /** Инициализирует игру и запускает её */
-
+    /// <summary>
+    ///     Основной класс клиента. Запускает игру
+    /// </summary>
     internal class Client: CCApplicationDelegate {
         private static CCWindow sharedWindow;
         private CCScene _startScene;
 
-        /** Вызывается после загрузки приложения */
 
+        /// <summary>
+        ///     Метод вызывается после загрузки приложения
+        /// </summary>
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
             base.ApplicationDidFinishLaunching(application, mainWindow);
             sharedWindow = mainWindow;

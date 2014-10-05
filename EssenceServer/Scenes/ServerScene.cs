@@ -8,6 +8,9 @@ using EssenceShared.Entities.Players;
 using EssenceShared.Scenes;
 
 namespace EssenceServer.Scenes {
+    /// <summary>
+    ///     Основная сцена на сервере. Запускает игровой слой и занимается управлением состояние сервера
+    /// </summary>
     internal class ServerScene: CCScene {
         public readonly GameLayer GameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
@@ -20,8 +23,6 @@ namespace EssenceServer.Scenes {
             Schedule(Update, 0.04f);
             Schedule(UpdateLogic);
         }
-
-        /** формируем игровое состояние и возвращаем его */
 
         public override void OnEnter() {
             base.OnEnter();
@@ -40,10 +41,9 @@ namespace EssenceServer.Scenes {
             }
         }
 
-        private void InitMap() {
-            GameLayer.CreateNewMap(ParseMap());
-        }
-
+        /// <summary>
+        ///     Считывает карту и возвращает её как массив строк
+        /// </summary>
         public List<string> ParseMap() {
             string s = File.ReadAllText("TestMap.txt");
             var tileMap = new List<string>(s.Split('\n'));
@@ -56,6 +56,10 @@ namespace EssenceServer.Scenes {
             return tileMap;
         }
 
+        /// <summary>
+        ///     Возвращает текущее игровое состояние для указанного игрока
+        ///     В состояние помещаются сущности, находящиеся на определенном расстоянии от игрока
+        /// </summary>
         public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
@@ -77,6 +81,18 @@ namespace EssenceServer.Scenes {
             return gs;
         }
 
+        /// <summary>
+        ///     Обновляет состояние игрока, полученное от клиента
+        ///     Обновляется только его позиция
+        /// </summary>
+        internal void AppendPlayerState(EntityState es) {
+            Entity player = GameLayer.FindEntityById(es.Id);
+            if (player != null){
+                player.PositionX = es.PositionX;
+                player.PositionY = es.PositionY;
+            }
+        }
+
         private void UpdateLogic(float dt) {
             GameLayer.Update(dt);
         }
@@ -86,15 +102,8 @@ namespace EssenceServer.Scenes {
 
             Server.SendGameStateToAll();
         }
-
-        internal void AppendPlayerState(EntityState es) {
-            //            GameLayer.UpdateEntity(es);
-            // От игрока принимаем только его позицию
-            Entity player = GameLayer.FindEntityById(es.Id);
-            if (player != null){
-                player.PositionX = es.PositionX;
-                player.PositionY = es.PositionY;
-            }
+        private void InitMap() {
+            GameLayer.CreateNewMap(ParseMap());
         }
     }
 }

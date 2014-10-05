@@ -14,7 +14,6 @@ namespace EssenceClient.Scenes.Game {
             Layer.Scale = 1f;
             Messages = new List<string>();
 
-//            AnchorPoint = CCPoint.AnchorLowerLeft;
             PositionX = Settings.ScreenWidth/2 - 250;
             PositionY = 40;
         }

@@ -11,11 +11,18 @@ namespace EssenceClient.Scenes.Menu {
         protected override void AddedToScene() {
             base.AddedToScene();
 
+
+            for (int i = 0; i < Settings.ScreenWidth; i += 20) {
+                AddChild(new FlyingSquare(i));
+                AddChild(new FlyingSquare(i));
+            }
+
             AddTitle();
             AddCardinalImage(0, 0);
             AddCardinalImage(800, 0);
             AddCardinalImage(800, 600);
             AddCardinalImage(0, 600);
+
         }
 
         private void AddCardinalImage(int p1, int p2) {
@@ -34,11 +41,11 @@ namespace EssenceClient.Scenes.Menu {
         }
 
         private void AddTitle() {
-            var title = new CCLabelTtf(Settings.GameName, "kongtext", 24) {
+            var title = new CCLabelTtf(Settings.GameName, "kongtext", 28) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
                 PositionX = 400,
-                PositionY = 400,
+                PositionY = 450,
             };
 
             var helper = new CCLabelTtf("Enter/Space to start, Esc to exit", "kongtext", 10) {
@@ -50,6 +57,44 @@ namespace EssenceClient.Scenes.Menu {
 
             AddChild(title);
             AddChild(helper);
+        }
+    }
+
+    internal class FlyingSquare: CCNode {
+        private int w;
+        private int h;
+        private int speed;
+        public FlyingSquare(int x) {
+            PositionX = x;
+            PositionY = CCRandom.Next(-20, (int)Settings.ScreenHeight + 20);
+            
+            w = CCRandom.Next(10, 45);
+            h = (int)(w*(CCRandom.NextDouble() + 1));
+            speed = w*4;
+        }
+
+        public override void OnEnter() {
+            base.OnEnter();
+
+            Schedule(Update);
+        }
+
+        public override void Update(float dt) {
+            base.Update(dt);
+
+            PositionY += speed*dt;
+            if (PositionY > Settings.ScreenHeight){
+                PositionY = -h;
+            }
+        }
+
+        protected override void Draw() {
+            base.Draw();
+
+            CCDrawingPrimitives.Begin();
+
+            CCDrawingPrimitives.DrawSolidRect(Position, new CCPoint(PositionX + w, PositionY + h), new CCColor4B(255, 255, 0, 0.07f));
+            CCDrawingPrimitives.End();
         }
     }
 }

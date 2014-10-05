@@ -11,23 +11,18 @@ namespace EssenceClient.Scenes.Menu {
             base.AddedToScene();
 
             var _menuPos = new CCPoint(Settings.ScreenSize.Center);
-            // TODO: ItemLabel не работает :(
-            //            CCMenuItem itemStart = new CCMenuItemLabel(GetMenuLabel("STARTGAME"), StartGame);
 
-            CCMenuItem itemStart = new CCMenuItemImage("StartGame.png", "StartGameOver.png", StartGame);
-            CCMenuItem itemExit = new CCMenuItemImage("ExitGame.png", "ExitGameOver.png", ExitGame);
+            var labelStartGame = GetMenuLabel("Start Game");
+            CCMenuItem itemStart = new CCMenuItemLabelTTF(labelStartGame, StartGame);
+
+            var labelExit = GetMenuLabel("Exit Game");
+            CCMenuItem itemExit = new CCMenuItemLabelTTF(labelExit, ExitGame);
 
 
             MainMenu = new CCMenu(itemStart, itemExit) {Position = _menuPos};
-            MainMenu.AlignItemsVertically(10);
-
-            Log.Print(MainMenu.ToString());
+            MainMenu.AlignItemsVertically(15);
 
             AddChild(MainMenu);
-        }
-
-        public void ExitGame(object obj) {
-            Environment.Exit(0);
         }
 
         public void StartGame(object obj) {
@@ -35,10 +30,13 @@ namespace EssenceClient.Scenes.Menu {
             Window.DefaultDirector.PushScene(new GameScene(Window));
         }
 
-        private CCLabel GetMenuLabel(string text) {
-            var label = new CCLabel(text, "kongtext", 20) {
-                Color = CCColor3B.Green,
-                Dimensions = ContentSize,
+        public void ExitGame(object obj) {
+            Environment.Exit(0);
+        }
+
+        private CCLabelTtf GetMenuLabel(string text) {
+            var label = new CCLabelTtf(text, "kongtext", 18) {
+                Color = new CCColor3B(180, 180, 250)
             };
 
             return label;

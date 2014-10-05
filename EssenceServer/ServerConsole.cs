@@ -5,8 +5,9 @@ using EssenceShared;
 using Lidgren.Network;
 
 namespace EssenceServer {
-    /** Содержит всю логику по работе с сервером из консоли */
-
+    /// <summary>
+    ///     Содержит всю логику по работе с сервером из консоли
+    /// </summary>
     internal class ServerConsole {
         private readonly NetServer _server;
 

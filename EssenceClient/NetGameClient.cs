@@ -6,8 +6,10 @@ using Lidgren.Network;
 using Newtonsoft.Json;
 
 namespace EssenceClient {
-    /** Обрабатывает всю сетевую часть клиента */
-
+    /// <summary>
+    ///     Этот класс является обработчиком всей сетевой части клиента
+    ///     Принимает и отправляет пакеты
+    /// </summary>
     internal class NetGameClient {
         public static NetClient Client;
         private static GameScene _scene;
@@ -42,16 +44,25 @@ namespace EssenceClient {
             Send(nc, NetDeliveryMethod.ReliableOrdered);
         }
 
+        /// <summary>
+        ///     Оптравляет пакет серверу указанным методом
+        /// </summary>
         public void Send(NetCommand command, NetDeliveryMethod method) {
             NetOutgoingMessage om = Client.CreateMessage(command.Serialize());
             Client.SendMessage(om, method);
         }
 
+        /// <summary>
+        ///     Отправляет текстовое сообщение в чат на сервер
+        /// </summary>
         public void SendChatMessage(string text) {
             var nc = new NetCommand(NetCommandType.Say, text);
             Send(nc, NetDeliveryMethod.ReliableUnordered);
         }
 
+        /// <summary>
+        ///     Обработчик всех поступающих пакетов с сервера
+        /// </summary>
         private void GotMessage(object data) {
             NetIncomingMessage im;
             while ((im = Client.ReadMessage()) != null){

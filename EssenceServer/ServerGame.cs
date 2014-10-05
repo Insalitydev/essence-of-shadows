@@ -6,17 +6,16 @@ using EssenceShared;
 using EssenceShared.Entities.Players;
 
 namespace EssenceServer {
-    /** Обрабатывает всю игровую логику */
-
+    /// <summary>
+    /// Обрабатывает игровую логику на сервере. Содержит Сцену с игровыми объектами
+    /// </summary>
     internal class ServerGame: CCApplicationDelegate {
         public ServerScene ServerScene { get; private set; }
 
         public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow) {
             base.ApplicationDidFinishLaunching(application, mainWindow);
 
-
             /** Set up resource folders */
-            Log.Print("Loading Resources");
             Resources.LoadContent(application);
 
             ServerScene = new ServerScene(mainWindow);
