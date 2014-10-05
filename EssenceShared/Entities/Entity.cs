@@ -4,9 +4,6 @@ using EssenceShared.Game;
 using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities {
-    /** Основной класс для всех игровых объектов */
-
-
     public enum ActionState {
         Idle,
         Move,
@@ -15,6 +12,9 @@ namespace EssenceShared.Entities {
         Died
     }
 
+    /// <summary>
+    ///     Базовый класс для всех игровых объектов
+    /// </summary>
     public class Entity: CCSprite {
         public ActionState ActionState;
         public int AttackDamage;
@@ -34,7 +34,12 @@ namespace EssenceShared.Entities {
             ActionState = ActionState.Idle;
         }
 
+
+        /// <summary>
+        ///     По этой маске проверяется столкновение между объектами
+        /// </summary>
         public CCRect Mask { get; private set; }
+
         public string Id { get; private set; }
 
         protected override void AddedToScene() {
@@ -55,12 +60,16 @@ namespace EssenceShared.Entities {
             return null;
         }
 
+        /// <summary>
+        /// Метод вызывается при столкновении двух объектов.
+        /// </summary>
+        /// <param name="other"> Объект с которым произошло столкновение </param>
         public virtual void Collision(Entity other) {
         }
 
         private void UpdateMask() {
             // TODO: можно ли без пересоздавааний?
-            // lesser : немного уменьшаем маску столкновения
+            // lesser - немного уменьшаем маску столкновения
             const int lesser = 12;
             _imageW = (int) (Texture.PixelsWide*ScaleX) - lesser;
             _imageH = (int) (Texture.PixelsHigh*ScaleY) - lesser;
@@ -122,8 +131,10 @@ namespace EssenceShared.Entities {
             return new CCPoint(x, y);
         }
 
-        /** Удаляет объект со сцены */
-
+    
+        /// <summary>
+        /// Удаляет объект со сцены у своего родителя
+        /// </summary>
         public void Remove(bool cleanup = true) {
             if (Parent != null){
                 Parent.RemoveChild(this, cleanup);
