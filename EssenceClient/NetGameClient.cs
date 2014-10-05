@@ -69,7 +69,7 @@ namespace EssenceClient {
                                 break;
                             case NetCommandType.Say:
                                 Log.Print("Incoming message from server: " + nc.Data);
-                                _scene.GetChatMessage(nc.Data);
+                                _scene.AppendChatMessage(nc.Data);
                                 break;
                                 /** Обновляем все необходимые данные об игровом состоянии */
                             case NetCommandType.SendMap:

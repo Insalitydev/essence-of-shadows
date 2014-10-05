@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using CocosSharp;
 using EssenceShared;
@@ -53,10 +54,23 @@ namespace EssenceServer {
                 Port = Settings.Port,
                 MaximumConnections = Settings.MaxConnections,
                 SendBufferSize = 400000,
+                UseMessageRecycling = true,
             };
 
+            /** Получаем адрес сервера */
+            Log.Print("Server IP's:");
+            Log.Print("-------");
+            IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress IP in IpList) {
+                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork){
+                    Log.Print(IP.ToString());
+                }
+            }
+            Log.Print("-------");
+            
             _server = new NetServer(config);
             _server.Start();
+            
 
             NetIncomingMessage msg;
 
@@ -117,7 +131,7 @@ namespace EssenceServer {
                         RemoveDisconnectedPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
                         break;
                     case NetCommandType.Say:
-                        SendChatMessage(nc.Data);
+                        SendChatMessage(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier).Substring(0, 4) + ": " + nc.Data);
                         break;
                     case NetCommandType.UpdatePlayerstate:
                         var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);

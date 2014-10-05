@@ -36,7 +36,7 @@ namespace EssenceServer {
             command = command.Split(' ').First();
             switch (command){
                 case "say":
-                    Server.SendChatMessage(arg);
+                    Server.SendChatMessage("Server: " + arg);
                     break;
                 case "restart":
                     break;

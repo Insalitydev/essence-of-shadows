@@ -62,8 +62,8 @@ namespace EssenceClient.Scenes.Game {
 
         public void UpdateNetwork(float dt) {
             base.Update(dt);
+
             UpdateMyState();
-            Log.Print(GameLayer.Entities.Count.ToString());
         }
 
         public override void Update(float dt) {
@@ -99,12 +99,12 @@ namespace EssenceClient.Scenes.Game {
             }
         }
 
-        public void SetMyId(string id) {
-            Log.Print("Set new Id: " + id);
-            Id = id;
+        public void SetMyId(string newId) {
+            Log.Print("Set new Id: " + newId);
+            Id = newId;
         }
 
-        public void GetChatMessage(string msg) {
+        public void AppendChatMessage(string msg) {
             _chatLayer.Messages.Add(msg);
         }
 
@@ -131,7 +131,7 @@ namespace EssenceClient.Scenes.Game {
             Input.OnKeyRelease(e.Keys);
 
             if (e.Keys == CCKeys.C){
-                _netGameClient.SendChatMessage("Chat from " + Id);
+                _netGameClient.SendChatMessage("Hello!");
             }
 
             if (e.Keys == CCKeys.X){
