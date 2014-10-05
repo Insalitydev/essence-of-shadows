@@ -6,14 +6,23 @@ using EssenceShared.Scenes;
 namespace EssenceShared.Entities {
     /** Основной класс для всех игровых объектов */
 
+
+    public enum ActionState {
+        Idle,
+        Move,
+        Attack,
+        AfterAttack,
+        Died
+    }
+
     public class Entity: CCSprite {
+        public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
         public Stat Hp;
         public string OwnerId = null;
         private int _imageH;
         private int _imageW;
-
 
         public Entity(string url, string id): base(url) {
             Id = id;
@@ -22,6 +31,7 @@ namespace EssenceShared.Entities {
             Tag = Tags.Unknown;
             Hp = new Stat(0);
             AttackDamage = 0;
+            ActionState = ActionState.Idle;
         }
 
         public CCRect Mask { get; private set; }

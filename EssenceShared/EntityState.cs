@@ -15,6 +15,7 @@ namespace EssenceShared {
         public float Scale;
         public int Tag;
         public string TextureName;
+        public ActionState ActionState;
 
         public EntityState(string id) {
             Id = id;
@@ -28,6 +29,7 @@ namespace EssenceShared {
                 PositionY = entity.PositionY,
                 Direction = entity.Direction,
                 AttackDamage = entity.AttackDamage,
+                ActionState = entity.ActionState,
                 Tag = entity.Tag,
                 Scale = 4,
                 TextureName = entity.Texture.Name.ToString(),
@@ -58,6 +60,7 @@ namespace EssenceShared {
             entity.AttackDamage = es.AttackDamage;
             entity.Direction = es.Direction;
             entity.Hp = es.Hp;
+            entity.ActionState = es.ActionState;
         }
 
         public string Serialize() {

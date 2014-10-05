@@ -19,7 +19,7 @@ namespace EssenceShared.Entities.Enemies {
             if (Parent.Tag == Tags.Server){
                 var players = Parent.Children.Where(x=>x.Tag == Tags.Player).OrderBy(x=>DistanceTo(x.Position));
 
-                if (players.Count() > 0){
+                if (players.Any()){
                     var pl = players.First();
 
                     if (DistanceTo(pl.Position) < Settings.ScreenWidth){
