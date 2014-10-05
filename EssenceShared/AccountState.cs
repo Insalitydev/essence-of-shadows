@@ -35,7 +35,10 @@ namespace EssenceShared {
             Exp.Current = 0;
             Exp.Maximum = (int) (Settings.ExpMultiplier*Exp.Maximum);
 
+            // Inc stats:
             var player = GetPlayer();
+            player.Hp.Maximum += 30;
+            player.AttackDamage += 3;
             player.Hp.Current = GetPlayer().Hp.Maximum;
         }
 

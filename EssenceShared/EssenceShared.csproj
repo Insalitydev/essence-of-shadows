@@ -193,18 +193,6 @@
     <Content Include="Resource\Image\GUI\IncreasePressed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\Image\GUI\Menu\ExitGame.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resource\Image\GUI\Menu\ExitGameOver.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resource\Image\GUI\Menu\StartGame.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resource\Image\GUI\Menu\StartGameOver.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resource\Image\Item\Chest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

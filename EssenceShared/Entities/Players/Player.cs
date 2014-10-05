@@ -11,7 +11,7 @@ namespace EssenceShared.Entities.Players {
             Tag = Tags.Player;
             accState = account;
             Hp = new Stat(200);
-            AttackDamage = 25;
+            AttackDamage = 20;
         }
 
         public override void OnEnter() {

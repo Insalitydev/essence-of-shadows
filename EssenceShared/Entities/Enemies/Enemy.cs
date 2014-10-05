@@ -27,7 +27,7 @@ namespace EssenceShared.Entities.Enemies {
             }
         }
 
-        private void Die(float dt) {
+        protected virtual void Die(float dt) {
             Remove();
         }
 

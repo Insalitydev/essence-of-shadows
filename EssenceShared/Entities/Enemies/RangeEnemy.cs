@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
+using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 
@@ -13,6 +14,18 @@ namespace EssenceShared.Entities.Enemies {
         public override void OnEnter() {
             base.OnEnter();
             Schedule(TryAttack, 3);
+        }
+
+        protected override void Die(float dt) {
+             var players = Parent.Children.Where(x=>x.Tag == Tags.Player).OrderBy(x=>DistanceTo(x.Position));
+
+            foreach (Player pl in players){
+                if (DistanceTo(pl.Position) < 800){
+                    pl.accState.Gold += 130;
+                }
+            }
+
+            base.Die(dt);
         }
 
         public void TryAttack(float dt) {
