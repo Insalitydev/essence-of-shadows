@@ -1,13 +1,30 @@
-﻿using CocosSharp;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CocosSharp;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Enemies {
     public abstract class Enemy: Entity {
+        protected Entity Target;
+        protected int SightRadius;
+        protected int Speed;
+
         public Enemy(string url, string id): base(url, id) {
+            Target = null;
+            SightRadius = 500;
+            Speed = 150;
             Scale = Settings.Scale;
             Tag = Tags.Enemy;
             Hp = new Stat(100);
+        }
+
+        public override void OnEnter() {
+            base.OnEnter();
+            if (Parent.Tag == Tags.Server){
+                Schedule(Action);
+            }
         }
 
         public override void Collision(Entity other) {
@@ -20,6 +37,17 @@ namespace EssenceShared.Entities.Enemies {
             }
         }
 
+        /// <summary>
+        ///     Возвращает список игроков. Сортирует в порядке близости к себе
+        /// </summary>
+        protected List<Player> GetPlayers() {
+            return
+                Parent.Children.Where(x=>x.Tag == Tags.Player)
+                    .OrderBy(x=>DistanceTo(x.Position))
+                    .Cast<Player>()
+                    .ToList();
+        }
+
         private void Damage(int p) {
             Hp.Current -= p;
             if (Hp.Perc == 0){
@@ -29,6 +57,12 @@ namespace EssenceShared.Entities.Enemies {
 
         protected virtual void Die(float dt) {
             Remove();
+        }
+
+        /// <summary>
+        ///     Метод ИИ, решает что делать в каждый момент времени
+        /// </summary>
+        protected virtual void Action(float dt) {
         }
 
         protected override void Draw() {

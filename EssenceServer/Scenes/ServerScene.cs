@@ -33,7 +33,7 @@ namespace EssenceServer.Scenes {
             int mapH = GameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
             Log.Print("Map size: " + mapW + " " + mapH);
 
-            for (int i = 0; i < 145; i++){
+            for (int i = 0; i < 100; i++){
                 GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)

@@ -6,9 +6,8 @@ using EssenceShared.Scenes;
 namespace EssenceShared.Entities {
     public enum ActionState {
         Idle,
-        Move,
+        MoveToAttack,
         Attack,
-        AfterAttack,
         Died
     }
 
@@ -51,9 +50,9 @@ namespace EssenceShared.Entities {
         public override void Update(float dt) {
             base.Update(dt);
 
-            UpdateMask();
+                UpdateMask();
         }
-
+        
         public Entity GetOwner() {
             if (Parent != null && (Parent as GameLayer) != null)
                 return (Parent as GameLayer).FindEntityById(OwnerId);
@@ -82,6 +81,7 @@ namespace EssenceShared.Entities {
 
 
         protected void MoveToTarget(CCPoint target, float speed) {
+            MoveByAngle(AngleTo(target), speed);
         }
 
         protected void MoveByAngle(float angle, float speed) {

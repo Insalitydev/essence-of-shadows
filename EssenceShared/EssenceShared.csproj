@@ -111,6 +111,8 @@
     <Compile Include="Entities\Projectiles\EnemyProjectile.cs" />
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
     <Compile Include="EntityState.cs" />
+    <Compile Include="Game\EventType.cs" />
+    <Compile Include="Game\IListener.cs" />
     <Compile Include="Game\Stat.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Resources.cs" />
