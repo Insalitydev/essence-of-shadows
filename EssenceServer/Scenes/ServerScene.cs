@@ -102,6 +102,7 @@ namespace EssenceServer.Scenes {
 
             Server.SendGameStateToAll();
         }
+
         private void InitMap() {
             GameLayer.CreateNewMap(ParseMap());
         }

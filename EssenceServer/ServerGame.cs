@@ -7,7 +7,7 @@ using EssenceShared.Entities.Players;
 
 namespace EssenceServer {
     /// <summary>
-    /// Обрабатывает игровую логику на сервере. Содержит Сцену с игровыми объектами
+    ///     Обрабатывает игровую логику на сервере. Содержит Сцену с игровыми объектами
     /// </summary>
     internal class ServerGame: CCApplicationDelegate {
         public ServerScene ServerScene { get; private set; }

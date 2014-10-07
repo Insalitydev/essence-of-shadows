@@ -12,10 +12,10 @@ namespace EssenceClient.Scenes.Menu {
 
             var _menuPos = new CCPoint(Settings.ScreenSize.Center);
 
-            var labelStartGame = GetMenuLabel("Start Game");
+            CCLabelTtf labelStartGame = GetMenuLabel("Start Game");
             CCMenuItem itemStart = new CCMenuItemLabelTTF(labelStartGame, StartGame);
 
-            var labelExit = GetMenuLabel("Exit Game");
+            CCLabelTtf labelExit = GetMenuLabel("Exit Game");
             CCMenuItem itemExit = new CCMenuItemLabelTTF(labelExit, ExitGame);
 
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using CocosSharp;
-using EssenceShared;
 
 namespace EssenceClient.Scenes.Menu {
     internal class MenuScene: CCScene {

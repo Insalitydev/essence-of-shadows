@@ -54,7 +54,7 @@ namespace EssenceShared.Entities.Enemies {
         ///     Возвращает список игроков. Сортирует в порядке близости к себе
         /// </summary>
         protected List<Player> GetPlayers() {
-            List <Player> players = Parent.Children.Where(x=>x.Tag == Tags.Player).Cast<Player>().ToList();
+            List<Player> players = Parent.Children.Where(x=>x.Tag == Tags.Player).Cast<Player>().ToList();
             if (players.Any()){
                 players = players.OrderBy(DistanceTo).ToList();
             }

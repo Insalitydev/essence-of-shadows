@@ -9,7 +9,7 @@ namespace EssenceShared.Entities.Enemies {
     public class RangeEnemy: Enemy {
         public RangeEnemy(string url, string id): base(url, id) {
             AttackDamage = 15;
-            AttackCooldown = 3;
+            AttackCooldown = 2;
             SightRadius = 600;
             AttackRadius = 450;
         }
@@ -42,8 +42,8 @@ namespace EssenceShared.Entities.Enemies {
                     else if (Target != null && DistanceTo(Target) < AttackRadius*0.5f){
                         MoveFromTarget(Target.Position, Speed*dt);
                     }
-                    
-                else {
+
+                    else{
                         Target = null;
                         ActionState = ActionState.Idle;
                     }
@@ -58,6 +58,7 @@ namespace EssenceShared.Entities.Enemies {
             if (AttackCooldownCounter == 0){
                 if (Target != null && DistanceTo(Target) < AttackRadius){
                     SpawnProjectileToTarget();
+                    // TODO: необходимо стоять на месте после атаки какое-то время
                     ActionState = ActionState.MoveToAttack;
                     AttackCooldownCounter = AttackCooldown;
                 }

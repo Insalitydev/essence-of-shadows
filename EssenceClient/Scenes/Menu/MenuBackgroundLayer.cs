@@ -12,7 +12,7 @@ namespace EssenceClient.Scenes.Menu {
             base.AddedToScene();
 
 
-            for (int i = 0; i < Settings.ScreenWidth; i += 10) {
+            for (int i = 0; i < Settings.ScreenWidth; i += 10){
                 AddChild(new FlyingSquare(i));
                 AddChild(new FlyingSquare(i));
             }
@@ -22,7 +22,6 @@ namespace EssenceClient.Scenes.Menu {
             AddCardinalImage(800, 0);
             AddCardinalImage(800, 600);
             AddCardinalImage(0, 600);
-
         }
 
         private void AddCardinalImage(int p1, int p2) {
@@ -61,15 +60,16 @@ namespace EssenceClient.Scenes.Menu {
     }
 
     internal class FlyingSquare: CCNode {
-        private int w;
-        private int h;
-        private int speed;
+        private readonly int h;
+        private readonly int speed;
+        private readonly int w;
+
         public FlyingSquare(int x) {
             PositionX = x;
-            PositionY = CCRandom.Next(-20, (int)Settings.ScreenHeight + 20);
-            
+            PositionY = CCRandom.Next(-20, (int) Settings.ScreenHeight + 20);
+
             w = CCRandom.Next(10, 45);
-            h = (int)(w*(CCRandom.NextDouble() + 1));
+            h = (int) (w*(CCRandom.NextDouble() + 1));
             speed = w*4;
         }
 
@@ -93,7 +93,8 @@ namespace EssenceClient.Scenes.Menu {
 
             CCDrawingPrimitives.Begin();
 
-            CCDrawingPrimitives.DrawSolidRect(Position, new CCPoint(PositionX + w, PositionY + h), new CCColor4B(255, 255, 0, 0.07f));
+            CCDrawingPrimitives.DrawSolidRect(Position, new CCPoint(PositionX + w, PositionY + h),
+                new CCColor4B(255, 255, 0, 0.07f));
             CCDrawingPrimitives.End();
         }
     }

@@ -147,7 +147,7 @@ namespace EssenceClient.Scenes.Game {
             _label.Text = "FPS: " + (int) _fps + " Step: " + _step;
 
             /* Updating HUD Labels */
-            
+
 
             if (gameScene.MyPlayer != null){
                 _goldLabel.Text = "Gold: " + _lastGold + " Dmg: " + gameScene.MyPlayer.AttackDamage;

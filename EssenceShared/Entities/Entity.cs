@@ -50,9 +50,9 @@ namespace EssenceShared.Entities {
         public override void Update(float dt) {
             base.Update(dt);
 
-                UpdateMask();
+            UpdateMask();
         }
-        
+
         public Entity GetOwner() {
             if (Parent != null && (Parent as GameLayer) != null)
                 return (Parent as GameLayer).FindEntityById(OwnerId);
@@ -60,7 +60,7 @@ namespace EssenceShared.Entities {
         }
 
         /// <summary>
-        /// Метод вызывается при столкновении двух объектов.
+        ///     Метод вызывается при столкновении двух объектов.
         /// </summary>
         /// <param name="other"> Объект с которым произошло столкновение </param>
         public virtual void Collision(Entity other) {
@@ -140,9 +140,9 @@ namespace EssenceShared.Entities {
             return new CCPoint(x, y);
         }
 
-    
+
         /// <summary>
-        /// Удаляет объект со сцены у своего родителя
+        ///     Удаляет объект со сцены у своего родителя
         /// </summary>
         public void Remove(bool cleanup = true) {
             if (Parent != null){

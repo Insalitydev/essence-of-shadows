@@ -39,10 +39,9 @@ namespace EssenceShared {
                         Texture = CCTextureCache.SharedTextureCache.AddImage(texture)
                     };
                     break;
-
             }
 
-            emiter.ScheduleOnce((float x)=> emiter.RemoveFromParent(), dieAfter);
+            emiter.ScheduleOnce((float x)=>emiter.RemoveFromParent(), dieAfter);
 
             return emiter;
         }

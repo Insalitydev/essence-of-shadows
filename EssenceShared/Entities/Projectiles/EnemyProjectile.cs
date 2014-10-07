@@ -1,5 +1,4 @@
-﻿using CocosSharp;
-using EssenceShared.Entities.Players;
+﻿using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
     public class EnemyProjectile: Entity {
