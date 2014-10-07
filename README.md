@@ -2,6 +2,10 @@ Essence of Shadows
 =========
 ![ScreenShot](https://raw.githubusercontent.com/Insality/essence-of-shadows/f6889c004125897a7be84f430c894c51b6f0b304/RepoTitleImage.png)
 
+<p align="center">
+  <img src="https://github.com/Insality/essence-of-shadows/raw/master/RepoTitleImage.png" alt="Essence of Shadows"/>
+</p>
+
 Essence of Shadows (EoS) is an open-source cooperative slasher(shooter) rpg game, written on CocosSharp.
 
 There are main features of the game:
