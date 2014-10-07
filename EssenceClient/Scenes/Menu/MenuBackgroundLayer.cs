@@ -12,7 +12,7 @@ namespace EssenceClient.Scenes.Menu {
             base.AddedToScene();
 
 
-            for (int i = 0; i < Settings.ScreenWidth; i += 20) {
+            for (int i = 0; i < Settings.ScreenWidth; i += 10) {
                 AddChild(new FlyingSquare(i));
                 AddChild(new FlyingSquare(i));
             }
