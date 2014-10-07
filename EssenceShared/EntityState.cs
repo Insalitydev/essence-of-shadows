@@ -10,7 +10,6 @@ namespace EssenceShared {
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
-        public float Speed;
         public Stat Hp;
         public float PositionX;
         public float PositionY;
@@ -29,7 +28,6 @@ namespace EssenceShared {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
                 Direction = entity.Direction,
-                Speed = entity.Speed,
                 AttackDamage = entity.AttackDamage,
                 ActionState = entity.ActionState,
                 Tag = entity.Tag,
@@ -53,12 +51,10 @@ namespace EssenceShared {
         public static void AppendStateToEntity(Entity entity, EntityState es) {
             // погрешность в ~ 3 пикселя не правим
             if (Math.Abs(entity.PositionX - es.PositionX) > 4){
-                entity._lastPos.X = entity.PositionX;
                 entity.PositionX = es.PositionX;
                
             }
             if (Math.Abs(entity.PositionY - es.PositionY) > 4){
-                entity._lastPos.Y = entity.PositionY;
                 entity.PositionY = es.PositionY;
             }
 
@@ -67,7 +63,6 @@ namespace EssenceShared {
             entity.AttackDamage = es.AttackDamage;
             entity.Direction = es.Direction;
             entity.Hp = es.Hp;
-            entity.Speed = es.Speed;
             entity.ActionState = es.ActionState;
         }
 

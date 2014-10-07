@@ -9,7 +9,7 @@ namespace EssenceShared.Entities.Enemies {
     public class RangeEnemy: Enemy {
         public RangeEnemy(string url, string id): base(url, id) {
             AttackDamage = 15;
-            AttackCooldown = 0.1f;
+            AttackCooldown = 2;
             SightRadius = 600;
             AttackRadius = 450;
         }

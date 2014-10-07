@@ -23,16 +23,12 @@ namespace EssenceShared.Entities {
         public string OwnerId = null;
         private int _imageH;
         private int _imageW;
-        protected float _lastMoveSpeed;
-        public CCPoint _lastPos;
 
         public Entity(string url, string id): base(url) {
             Id = id;
             IsAntialiased = false;
             Direction = 0;
             Speed = 0;
-            _lastMoveSpeed = 0;
-            _lastPos = Position;
             Tag = Tags.Unknown;
             Hp = new Stat(0);
             AttackDamage = 0;
@@ -66,11 +62,11 @@ namespace EssenceShared.Entities {
         /// TODO: не работает
         /// </summary>
         protected void PredictMove() {
-            var deltaPos = Position - _lastPos;
-            if (deltaPos.Length > 4){
-                Position += deltaPos;
-                Log.Print("Predicted");
-            }
+//            var deltaPos = Position - _lastPos;
+//            if (deltaPos.Length > 4){
+//                Position += deltaPos;
+//                Log.Print("Predicted");
+//            }
         }
 
         public Entity GetOwner() {
@@ -111,7 +107,6 @@ namespace EssenceShared.Entities {
         protected void MoveByAngle(float angle, float speed) {
             PositionX += speed*(float) Math.Cos(ToRadians(angle));
             PositionY += speed*(float) Math.Sin(ToRadians(angle));
-            _lastMoveSpeed = speed;
         }
 
         public float AngleTo(CCPoint p) {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BitMiracle.LibTiff.Classic;
 using CocosSharp;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
@@ -56,7 +55,14 @@ namespace EssenceShared.Entities.Enemies {
         ///     Возвращает список игроков. Сортирует в порядке близости к себе
         /// </summary>
         protected List<Player> GetPlayers() {
-            List<Player> players = Parent.Children.Where(x=>x.Tag == Tags.Player).Cast<Player>().ToList();
+            var players = new List<Player>();
+
+            if (Parent != null && Parent.Children != null)
+                players = Parent.Children.Where(x=>((x != null) && x.Tag == Tags.Player) ).Cast<Player>().ToList();
+            else{
+                Log.Print("SHOULD BE ERROR");
+            }
+
             if (players.Any()){
                 players = players.OrderBy(DistanceTo).ToList();
             }
