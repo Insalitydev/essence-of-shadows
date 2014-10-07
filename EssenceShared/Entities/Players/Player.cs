@@ -3,7 +3,6 @@ using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
-        private const float _moveSpeed = 300;
         public AccountState accState;
 
         public Player(string id, string type, AccountState account): base(type, id) {
@@ -12,6 +11,7 @@ namespace EssenceShared.Entities.Players {
             accState = account;
             Hp = new Stat(200);
             AttackDamage = 20;
+            Speed = 300;
         }
 
         public override void OnEnter() {
@@ -32,19 +32,19 @@ namespace EssenceShared.Entities.Players {
 
         public void Control(float dt) {
             if (Input.IsKeyIn(CCKeys.Up) || Input.IsKeyIn(CCKeys.W)){
-                PositionY += _moveSpeed*dt;
+                PositionY += Speed*dt;
             }
 
             if (Input.IsKeyIn(CCKeys.Down) || Input.IsKeyIn(CCKeys.S)){
-                PositionY -= _moveSpeed*dt;
+                PositionY -= Speed*dt;
             }
 
             if (Input.IsKeyIn(CCKeys.Right) || Input.IsKeyIn(CCKeys.D)){
-                PositionX += _moveSpeed*dt;
+                PositionX += Speed*dt;
             }
 
             if (Input.IsKeyIn(CCKeys.Left) || Input.IsKeyIn(CCKeys.A)){
-                PositionX -= _moveSpeed*dt;
+                PositionX -= Speed*dt;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BitMiracle.LibTiff.Classic;
 using CocosSharp;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
@@ -11,7 +12,6 @@ namespace EssenceShared.Entities.Enemies {
         protected float AttackCooldownCounter;
         protected int AttackRadius;
         protected int SightRadius;
-        protected int Speed;
         protected Entity Target;
 
         public Enemy(string url, string id): base(url, id) {
@@ -35,9 +35,11 @@ namespace EssenceShared.Entities.Enemies {
         public override void Update(float dt) {
             base.Update(dt);
 
-            AttackCooldownCounter -= dt;
-            if (AttackCooldownCounter < 0)
-                AttackCooldownCounter = 0;
+            if (Parent.Tag == Tags.Server){
+                AttackCooldownCounter -= dt;
+                if (AttackCooldownCounter < 0)
+                    AttackCooldownCounter = 0;
+            }
         }
 
         public override void Collision(Entity other) {
