@@ -84,6 +84,10 @@ namespace EssenceShared.Entities {
             MoveByAngle(AngleTo(target), speed);
         }
 
+        protected void MoveFromTarget(CCPoint target, float speed) {
+            MoveByAngle(AngleTo(target) + 180, speed);
+        }
+
         protected void MoveByAngle(float angle, float speed) {
             PositionX += speed*(float) Math.Cos(ToRadians(angle));
             PositionY += speed*(float) Math.Sin(ToRadians(angle));

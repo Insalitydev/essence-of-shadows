@@ -10,8 +10,8 @@ namespace EssenceShared.Entities.Enemies {
         public RangeEnemy(string url, string id): base(url, id) {
             AttackDamage = 15;
             AttackCooldown = 3;
-            SightRadius = 500;
-            AttackRadius = 250;
+            SightRadius = 600;
+            AttackRadius = 450;
         }
 
         protected override void Action(float dt) {
@@ -29,21 +29,26 @@ namespace EssenceShared.Entities.Enemies {
                     }
                     break;
                 case ActionState.MoveToAttack:
-                    Log.Print("Move state");
+                    // Если в зоне атаки - атакуем
                     if (Target != null && DistanceTo(Target) < AttackRadius){
                         ActionState = ActionState.Attack;
                     }
 
-                    if (Target != null && DistanceTo(Target) < SightRadius*2){
+                    // Если далеко - идем к цели
+                    if (Target != null &&
+                        DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
                         MoveToTarget(Target.Position, Speed*dt);
+                    } // если слишком близко, отходим от врага
+                    else if (Target != null && DistanceTo(Target) < AttackRadius*0.5f){
+                        MoveFromTarget(Target.Position, Speed*dt);
                     }
-                    else{
+                    
+                else {
                         Target = null;
                         ActionState = ActionState.Idle;
                     }
                     break;
                 case ActionState.Attack:
-                    Log.Print("Attack state");
                     TryAttackTarget();
                     break;
             }
