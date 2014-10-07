@@ -97,6 +97,11 @@ namespace EssenceShared.Entities {
             return DistanceBetweenPoints(Position, p);
         }
 
+        public float DistanceTo(Entity ent) {
+            return DistanceBetweenPoints(Position, ent.Position);
+        }
+
+
         public static float ToRadians(float angle) {
             return (float) ((Math.PI/180)*angle);
         }

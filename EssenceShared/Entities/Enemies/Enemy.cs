@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
 using EssenceShared.Entities.Players;
@@ -7,13 +6,19 @@ using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Enemies {
     public abstract class Enemy: Entity {
-        protected Entity Target;
+        // количество секунд между атакаим
+        protected float AttackCooldown;
+        protected float AttackCooldownCounter;
+        protected int AttackRadius;
         protected int SightRadius;
         protected int Speed;
+        protected Entity Target;
 
         public Enemy(string url, string id): base(url, id) {
             Target = null;
-            SightRadius = 500;
+            AttackCooldown = 1;
+            //            AttackRadius = 300;
+            //            SightRadius = 500;
             Speed = 150;
             Scale = Settings.Scale;
             Tag = Tags.Enemy;
@@ -25,6 +30,14 @@ namespace EssenceShared.Entities.Enemies {
             if (Parent.Tag == Tags.Server){
                 Schedule(Action);
             }
+        }
+
+        public override void Update(float dt) {
+            base.Update(dt);
+
+            AttackCooldownCounter -= dt;
+            if (AttackCooldownCounter < 0)
+                AttackCooldownCounter = 0;
         }
 
         public override void Collision(Entity other) {
@@ -41,11 +54,11 @@ namespace EssenceShared.Entities.Enemies {
         ///     Возвращает список игроков. Сортирует в порядке близости к себе
         /// </summary>
         protected List<Player> GetPlayers() {
-            return
-                Parent.Children.Where(x=>x.Tag == Tags.Player)
-                    .OrderBy(x=>DistanceTo(x.Position))
-                    .Cast<Player>()
-                    .ToList();
+            List <Player> players = Parent.Children.Where(x=>x.Tag == Tags.Player).Cast<Player>().ToList();
+            if (players.Any()){
+                players = players.OrderBy(DistanceTo).ToList();
+            }
+            return players;
         }
 
         private void Damage(int p) {
