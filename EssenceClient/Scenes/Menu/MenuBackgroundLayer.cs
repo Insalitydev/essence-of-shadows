@@ -1,5 +1,6 @@
 ﻿using CocosSharp;
 using EssenceShared;
+using EssenceShared.Entities;
 
 namespace EssenceClient.Scenes.Menu {
     internal class MenuBackgroundLayer: CCLayerColor {
@@ -47,6 +48,21 @@ namespace EssenceClient.Scenes.Menu {
                 PositionY = 450,
             };
 
+            var titleShadow = new CCLabelTtf(Settings.GameName, "kongtext", 28) {
+                Color = new CCColor3B(100, 0, 220),
+                AnchorPoint = CCPoint.AnchorMiddleTop,
+                PositionX = 400,
+                PositionY = 450,
+            };
+
+            // Движение тени у текста с названием игры
+            CCFiniteTimeAction[] moves = new CCFiniteTimeAction[30];
+            for (int i = 0; i < 30; i++){
+                moves[i] = MoveAround();
+            }
+            titleShadow.RepeatForever(new CCSequence(moves));
+
+
             var helper = new CCLabelTtf("Enter/Space to start, Esc to exit", "kongtext", 10) {
                 Color = CCColor3B.Gray,
                 AnchorPoint = CCPoint.AnchorMiddleBottom,
@@ -54,8 +70,13 @@ namespace EssenceClient.Scenes.Menu {
                 PositionY = 0
             };
 
+            AddChild(titleShadow);
             AddChild(title);
             AddChild(helper);
+        }
+
+        CCMoveBy MoveAround() {
+            return new CCMoveTo(0.1f, new CCPoint(400, 450) + Entity.GetNormalPointByDirection(CCRandom.Next(360))*6);
         }
     }
 
