@@ -56,8 +56,9 @@ namespace EssenceClient.Scenes.Menu {
             };
 
             // Движение тени у текста с названием игры
-            CCFiniteTimeAction[] moves = new CCFiniteTimeAction[30];
-            for (int i = 0; i < 30; i++){
+            const int moveStreak = 30;
+            var moves = new CCFiniteTimeAction[moveStreak];
+            for (int i = 0; i < moveStreak; i++){
                 moves[i] = MoveAround();
             }
             titleShadow.RepeatForever(new CCSequence(moves));
@@ -75,7 +76,7 @@ namespace EssenceClient.Scenes.Menu {
             AddChild(helper);
         }
 
-        CCMoveBy MoveAround() {
+        private CCMoveBy MoveAround() {
             return new CCMoveTo(0.1f, new CCPoint(400, 450) + Entity.GetNormalPointByDirection(CCRandom.Next(360))*6);
         }
     }

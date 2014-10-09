@@ -34,7 +34,7 @@ namespace EssenceShared.Entities.Enemies {
                         ActionState = ActionState.Attack;
                     } // Если далеко - идем к цели
                     else if (Target != null &&
-                        DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
+                             DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
                         MoveToTarget(Target.Position, Speed*dt);
                     } // если слишком близко, отходим от врага
                     else if (Target != null && DistanceTo(Target) < AttackRadius*0.5f){

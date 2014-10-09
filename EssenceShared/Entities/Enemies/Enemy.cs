@@ -58,7 +58,7 @@ namespace EssenceShared.Entities.Enemies {
             var players = new List<Player>();
 
             if (Parent != null && Parent.Children != null)
-                players = Parent.Children.Where(x=>((x != null) && x.Tag == Tags.Player) ).Cast<Player>().ToList();
+                players = Parent.Children.Where(x=>((x != null) && x.Tag == Tags.Player)).Cast<Player>().ToList();
 
             if (players.Any()){
                 players = players.OrderBy(DistanceTo).ToList();

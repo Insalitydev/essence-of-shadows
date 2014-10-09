@@ -18,9 +18,9 @@ namespace EssenceShared.Entities {
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
-        public float Speed;
         public Stat Hp;
         public string OwnerId = null;
+        public float Speed;
         private int _imageH;
         private int _imageW;
 
@@ -59,14 +59,14 @@ namespace EssenceShared.Entities {
         /// <summary>
         ///     Пытается предугадать движение
         ///     Вызывается на клиенте для сглаживания движения
-        /// TODO: не работает
+        ///     TODO: не работает
         /// </summary>
         protected void PredictMove() {
-//            var deltaPos = Position - _lastPos;
-//            if (deltaPos.Length > 4){
-//                Position += deltaPos;
-//                Log.Print("Predicted");
-//            }
+            //            var deltaPos = Position - _lastPos;
+            //            if (deltaPos.Length > 4){
+            //                Position += deltaPos;
+            //                Log.Print("Predicted");
+            //            }
         }
 
         public Entity GetOwner() {
