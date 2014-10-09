@@ -72,12 +72,13 @@ namespace EssenceClient.Scenes.Menu {
             };
 
             AddChild(titleShadow);
+            
             AddChild(title);
             AddChild(helper);
         }
 
         private CCMoveBy MoveAround() {
-            return new CCMoveTo(0.1f, new CCPoint(400, 450) + Entity.GetNormalPointByDirection(CCRandom.Next(360))*6);
+            return new CCMoveTo(0.1f, new CCPoint(400, 450) + Entity.GetNormalPointByDirection(CCRandom.Next(360))*8);
         }
     }
 

@@ -7,6 +7,8 @@ namespace EssenceShared {
     public class EntityState {
         // Ниже все параметры, которые мы передаем для сущностей
         // TODO: Обновлять каждый раз не все параметры
+        // TODO: по возможности перейти на messagePack (бинарный json)
+        // TODO: сократить имена переменных для меньшего объема пакетов
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
@@ -66,6 +68,7 @@ namespace EssenceShared {
         }
 
         public string Serialize() {
+            
             return JsonConvert.SerializeObject(this);
         }
     }
