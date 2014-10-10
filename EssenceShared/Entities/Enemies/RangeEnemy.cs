@@ -45,7 +45,7 @@ namespace EssenceShared.Entities.Enemies {
             }
             else if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter != 0){
                 if (_isTurnRight != 0)
-                    MoveByAngle(AngleTo(Target.Position) + _isTurnRight*95, Speed*dt);
+                    MoveByAngle(AngleTo(Target.Position) + _isTurnRight*85, Speed*dt);
             }
             else{
                 Target = null;
