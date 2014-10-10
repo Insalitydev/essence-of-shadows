@@ -60,6 +60,7 @@ namespace EssenceShared {
             application.ContentSearchPaths.Add("Image\\Tile\\Cave");
             application.ContentSearchPaths.Add("Image\\Tile\\City");
             application.ContentSearchPaths.Add("Image\\Tile\\Desert");
+            application.ContentSearchPaths.Add("Image\\Tile\\Town");
             application.ContentSearchPaths.Add("Image\\Enemy");
             application.ContentSearchPaths.Add("Music");
             application.ContentSearchPaths.Add("Sound");
