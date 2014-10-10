@@ -7,6 +7,9 @@ using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Enemies {
     public class RangeEnemy: Enemy {
+        // Показывает, в какую сторону крутится враг, когда атакует, выбирается случайно. 1- вправо, -1 влево, 0 - не крутится
+        private readonly int _isTurnRight;
+
         public RangeEnemy(string url, string id): base(url, id) {
             Speed = 150;
             AttackDamage = 15;
@@ -14,6 +17,8 @@ namespace EssenceShared.Entities.Enemies {
             SightRadius = 500;
             AttackRadius = 650;
             Hp.Maximum = 100;
+
+            _isTurnRight = CCRandom.Next(0, 3) - 1;
         }
 
         protected override void IdleAction(float dt) {
@@ -37,6 +42,10 @@ namespace EssenceShared.Entities.Enemies {
             } // если слишком близко, отходим от врага
             else if (Target != null && DistanceTo(Target) < AttackRadius*0.5f){
                 MoveFromTarget(Target.Position, Speed*dt);
+            }
+            else if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter != 0){
+                if (_isTurnRight != 0)
+                    MoveByAngle(AngleTo(Target.Position) + _isTurnRight*95, Speed*dt);
             }
             else{
                 Target = null;

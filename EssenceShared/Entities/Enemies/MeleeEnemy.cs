@@ -11,7 +11,7 @@ namespace EssenceShared.Entities.Enemies {
             : base(url, id) {
             Speed = 200;
             AttackDamage = 5;
-            AttackCooldown = 0.1f;
+            AttackCooldown = 1f;
             SightRadius = 500;
             AttackRadius = 100;
             Hp.Maximum = 150;
@@ -28,13 +28,25 @@ namespace EssenceShared.Entities.Enemies {
         }
 
         protected override void MoveToAttackAction(float dt) {
+
+            // Если очень близко есть союзники, меняем угол движения
+            var moveAngleChange = 0f;
+
+            var enemies = Parent.Children.Where(x => ((x != null) && x.Tag == Tags.Enemy)).Cast<Entity>().OrderBy(DistanceTo).ToList();
+
+            if (enemies.Count > 2){
+                if (DistanceTo(enemies[2]) < 100){
+                    moveAngleChange = -AngleTo(enemies[2].Position)/CCRandom.Next(1, 4);
+                }
+            }
+
             // Если в зоне атаки - атакуем
             if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0){
                 ActionState = ActionState.Attack;
             } // Если далеко - идем к цели
             else if (Target != null &&
                      DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
-                MoveToTarget(Target.Position, Speed*dt);
+                MoveByAngle(AngleTo(Target.Position) + moveAngleChange, Speed*dt);
             }
             else{
                 Target = null;
