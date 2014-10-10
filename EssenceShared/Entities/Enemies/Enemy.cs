@@ -80,13 +80,39 @@ namespace EssenceShared.Entities.Enemies {
         /// <summary>
         ///     Метод ИИ, решает что делать в каждый момент времени
         /// </summary>
-        protected virtual void Action(float dt) {
+        protected void Action(float dt) {
+            switch (ActionState){
+                case ActionState.Idle:
+                    IdleAction(dt);
+                    break;
+                case ActionState.MoveToAttack:
+                    MoveToAttackAction(dt);
+                    break;
+                case ActionState.Attack:
+                    TryAttackTarget(dt);
+                    break;
+            }
         }
+
+        /// <summary>
+        ///     Вызывается каждый шаг при состоянии врага Idle
+        /// </summary>
+        protected abstract void IdleAction(float dt);
 
         protected override void Draw() {
             base.Draw();
             drawHealthBar();
         }
+
+        /// <summary>
+        ///     Вызывается каждый шаг при состоянии врага MoveToAttack
+        /// </summary>
+        protected abstract void MoveToAttackAction(float dt);
+
+        /// <summary>
+        ///     Вызывается каждый шаг при состоянии врага Attack
+        /// </summary>
+        protected abstract void TryAttackTarget(float dt);
 
         private void drawHealthBar() {
             CCDrawingPrimitives.Begin();

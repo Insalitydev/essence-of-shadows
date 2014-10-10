@@ -10,54 +10,47 @@ namespace EssenceShared.Entities.Enemies {
         public MeleeEnemy(string url, string id)
             : base(url, id) {
             Speed = 200;
-            AttackDamage = 10;
-            AttackCooldown = 1;
+            AttackDamage = 5;
+            AttackCooldown = 0.1f;
             SightRadius = 500;
             AttackRadius = 100;
             Hp.Maximum = 150;
         }
 
-        protected override void Action(float dt) {
-            base.Action(dt);
-
+        protected override void IdleAction(float dt) {
             List<Player> players = GetPlayers();
-
-            switch (ActionState){
-                case ActionState.Idle:
-                    if (players.Any()){
-                        if (DistanceTo(players[0]) < SightRadius){
-                            Target = players[0];
-                            ActionState = ActionState.MoveToAttack;
-                        }
-                    }
-                    break;
-                case ActionState.MoveToAttack:
-                    // Если в зоне атаки - атакуем
-                    if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0){
-                        ActionState = ActionState.Attack;
-                    } // Если далеко - идем к цели
-                    else if (Target != null &&
-                             DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
-                        MoveToTarget(Target.Position, Speed*dt);
-                    }
-                    else{
-                        Target = null;
-                        ActionState = ActionState.Idle;
-                    }
-                    break;
-                case ActionState.Attack:
-                    TryAttackTarget();
-                    break;
+            if (players.Any()){
+                if (DistanceTo(players[0]) < SightRadius){
+                    Target = players[0];
+                    ActionState = ActionState.MoveToAttack;
+                }
             }
         }
 
-        public void TryAttackTarget() {
+        protected override void MoveToAttackAction(float dt) {
+            // Если в зоне атаки - атакуем
+            if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0){
+                ActionState = ActionState.Attack;
+            } // Если далеко - идем к цели
+            else if (Target != null &&
+                     DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
+                MoveToTarget(Target.Position, Speed*dt);
+            }
+            else{
+                Target = null;
+                ActionState = ActionState.Idle;
+            }
+        }
+        protected override void TryAttackTarget(float dt) {
             if (AttackCooldownCounter == 0){
                 if (Target != null && DistanceTo(Target) < AttackRadius){
                     SpawnProjectileToTarget();
                     // TODO: необходимо стоять на месте после атаки какое-то время
                     ActionState = ActionState.MoveToAttack;
                     AttackCooldownCounter = AttackCooldown;
+                }
+                else{
+                    ActionState = ActionState.MoveToAttack;
                 }
             }
             else{
