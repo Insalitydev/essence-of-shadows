@@ -1,10 +1,10 @@
 ﻿using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
-    public class EnemyProjectile: Entity {
+    public class EnemyMeleeProjectile: Entity {
         private const float Speed = 600;
 
-        public EnemyProjectile(int damage, string url, string id)
+        public EnemyMeleeProjectile(int damage, string url, string id)
             : base(url, id) {
             Scale = Settings.Scale;
             Tag = Tags.EnemyProjectile;
@@ -15,14 +15,12 @@ namespace EssenceShared.Entities.Projectiles {
             base.AddedToScene();
 
             Schedule(Update);
-            Schedule(Delete, 2);
+            Schedule(Delete, 0.1f);
             Rotation = 360 - Direction;
-        }
 
-        public override void Update(float dt) {
-            base.Update(dt);
-
-            MoveByAngle(Direction, Speed*dt);
+            if (Parent.Tag == Tags.Server){
+                MoveByAngle(Direction, Texture.PixelsWide*Settings.Scale);
+            }
         }
 
         public void Delete(float dt) {
@@ -37,7 +35,6 @@ namespace EssenceShared.Entities.Projectiles {
                 if (other as Player != null){
                     (other as Player).Hp.Current -= AttackDamage;
                 }
-                Remove();
             }
         }
     }

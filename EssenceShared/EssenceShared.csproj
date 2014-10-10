@@ -104,11 +104,13 @@
   <ItemGroup>
     <Compile Include="AccountState.cs" />
     <Compile Include="Entities\Enemies\Enemy.cs" />
+    <Compile Include="Entities\Enemies\MeleeEnemy.cs" />
     <Compile Include="Entities\Enemies\RangeEnemy.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Map\Tiles\Tile.cs" />
     <Compile Include="Entities\Players\Player.cs" />
-    <Compile Include="Entities\Projectiles\EnemyProjectile.cs" />
+    <Compile Include="Entities\Projectiles\EnemyMeleeProjectile.cs" />
+    <Compile Include="Entities\Projectiles\EnemyRangeProjectile.cs" />
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
     <Compile Include="EntityState.cs" />
     <Compile Include="Game\EventType.cs" />
@@ -183,6 +185,9 @@
     <Content Include="Resource\Image\Effects\SparkParticle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\Enemy\MeleeRobot.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\Enemy\Stinger.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -220,6 +225,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\Projectile\LaserProjectile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\Projectile\MeleeAttackLine.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\Projectile\MeleeAttackLineActive.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\Projectile\MysticProjectile.png">

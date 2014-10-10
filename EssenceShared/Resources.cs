@@ -11,6 +11,7 @@ namespace EssenceShared {
         public const string ProjectileLaser = "LaserProjectile";
 
         public const string EnemyStinger = "Stinger";
+        public const string EnemyMeleeRobot = "MeleeRobot";
 
         public const string BossEmperor = "Emperor";
         public const string BossCardinal = "Cardinal";
@@ -26,6 +27,8 @@ namespace EssenceShared {
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
         public const string ParticleLevelUp = "ExpParticle";
+        public const string ParticleMeleeSweepStart = "MeleeAttackLine";
+        public const string ParticleMeleeSweepAttack = "MeleeAttackLineActive";
 
         public const string MapTileSand = "Sand.png";
         public const string MapTileGrass = "Grass.png";

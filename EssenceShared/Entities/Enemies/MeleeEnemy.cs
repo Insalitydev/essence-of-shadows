@@ -6,12 +6,15 @@ using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Enemies {
-    public class RangeEnemy: Enemy {
-        public RangeEnemy(string url, string id): base(url, id) {
-            AttackDamage = 15;
-            AttackCooldown = 2;
-            SightRadius = 600;
-            AttackRadius = 450;
+    public class MeleeEnemy: Enemy {
+        public MeleeEnemy(string url, string id)
+            : base(url, id) {
+            Speed = 200;
+            AttackDamage = 10;
+            AttackCooldown = 1;
+            SightRadius = 500;
+            AttackRadius = 100;
+            Hp.Maximum = 150;
         }
 
         protected override void Action(float dt) {
@@ -36,9 +39,6 @@ namespace EssenceShared.Entities.Enemies {
                     else if (Target != null &&
                              DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
                         MoveToTarget(Target.Position, Speed*dt);
-                    } // если слишком близко, отходим от врага
-                    else if (Target != null && DistanceTo(Target) < AttackRadius*0.5f){
-                        MoveFromTarget(Target.Position, Speed*dt);
                     }
                     else{
                         Target = null;
@@ -67,14 +67,15 @@ namespace EssenceShared.Entities.Enemies {
 
         private void SpawnProjectileToTarget() {
             if (Target != null){
-                var projectile = new EnemyRangeProjectile(AttackDamage, Resources.ProjectileLaser, Util.GetUniqueId()) {
-                    PositionX = PositionX,
-                    PositionY = PositionY,
-                    Direction =
-                        AngleBetweenPoints(new CCPoint(PositionX, PositionY),
-                            new CCPoint(Target.PositionX, Target.PositionY)),
-                    OwnerId = Id
-                };
+                var projectile = new EnemyMeleeProjectile(AttackDamage, Resources.ParticleMeleeSweepAttack,
+                    Util.GetUniqueId()) {
+                        PositionX = PositionX,
+                        PositionY = PositionY,
+                        Direction =
+                            AngleBetweenPoints(new CCPoint(PositionX, PositionY),
+                                new CCPoint(Target.PositionX, Target.PositionY)),
+                        OwnerId = Id
+                    };
                 (Parent as GameLayer).AddEntity(projectile);
             }
         }
