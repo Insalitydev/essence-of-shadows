@@ -7,6 +7,7 @@ using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
 using Lidgren.Network;
+using SharpDX.RawInput;
 
 namespace EssenceClient.Scenes.Game {
     /// <summary>
@@ -19,6 +20,9 @@ namespace EssenceClient.Scenes.Game {
         private int _cameraHeight = 700;
         private HudLayer _hudLayer;
         private int _sightRadius = 600;
+
+        private int _mousePosX = 0;
+        private int _mousePosY = 0;
 
         public GameScene(CCWindow window): base(window) {
             Id = "";
@@ -45,7 +49,7 @@ namespace EssenceClient.Scenes.Game {
             var keyListener = new CCEventListenerKeyboard {OnKeyPressed = OnKeyPressed, OnKeyReleased = OnKeyReleased};
             AddEventListener(keyListener, this);
 
-            var mouseListener = new CCEventListenerMouse {OnMouseDown = OnMouseDown};
+            var mouseListener = new CCEventListenerMouse {OnMouseDown = OnMouseDown, OnMouseUp = OnMouseUp, OnMouseMove = OnMouseScroll};
             AddEventListener(mouseListener, this);
 
             var parser = new FileIniDataParser();
@@ -67,12 +71,25 @@ namespace EssenceClient.Scenes.Game {
         public override void Update(float dt) {
             base.Update(dt);
 
-            if (MyPlayer != null){
-                MyPlayer.Control(dt);
-            }
 
+            UpdateControl(dt);
             UpdateCamera();
             UpdateVisibility();
+        }
+
+        private void UpdateControl(float dt) {
+            if (MyPlayer != null) {
+                MyPlayer.Control(dt);
+
+                if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0) {
+                    // Стреляем при нажатой левой кнопке
+                    var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + _mousePosX + "." + _mousePosY);
+                    _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+                    MyPlayer.AttackCooldownCounter = MyPlayer.AttackCooldown;
+                }
+            }
+
+
         }
 
         public void UpdateNetwork(float dt) {
@@ -168,25 +185,27 @@ namespace EssenceClient.Scenes.Game {
             }
         }
 
-        private void OnMouseDown(CCEventMouse obj) {
+        private void OnMouseDown(CCEventMouse e) {
+            Input.OnMousePress(e.MouseButton);
+        }
+
+        private void OnMouseUp(CCEventMouse e) {
+            Input.OnMouseRelease(e.MouseButton);
+        }
+
+        private void OnMouseScroll(CCEventMouse e) {
             /** get scale coef.*/
-            float windowScaleX = Window.WindowSizeInPixels.Width/Settings.ScreenWidth;
-            float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
+            float windowScaleX = Window.WindowSizeInPixels.Width / Settings.ScreenWidth;
+            float windowScaleY = Window.WindowSizeInPixels.Height / Settings.ScreenHeight;
 
             /** Актуальные координаты */
-            var mousePosX = (int) (obj.CursorX/windowScaleX);
-            var mousePosY = (int) (obj.CursorY/windowScaleY);
+            _mousePosX = (int)(e.CursorX / windowScaleX);
+            _mousePosY = (int)(e.CursorY / windowScaleY);
             // поправка на камеру:
-            if (GameLayer.Camera != null){
+            if (GameLayer.Camera != null) {
                 //Correcting by camera
-                mousePosX += (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
-                mousePosY += (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
-            }
-
-            if (obj.MouseButton == CCMouseButton.LeftButton){
-                // Стреляем при нажатой левой кнопке
-                var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + mousePosX + "." + mousePosY);
-                _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+                _mousePosX += (int)(GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth / 2);
+                _mousePosY += (int)(GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight / 2);
             }
         }
     }

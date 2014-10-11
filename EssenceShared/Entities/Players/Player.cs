@@ -1,9 +1,12 @@
 ﻿using CocosSharp;
 using EssenceShared.Game;
+using Lidgren.Network;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
         public AccountState accState;
+        public float AttackCooldown;
+        public float AttackCooldownCounter;
 
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = Settings.Scale;
@@ -12,6 +15,8 @@ namespace EssenceShared.Entities.Players {
             Hp = new Stat(200);
             AttackDamage = 20;
             Speed = 340;
+            AttackCooldownCounter = 0;
+            AttackCooldown = 0.2f;
         }
 
         public override void OnEnter() {
@@ -22,6 +27,11 @@ namespace EssenceShared.Entities.Players {
         public override void Update(float dt) {
             base.Update(dt);
             UpdateAccState();
+
+            AttackCooldownCounter -= dt;
+            if (AttackCooldownCounter < 0){
+                AttackCooldownCounter = 0;
+            }
         }
 
         private void UpdateAccState() {
