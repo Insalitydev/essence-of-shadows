@@ -5,6 +5,7 @@ using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Players;
+using EssenceShared.Game;
 using EssenceShared.Scenes;
 using Microsoft.Xna.Framework;
 
@@ -13,20 +14,32 @@ namespace EssenceServer.Scenes {
     ///     Основная сцена на сервере. Запускает игровой слой и занимается управлением состояние сервера
     /// </summary>
     internal class ServerScene: CCScene {
+
+        public Dictionary<Locations, GameLayer> LocationDic;  
+
         public readonly GameLayer TownGameLayer;
-        public readonly GameLayer GameLayer;
+        private readonly GameLayer GameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
 
         public ServerScene(CCWindow window): base(window) {
+
+            LocationDic = new Dictionary<Locations, GameLayer>();
+
             GameLayer = new GameLayer {Tag = Tags.Server};
             AddChild(GameLayer);
+            LocationDic.Add(Locations.Desert, GameLayer);
 
             TownGameLayer = new GameLayer { Tag = Tags.Server };
             AddChild(TownGameLayer);
+            LocationDic.Add(Locations.Town, TownGameLayer);
 
             Log.Print("Game has started, waiting for players");
             Schedule(Update, 0.04f);
             Schedule(UpdateLogic);
+        }
+
+        public GameLayer GetGameLayer(Locations location) {
+            return LocationDic[location];
         }
 
         public override void OnEnter() {
@@ -74,28 +87,19 @@ namespace EssenceServer.Scenes {
         public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
-            GameLayer fromGameLayer;
-
-            var pl = GameLayer.FindEntityById(playerId) as Player;
+            Player pl = GetPlayer(playerId);
 
             if (pl != null){
-                fromGameLayer = GameLayer;
-            }
-            else{
-                pl = TownGameLayer.FindEntityById(playerId) as Player;
-                fromGameLayer = TownGameLayer;
-            }
-
-            if (pl != null){
-                Entity[] entities = fromGameLayer.Entities.ToArray();
-                foreach (Entity entity in entities){
-                    if (pl.DistanceTo(entity.Position) < 800)
-                        gs.Entities.Add(EntityState.ParseEntity(entity));
-                }
-
-                AccountState accState = Accounts.Find(x=>x.HeroId == playerId);
+                AccountState accState = Accounts.Find(x => x.HeroId == playerId);
                 if (accState != null){
                     gs.Account = accState;
+
+
+                    Entity[] entities = GetGameLayer(accState.location).Entities.ToArray();
+                    foreach (Entity entity in entities){
+                        if (pl.DistanceTo(entity.Position) < 800)
+                            gs.Entities.Add(EntityState.ParseEntity(entity));
+                    }
                 }
             }
 
@@ -107,7 +111,8 @@ namespace EssenceServer.Scenes {
         ///     Обновляется только его позиция
         /// </summary>
         internal void AppendPlayerState(EntityState es) {
-            Entity player = GameLayer.FindEntityById(es.Id);
+            Entity player = GetPlayer(es.Id);
+
             if (player != null){
                 player.PositionX = es.PositionX;
                 player.PositionY = es.PositionY;
@@ -127,6 +132,16 @@ namespace EssenceServer.Scenes {
         private void InitMap() {
             GameLayer.CreateNewMap(ParseMap("TestMap.txt"));
             TownGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
+        }
+
+        internal Player GetPlayer(string id) {
+            Player player = null;
+            foreach (var gameLayer in LocationDic.Values) {
+                player = gameLayer.FindEntityById(id) as Player;
+                if (player != null)
+                    break;
+            }
+            return player;
         }
     }
 }

@@ -2,13 +2,12 @@
 
 namespace EssenceShared.Entities.Projectiles {
     public class EnemyRangeProjectile: Entity {
-        private const float Speed = 600;
-
         public EnemyRangeProjectile(int damage, string url, string id)
             : base(url, id) {
             Scale = Settings.Scale;
             Tag = Tags.EnemyProjectile;
             AttackDamage = damage;
+            Speed = 600;
         }
 
         protected override void AddedToScene() {

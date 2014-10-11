@@ -4,6 +4,7 @@ using CocosSharp;
 using EssenceServer.Scenes;
 using EssenceShared;
 using EssenceShared.Entities.Players;
+using EssenceShared.Game;
 
 namespace EssenceServer {
     /// <summary>
@@ -22,21 +23,26 @@ namespace EssenceServer {
             mainWindow.RunWithScene(ServerScene);
         }
 
+        public Player GetPlayer(string id) {
+            return ServerScene.GetPlayer(id);
+        }
+
         public void AddNewPlayer(string id, int x, int y, string type) {
             Log.Print("Spawn player " + id);
 
-            var accState = new AccountState(id, ServerScene.GameLayer);
+            var accState = new AccountState(id, ServerScene.GetGameLayer(Locations.Desert));
             var player = new Player(id, type, accState) {
                 PositionX = x,
                 PositionY = y
             };
-            ServerScene.TownGameLayer.AddEntity(player);
+
+            ServerScene.GetGameLayer(player.accState.location).AddEntity(player);
             ServerScene.Accounts.Add(accState);
         }
 
         public void RemovePlayer(string id) {
             try{
-                var pl = ServerScene.GameLayer.Entities.Find(x=>x.Id == id) as Player;
+                var pl = GetPlayer(id);
                 if (pl != null)
                     pl.Remove();
 

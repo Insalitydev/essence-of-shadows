@@ -3,12 +3,10 @@ using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
     public class MysticProjectile: Entity {
-        private const float Speed = 700;
-
-
         public MysticProjectile(string id): base(Resources.ProjectileMystic, id) {
             Scale = Settings.Scale;
             Tag = Tags.PlayerProjectile;
+            Speed = 700;
         }
 
         protected override void AddedToScene() {

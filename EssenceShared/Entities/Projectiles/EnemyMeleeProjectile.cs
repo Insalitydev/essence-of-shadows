@@ -2,13 +2,12 @@
 
 namespace EssenceShared.Entities.Projectiles {
     public class EnemyMeleeProjectile: Entity {
-        private const float Speed = 600;
-
         public EnemyMeleeProjectile(int damage, string url, string id)
             : base(url, id) {
             Scale = Settings.Scale;
             Tag = Tags.EnemyProjectile;
             AttackDamage = damage;
+            Speed = 0;
         }
 
         protected override void AddedToScene() {

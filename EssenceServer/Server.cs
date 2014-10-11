@@ -7,6 +7,7 @@ using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
+using EssenceShared.Game;
 using Lidgren.Network;
 using Newtonsoft.Json;
 
@@ -170,7 +171,7 @@ namespace EssenceServer {
         ///     {MethodName}.{arg[0]}.{arg[1]}
         /// </summary>
         private static void CallPlayerMethod(string playerid, string data) {
-            var pl = ServerGame.ServerScene.GameLayer.Entities.Find(x=>x.Id == playerid) as Player;
+            var pl = ServerGame.GetPlayer(playerid);
             string[] args = data.Split('.');
             if (args[0] == "attack"){
                 //TODO: вынести в отдельные методы
@@ -182,7 +183,7 @@ namespace EssenceServer {
                             new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2]))),
                     OwnerId = playerid
                 };
-                ServerGame.ServerScene.GameLayer.AddEntity(ent);
+                ServerGame.ServerScene.GetGameLayer(pl.accState.location).AddEntity(ent);
             }
             else{
                 Log.Print("Not found player method;", LogType.Error);
@@ -232,7 +233,7 @@ namespace EssenceServer {
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
             // TODO: отдаём начальное состояние мира (карта)
-            var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.TownGameLayer.SerializeMap());
+            var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GetGameLayer(Locations.Desert).SerializeMap());
             NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
