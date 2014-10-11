@@ -39,6 +39,9 @@ namespace EssenceShared.Scenes {
                 case Resources.ClassSniper:
                     entity = new Player(es.Id, textureName, accState);
                     break;
+                case Resources.ItemGold:
+                    entity = new GoldStack(es.Id);
+                    break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.Id);
                     break;

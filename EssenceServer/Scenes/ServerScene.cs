@@ -7,29 +7,25 @@ using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
-using Microsoft.Xna.Framework;
 
 namespace EssenceServer.Scenes {
     /// <summary>
     ///     Основная сцена на сервере. Запускает игровой слой и занимается управлением состояние сервера
     /// </summary>
     internal class ServerScene: CCScene {
-
-        public Dictionary<Locations, GameLayer> LocationDic;  
-
-        public readonly GameLayer TownGameLayer;
         private readonly GameLayer GameLayer;
+        public readonly GameLayer TownGameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
+        public Dictionary<Locations, GameLayer> LocationDic;
 
         public ServerScene(CCWindow window): base(window) {
-
             LocationDic = new Dictionary<Locations, GameLayer>();
 
             GameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Desert};
             AddChild(GameLayer);
             LocationDic.Add(Locations.Desert, GameLayer);
 
-            TownGameLayer = new GameLayer { Tag = Tags.Server, Location = Locations.Town };
+            TownGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Town};
             AddChild(TownGameLayer);
             LocationDic.Add(Locations.Town, TownGameLayer);
 
@@ -57,12 +53,18 @@ namespace EssenceServer.Scenes {
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 50; i++){
                 GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
+
+            for (int i = 0; i < 50; i++)
+                TownGameLayer.AddEntity(new GoldStack(Util.GetUniqueId()) {
+                    PositionX = CCRandom.Next(100, 800),
+                    PositionY = CCRandom.Next(100, 800)
+                });
         }
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace EssenceServer.Scenes {
             Player pl = GetPlayer(playerId);
 
             if (pl != null){
-                AccountState accState = Accounts.Find(x => x.HeroId == playerId);
+                AccountState accState = Accounts.Find(x=>x.HeroId == playerId);
                 if (accState != null){
                     gs.Account = accState;
 
@@ -119,7 +121,9 @@ namespace EssenceServer.Scenes {
         }
 
         private void UpdateLogic(float dt) {
-            GameLayer.Update(dt);
+            foreach (var gameLayer in LocationDic.Values){
+                gameLayer.Update(dt);
+            }
         }
 
         public override void Update(float dt) {
@@ -135,7 +139,7 @@ namespace EssenceServer.Scenes {
 
         internal Player GetPlayer(string id) {
             Player player = null;
-            foreach (var gameLayer in LocationDic.Values) {
+            foreach (GameLayer gameLayer in LocationDic.Values){
                 player = gameLayer.FindEntityById(id) as Player;
                 if (player != null)
                     break;

@@ -11,6 +11,7 @@
         public const int PlayerProjectile = 7;
         public const int MapTile = 8;
         public const int EnemyProjectile = 9;
-        public const int Particle = 9;
+        public const int Particle = 10;
+        public const int Item = 11;
     }
 }

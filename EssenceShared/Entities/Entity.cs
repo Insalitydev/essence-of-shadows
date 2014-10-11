@@ -82,7 +82,7 @@ namespace EssenceShared.Entities {
         public virtual void Collision(Entity other) {
         }
 
-        private void UpdateMask() {
+        protected void UpdateMask() {
             // TODO: можно ли без пересоздавааний?
             // lesser - немного уменьшаем маску столкновения
             const int lesser = 12;
