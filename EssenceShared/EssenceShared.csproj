@@ -261,6 +261,9 @@
     <Content Include="Resource\Image\Tile\Desert\Water.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\Tile\Error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\Tile\Town\TownCell.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

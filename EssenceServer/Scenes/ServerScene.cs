@@ -6,18 +6,23 @@ using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Players;
 using EssenceShared.Scenes;
+using Microsoft.Xna.Framework;
 
 namespace EssenceServer.Scenes {
     /// <summary>
     ///     Основная сцена на сервере. Запускает игровой слой и занимается управлением состояние сервера
     /// </summary>
     internal class ServerScene: CCScene {
+        public readonly GameLayer TownGameLayer;
         public readonly GameLayer GameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
 
         public ServerScene(CCWindow window): base(window) {
             GameLayer = new GameLayer {Tag = Tags.Server};
             AddChild(GameLayer);
+
+            TownGameLayer = new GameLayer { Tag = Tags.Server };
+            AddChild(TownGameLayer);
 
             Log.Print("Game has started, waiting for players");
             Schedule(Update, 0.04f);
@@ -50,8 +55,8 @@ namespace EssenceServer.Scenes {
         /// <summary>
         ///     Считывает карту и возвращает её как массив строк
         /// </summary>
-        public List<string> ParseMap() {
-            string s = File.ReadAllText("TestMap.txt");
+        public List<string> ParseMap(string map) {
+            string s = File.ReadAllText(map);
             var tileMap = new List<string>(s.Split('\n'));
 
             for (int i = 0; i < tileMap.Count; i++){
@@ -69,10 +74,20 @@ namespace EssenceServer.Scenes {
         public GameState GetGameState(string playerId) {
             var gs = new GameState();
 
+            GameLayer fromGameLayer;
+
             var pl = GameLayer.FindEntityById(playerId) as Player;
 
             if (pl != null){
-                Entity[] entities = GameLayer.Entities.ToArray();
+                fromGameLayer = GameLayer;
+            }
+            else{
+                pl = TownGameLayer.FindEntityById(playerId) as Player;
+                fromGameLayer = TownGameLayer;
+            }
+
+            if (pl != null){
+                Entity[] entities = fromGameLayer.Entities.ToArray();
                 foreach (Entity entity in entities){
                     if (pl.DistanceTo(entity.Position) < 800)
                         gs.Entities.Add(EntityState.ParseEntity(entity));
@@ -110,7 +125,8 @@ namespace EssenceServer.Scenes {
         }
 
         private void InitMap() {
-            GameLayer.CreateNewMap(ParseMap());
+            GameLayer.CreateNewMap(ParseMap("TestMap.txt"));
+            TownGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
         }
     }
 }

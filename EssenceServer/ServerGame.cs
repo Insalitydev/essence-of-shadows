@@ -30,7 +30,7 @@ namespace EssenceServer {
                 PositionX = x,
                 PositionY = y
             };
-            ServerScene.GameLayer.AddEntity(player);
+            ServerScene.TownGameLayer.AddEntity(player);
             ServerScene.Accounts.Add(accState);
         }
 

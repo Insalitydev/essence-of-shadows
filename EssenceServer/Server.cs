@@ -208,8 +208,7 @@ namespace EssenceServer {
                 foreach (NetConnection netConnection in _server.Connections){
                     // TODO: не формировать каждый раз одни и те же данные
 
-                    /** TODO: Отсылать каждому только недалеко расположенные сущности от игрока
-                        TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)*/
+                    // TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)
                     if (netConnection.Status == NetConnectionStatus.Connected){
                         // TODO: Временное решение. Вместо убирания ненужных элементов из полного геймстейта, сразу формируем с нуля для каждого игрока
                         GameState gs =
@@ -232,8 +231,8 @@ namespace EssenceServer {
 
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
-            // TODO: отдать начальное состояние мира (карта)
-            var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GameLayer.SerializeMap());
+            // TODO: отдаём начальное состояние мира (карта)
+            var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.TownGameLayer.SerializeMap());
             NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);

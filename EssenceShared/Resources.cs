@@ -30,12 +30,15 @@ namespace EssenceShared {
         public const string ParticleMeleeSweepStart = "MeleeAttackLine";
         public const string ParticleMeleeSweepAttack = "MeleeAttackLineActive";
 
+        public const string MapTileError = "Error.png";
         public const string MapTileSand = "Sand.png";
         public const string MapTileGrass = "Grass.png";
         public const string MapTileStone = "Stone.png";
         public const string MapTileWater = "Water.png";
         public const string MapTileRoad = "Road.png";
         public const string MapTileDirt = "Dirt.png";
+        public const string MapTileTownCell = "TownCell.png";
+        
 
 
         /** Добавляет в пути поиска ресурсов необходимые папки */

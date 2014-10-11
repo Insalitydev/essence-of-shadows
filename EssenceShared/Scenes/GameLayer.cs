@@ -86,6 +86,7 @@ namespace EssenceShared.Scenes {
             if (Tag == Tags.Client){
                 Log.Print("Creating new map");
                 Tile tile;
+                // TODO: переделать на словарь
                 for (int i = 0; i < tileMap.Count; i++){
                     for (int j = 0; j < tileMap[i].Length; j++){
                         switch (tileMap[i][j]){
@@ -95,11 +96,14 @@ namespace EssenceShared.Scenes {
                             case '~':
                                 tile = new Tile(Resources.MapTileWater);
                                 break;
+                            case '+':
+                                tile = new Tile(Resources.MapTileTownCell);
+                                break;
                             default:
-                                tile = new Tile(Resources.MapTileSand);
+                                tile = new Tile(Resources.MapTileError);
                                 break;
                         }
-                        tile.Scale = 4;
+                        tile.Scale = Settings.Scale;
                         // Поворачиваем карту на 90 (поэтому поменяны местами i и j)
                         tile.Position = new CCPoint(j*Settings.TileSize*tile.ScaleX, i*Settings.TileSize*tile.ScaleY);
                         AddChild(tile, -100, Tags.MapTile);
