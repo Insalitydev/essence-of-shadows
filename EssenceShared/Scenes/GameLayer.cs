@@ -7,6 +7,7 @@ using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
+using EssenceShared.Game;
 using Newtonsoft.Json;
 
 namespace EssenceShared.Scenes {
@@ -19,6 +20,8 @@ namespace EssenceShared.Scenes {
         /** Состояние игрока на клиенте */
         public AccountState MyAccountState;
         public List<string> currentMap;
+        // TODO: сделать в конструкторе
+        public Locations Location = Locations.Town;
 
         /** AccState - если создается игрок, ему передается для связывания... (что плохо :( )*/
 

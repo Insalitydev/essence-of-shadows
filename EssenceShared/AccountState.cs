@@ -10,9 +10,9 @@ namespace EssenceShared {
         public int Gold;
         public string HeroId;
         public int Level;
-        public Locations location;
 
         [JsonIgnore] public GameLayer gameLayer;
+        public Locations location = Locations.Town;
 
         public AccountState(string id, GameLayer gameLayer) {
             HeroId = id;
@@ -20,7 +20,9 @@ namespace EssenceShared {
             Gold = 0;
             Exp = new Stat(Settings.StartExp) {Current = 0};
             Level = 1;
-            location = Locations.Town;
+
+            if (gameLayer != null)
+                location = gameLayer.Location;
         }
 
         /** Call by player */

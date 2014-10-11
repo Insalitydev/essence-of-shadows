@@ -25,11 +25,11 @@ namespace EssenceServer.Scenes {
 
             LocationDic = new Dictionary<Locations, GameLayer>();
 
-            GameLayer = new GameLayer {Tag = Tags.Server};
+            GameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Desert};
             AddChild(GameLayer);
             LocationDic.Add(Locations.Desert, GameLayer);
 
-            TownGameLayer = new GameLayer { Tag = Tags.Server };
+            TownGameLayer = new GameLayer { Tag = Tags.Server, Location = Locations.Town };
             AddChild(TownGameLayer);
             LocationDic.Add(Locations.Town, TownGameLayer);
 
@@ -93,7 +93,6 @@ namespace EssenceServer.Scenes {
                 AccountState accState = Accounts.Find(x => x.HeroId == playerId);
                 if (accState != null){
                     gs.Account = accState;
-
 
                     Entity[] entities = GetGameLayer(accState.location).Entities.ToArray();
                     foreach (Entity entity in entities){
