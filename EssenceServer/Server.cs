@@ -110,11 +110,9 @@ namespace EssenceServer {
                         case NetIncomingMessageType.StatusChanged:
                             var status = (NetConnectionStatus) msg.ReadByte();
                             string reason = msg.ReadString();
-                            Log.Print((NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)) +
-                                      " " + status + ": " + reason);
+                            Log.Print(GetId(msg.SenderConnection) + " " + status + ": " + reason);
                             if (status == NetConnectionStatus.Disconnected){
-                                RemoveDisconnectedPlayer(
-                                    NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
+                                RemoveDisconnectedPlayer(GetId(msg.SenderConnection));
                             }
                             break;
 
@@ -148,19 +146,18 @@ namespace EssenceServer {
                         ConnectNewPlayer(msg);
                         break;
                     case NetCommandType.Disconnect:
-                        RemoveDisconnectedPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
+                        RemoveDisconnectedPlayer(GetId(msg.SenderConnection));
                         break;
                     case NetCommandType.Say:
                         SendChatMessage(
-                            NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier).Substring(0, 4) + ": " +
-                            nc.Data);
+                            GetId(msg.SenderConnection).Substring(0, 4) + ": " + nc.Data);
                         break;
                     case NetCommandType.UpdatePlayerstate:
                         var ps = JsonConvert.DeserializeObject<EntityState>(nc.Data);
                         ServerGame.ServerScene.AppendPlayerState(ps);
                         break;
                     case NetCommandType.CallPlayerMethod:
-                        CallPlayerMethod(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier), nc.Data);
+                        CallPlayerMethod(GetId(msg.SenderConnection), nc.Data);
                         break;
                 }
             }
@@ -171,7 +168,7 @@ namespace EssenceServer {
         ///     {MethodName}.{arg[0]}.{arg[1]}
         /// </summary>
         private static void CallPlayerMethod(string playerid, string data) {
-            var pl = ServerGame.GetPlayer(playerid);
+            Player pl = ServerGame.GetPlayer(playerid);
             string[] args = data.Split('.');
             if (args[0] == "attack"){
                 //TODO: вынести в отдельные методы
@@ -213,8 +210,7 @@ namespace EssenceServer {
                     if (netConnection.Status == NetConnectionStatus.Connected){
                         // TODO: Временное решение. Вместо убирания ненужных элементов из полного геймстейта, сразу формируем с нуля для каждого игрока
                         GameState gs =
-                            ServerGame.ServerScene.GetGameState(
-                                NetUtility.ToHexString(netConnection.RemoteUniqueIdentifier));
+                            ServerGame.ServerScene.GetGameState(GetId(netConnection));
                         var nc = new NetCommand(NetCommandType.UpdateGamestate, gs.Serialize());
 
                         NetOutgoingMessage om = _server.CreateMessage();
@@ -233,18 +229,18 @@ namespace EssenceServer {
 
         private static void ConnectNewPlayer(NetIncomingMessage msg) {
             // TODO: отдаём начальное состояние мира (карта)
-            var nc = new NetCommand(NetCommandType.SendMap, ServerGame.ServerScene.GetGameLayer(Locations.Desert).SerializeMap());
+            var nc = new NetCommand(NetCommandType.SendMap,
+                ServerGame.ServerScene.GetGameLayer(Locations.Desert).SerializeMap());
             NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
 
             Log.Print("Creating new player");
             /* Создаем нового игрока в игре */
-            InitNewPlayer(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier));
+            InitNewPlayer(GetId(msg.SenderConnection));
 
             /* Отдаем новому игроку его уникальный ид */
-            nc = new NetCommand(NetCommandType.Connect,
-                (NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier)));
+            nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
 
             om = _server.CreateMessage();
             om.Write(nc.Serialize());
@@ -270,6 +266,10 @@ namespace EssenceServer {
         private static void RemoveDisconnectedPlayer(string playerid) {
             Log.Print("Player " + playerid + " disconected. Removing his player...");
             ServerGame.RemovePlayer(playerid);
+        }
+
+        public static string GetId(NetConnection nc) {
+            return NetUtility.ToHexString(nc.RemoteUniqueIdentifier);
         }
     }
 }
