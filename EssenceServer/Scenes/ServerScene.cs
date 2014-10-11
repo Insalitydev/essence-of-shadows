@@ -60,11 +60,14 @@ namespace EssenceServer.Scenes {
                 });
             }
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 10; i++)
                 TownGameLayer.AddEntity(new GoldStack(Util.GetUniqueId()) {
-                    PositionX = CCRandom.Next(100, 800),
-                    PositionY = CCRandom.Next(100, 800)
+                    PositionX = CCRandom.Next(100, 1400),
+                    PositionY = CCRandom.Next(100, 1400)
                 });
+            TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+                PositionX = 500, PositionY = 500
+            });
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace EssenceServer.Scenes {
                 if (accState != null){
                     gs.Account = accState;
 
-                    Entity[] entities = GetGameLayer(accState.location).Entities.ToArray();
+                    Entity[] entities = GetGameLayer(accState.Location).Entities.ToArray();
                     foreach (Entity entity in entities){
                         if (pl.DistanceTo(entity.Position) < 800)
                             gs.Entities.Add(EntityState.ParseEntity(entity));

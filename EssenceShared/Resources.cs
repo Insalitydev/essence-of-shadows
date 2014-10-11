@@ -24,6 +24,7 @@ namespace EssenceShared {
         public const string ItemKeyCave = "KeyCave";
         public const string ItemKeyUrban = "KeyUrban";
         public const string ItemKeyDesert = "KeyDesert";
+        public const string ItemGate = "Gate";
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
         public const string ParticleLevelUp = "ExpParticle";

@@ -42,6 +42,9 @@ namespace EssenceShared.Scenes {
                 case Resources.ItemGold:
                     entity = new GoldStack(es.Id);
                     break;
+                case Resources.ItemGate:
+                    entity = new Gate(es.Id);
+                    break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.Id);
                     break;

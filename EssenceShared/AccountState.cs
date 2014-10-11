@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
@@ -6,27 +7,33 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class AccountState {
+        private readonly Dictionary<Locations, GameLayer> _locations;
         public Stat Exp;
         public int Gold;
         public string HeroId;
         public int Level;
+        public Locations Location = Locations.Town;
 
-        [JsonIgnore] public GameLayer gameLayer;
-        public Locations location = Locations.Town;
 
-        public AccountState(string id, GameLayer gameLayer) {
+        public AccountState(string id, Dictionary<Locations, GameLayer> locations) {
             HeroId = id;
-            this.gameLayer = gameLayer;
             Gold = 0;
             Exp = new Stat(Settings.StartExp) {Current = 0};
             Level = 1;
+            _locations = locations;
 
-            if (gameLayer != null)
-                location = gameLayer.Location;
         }
 
-        /** Call by player */
+        public void SwitchLocation(Locations locationTo) {
+            var player = GetPlayer();
+            _locations[Location].RemoveChild(player);
+            Location = locationTo;
+            _locations[locationTo].AddEntity(player);
+        }
 
+        /// <summary>
+        ///     Вызывается классом Player
+        /// </summary>
         public void Update() {
             if (Exp.Perc == 1){
                 LevelUp();
@@ -46,7 +53,7 @@ namespace EssenceShared {
         }
 
         private Player GetPlayer() {
-            var pl = gameLayer.FindEntityById(HeroId) as Player;
+            var pl = _locations[Location].FindEntityById(HeroId) as Player;
             return pl;
         }
 

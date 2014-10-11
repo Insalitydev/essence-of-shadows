@@ -180,7 +180,7 @@ namespace EssenceServer {
                             new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2]))),
                     OwnerId = playerid
                 };
-                ServerGame.ServerScene.GetGameLayer(pl.accState.location).AddEntity(ent);
+                ServerGame.ServerScene.GetGameLayer(pl.accState.Location).AddEntity(ent);
             }
             else{
                 Log.Print("Not found player method;", LogType.Error);

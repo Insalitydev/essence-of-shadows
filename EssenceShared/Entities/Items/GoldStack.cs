@@ -9,7 +9,6 @@ namespace EssenceShared.Entities {
 
         public override void Collision(Entity other) {
             base.Collision(other);
-            Log.Print("colliti");
 
             if (other.Tag == Tags.Player){
                 (other as Player).accState.Gold += 100;

@@ -30,13 +30,13 @@ namespace EssenceServer {
         public void AddNewPlayer(string id, int x, int y, string type) {
             Log.Print("Spawn player " + id);
 
-            var accState = new AccountState(id, ServerScene.GetGameLayer(Locations.Town));
+            var accState = new AccountState(id, ServerScene.LocationDic);
             var player = new Player(id, type, accState) {
                 PositionX = x,
                 PositionY = y
             };
 
-            ServerScene.GetGameLayer(accState.location).AddEntity(player);
+            ServerScene.GetGameLayer(accState.Location).AddEntity(player);
             ServerScene.Accounts.Add(accState);
         }
 
