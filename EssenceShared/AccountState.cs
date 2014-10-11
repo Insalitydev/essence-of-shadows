@@ -14,6 +14,9 @@ namespace EssenceShared {
         public int Level;
         public Locations Location = Locations.Town;
 
+        // Меняется сервером когда он учтет смену локации
+        [JsonIgnore] public Locations PrevLocation;
+
 
         public AccountState(string id, Dictionary<Locations, GameLayer> locations) {
             HeroId = id;
@@ -21,14 +24,17 @@ namespace EssenceShared {
             Exp = new Stat(Settings.StartExp) {Current = 0};
             Level = 1;
             _locations = locations;
-
+            PrevLocation = Location;
         }
 
         public void SwitchLocation(Locations locationTo) {
+            PrevLocation = Location;
+
             var player = GetPlayer();
             _locations[Location].RemoveChild(player);
             Location = locationTo;
-            _locations[locationTo].AddEntity(player);
+            _locations[locationTo].AddEntity(player);        
+            
         }
 
         /// <summary>

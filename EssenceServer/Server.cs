@@ -227,22 +227,35 @@ namespace EssenceServer {
         }
 
 
-        private static void ConnectNewPlayer(NetIncomingMessage msg) {
+        public static void SendMap(string uniqueId, Locations location) {
+            foreach (var client in _server.Connections){
+                if (GetId(client) == uniqueId){
+                    SendMap(client, location);
+                    break;
+                }
+            }
+        }
+
+        public static void SendMap(NetConnection client, Locations location) {
             // TODO: отдаём начальное состояние мира (карта)
             var nc = new NetCommand(NetCommandType.SendMap,
-                ServerGame.ServerScene.GetGameLayer(Locations.Desert).SerializeMap());
+                ServerGame.ServerScene.GetGameLayer(location).SerializeMap());
             NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
-            _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+            _server.SendMessage(om, client, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        private static void ConnectNewPlayer(NetIncomingMessage msg) {
+            SendMap(msg.SenderConnection, Locations.Town);
 
             Log.Print("Creating new player");
             /* Создаем нового игрока в игре */
             InitNewPlayer(GetId(msg.SenderConnection));
 
             /* Отдаем новому игроку его уникальный ид */
-            nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
+            var nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
 
-            om = _server.CreateMessage();
+            var om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }

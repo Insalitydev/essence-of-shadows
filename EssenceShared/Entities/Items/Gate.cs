@@ -3,7 +3,7 @@ using EssenceShared.Game;
 
 namespace EssenceShared.Entities {
     public class Gate: Entity {
-        Locations teleportTo = Locations.Desert;
+        public Locations teleportTo = Locations.Desert;
         public Gate(string id): base(Resources.ItemGate, id) {
             Tag = Tags.Item;
 
@@ -14,7 +14,7 @@ namespace EssenceShared.Entities {
 
             // TODO: реализовать нормально...
             if (other.Tag == Tags.Player){
-                (other as Player).accState.SwitchLocation(Locations.Desert);
+                (other as Player).accState.SwitchLocation(teleportTo);
 
             }
         }

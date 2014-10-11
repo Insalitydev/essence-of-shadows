@@ -2,6 +2,7 @@
     public enum EventType {
         CreatureDied,
         PlayerShoot,
-        PlayerDied
+        PlayerDied,
+        ChangeLocation
     }
 }

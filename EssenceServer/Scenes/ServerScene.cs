@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
@@ -30,7 +31,7 @@ namespace EssenceServer.Scenes {
             LocationDic.Add(Locations.Town, TownGameLayer);
 
             Log.Print("Game has started, waiting for players");
-            Schedule(Update, 0.04f);
+            Schedule(UpdateNetwork, 0.04f);
             Schedule(UpdateLogic);
         }
 
@@ -59,6 +60,11 @@ namespace EssenceServer.Scenes {
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
+            GameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+                PositionX = -10,
+                PositionY = -10,
+                teleportTo = Locations.Town
+            });
 
             for (int i = 0; i < 10; i++)
                 TownGameLayer.AddEntity(new GoldStack(Util.GetUniqueId()) {
@@ -127,11 +133,15 @@ namespace EssenceServer.Scenes {
             foreach (var gameLayer in LocationDic.Values){
                 gameLayer.Update(dt);
             }
+
+            //TODO: временное решение? когда меняется локация, пересылаем карту
+            foreach (var accountState in Accounts.Where(accountState=>accountState.PrevLocation != accountState.Location)){
+                accountState.PrevLocation = accountState.Location;
+                Server.SendMap(accountState.HeroId, accountState.Location);
+            }
         }
 
-        public override void Update(float dt) {
-            base.Update(dt);
-
+        public void UpdateNetwork(float dt) {
             Server.SendGameStateToAll();
         }
 
