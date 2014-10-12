@@ -28,11 +28,14 @@ namespace EssenceShared.Entities.Enemies {
         }
 
         protected override void MoveToAttackAction(float dt) {
-
             // Если очень близко есть союзники, меняем угол движения
-            var moveAngleChange = 0f;
+            float moveAngleChange = 0f;
 
-            var enemies = Parent.Children.Where(x => ((x != null) && x.Tag == Tags.Enemy)).Cast<Entity>().OrderBy(DistanceTo).ToList();
+            List<Entity> enemies =
+                Parent.Children.Where(x=>((x != null) && x.Tag == Tags.Enemy))
+                    .Cast<Entity>()
+                    .OrderBy(DistanceTo)
+                    .ToList();
 
             if (enemies.Count > 2){
                 if (DistanceTo(enemies[2]) < 100){
@@ -53,6 +56,7 @@ namespace EssenceShared.Entities.Enemies {
                 ActionState = ActionState.Idle;
             }
         }
+
         protected override void TryAttackTarget(float dt) {
             if (AttackCooldownCounter == 0){
                 if (Target != null && DistanceTo(Target) < AttackRadius){
@@ -81,7 +85,7 @@ namespace EssenceShared.Entities.Enemies {
                                 new CCPoint(Target.PositionX, Target.PositionY)),
                         OwnerId = Id
                     };
-                projectile.Position += Entity.GetNormalPointByDirection(projectile.Direction) * Texture.PixelsWide * ScaleX;
+                projectile.Position += GetNormalPointByDirection(projectile.Direction)*Texture.PixelsWide*ScaleX;
                 (Parent as GameLayer).AddEntity(projectile);
             }
         }

@@ -30,11 +30,10 @@ namespace EssenceShared {
         public void SwitchLocation(Locations locationTo) {
             PrevLocation = Location;
 
-            var player = GetPlayer();
+            Player player = GetPlayer();
             _locations[Location].RemoveChild(player);
             Location = locationTo;
-            _locations[locationTo].AddEntity(player);        
-            
+            _locations[locationTo].AddEntity(player);
         }
 
         /// <summary>

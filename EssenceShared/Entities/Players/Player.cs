@@ -1,12 +1,11 @@
 ﻿using CocosSharp;
 using EssenceShared.Game;
-using Lidgren.Network;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
-        public AccountState accState;
         public float AttackCooldown;
         public float AttackCooldownCounter;
+        public AccountState accState;
 
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = Settings.Scale;
@@ -46,15 +45,15 @@ namespace EssenceShared.Entities.Players {
             }
 
             if (Input.IsKeyIn(CCKeys.Down) || Input.IsKeyIn(CCKeys.S)){
-                MoveByAngle(270, Speed * dt);
+                MoveByAngle(270, Speed*dt);
             }
 
             if (Input.IsKeyIn(CCKeys.Right) || Input.IsKeyIn(CCKeys.D)){
-                MoveByAngle(0, Speed * dt);
+                MoveByAngle(0, Speed*dt);
             }
 
             if (Input.IsKeyIn(CCKeys.Left) || Input.IsKeyIn(CCKeys.A)){
-                MoveByAngle(180, Speed * dt);
+                MoveByAngle(180, Speed*dt);
             }
         }
 

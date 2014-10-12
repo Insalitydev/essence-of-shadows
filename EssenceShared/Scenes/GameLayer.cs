@@ -18,11 +18,11 @@ namespace EssenceShared.Scenes {
     public class GameLayer: CCLayer {
         private readonly Object lockThis = new Object();
         public List<Entity> Entities = new List<Entity>();
+        public Locations Location = Locations.Town;
         /** Состояние игрока на клиенте */
         public AccountState MyAccountState;
         public List<string> currentMap;
         // TODO: сделать в конструкторе
-        public Locations Location = Locations.Town;
 
         /** AccState - если создается игрок, ему передается для связывания... (что плохо :( )*/
 
@@ -131,7 +131,7 @@ namespace EssenceShared.Scenes {
                                 tile = new Tile(Resources.MapTileError);
                                 break;
                         }
-                        tile.Scale = Settings.Scale;
+                        tile.Scale = 2;
                         // Поворачиваем карту на 90 (поэтому поменяны местами i и j)
                         tile.Position = new CCPoint(j*Settings.TileSize*tile.ScaleX, i*Settings.TileSize*tile.ScaleY);
                         AddChild(tile, -100, Tags.MapTile);

@@ -72,7 +72,7 @@ namespace EssenceClient.Scenes.Menu {
             };
 
             AddChild(titleShadow);
-            
+
             AddChild(title);
             AddChild(helper);
         }

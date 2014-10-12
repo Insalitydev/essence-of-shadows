@@ -228,7 +228,7 @@ namespace EssenceServer {
 
 
         public static void SendMap(string uniqueId, Locations location) {
-            foreach (var client in _server.Connections){
+            foreach (NetConnection client in _server.Connections){
                 if (GetId(client) == uniqueId){
                     SendMap(client, location);
                     break;
@@ -255,7 +255,7 @@ namespace EssenceServer {
             /* Отдаем новому игроку его уникальный ид */
             var nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
 
-            var om = _server.CreateMessage();
+            NetOutgoingMessage om = _server.CreateMessage();
             om.Write(nc.Serialize());
             _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
         }

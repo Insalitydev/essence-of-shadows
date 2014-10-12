@@ -41,7 +41,6 @@ namespace EssenceShared {
         public const string MapTileDirt = "CaveDirt.png";
         public const string MapTileCaveWall = "CaveWall.png";
         public const string MapTileTownCell = "TownCell.png";
-        
 
 
         /** Добавляет в пути поиска ресурсов необходимые папки */

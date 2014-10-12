@@ -1,19 +1,20 @@
 ﻿namespace EssenceShared.Game {
     public class Stat {
-        private int _maximum;
-        public int Maximum {
-            get { return _maximum;  }
-            set {
-                var perc = Perc;
-                _maximum = value;
-                Current = (int)(_maximum*perc);
-            }
-        } 
         private int _current;
+        private int _maximum;
 
         public Stat(int max) {
             Maximum = max;
             Current = Maximum;
+        }
+
+        public int Maximum {
+            get { return _maximum; }
+            set {
+                float perc = Perc;
+                _maximum = value;
+                Current = (int) (_maximum*perc);
+            }
         }
 
         public int Current {

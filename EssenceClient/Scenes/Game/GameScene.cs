@@ -7,7 +7,6 @@ using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
 using Lidgren.Network;
-using SharpDX.RawInput;
 
 namespace EssenceClient.Scenes.Game {
     /// <summary>
@@ -19,10 +18,10 @@ namespace EssenceClient.Scenes.Game {
         private BackgroundLayer _backgroundLayer;
         private int _cameraHeight = 700;
         private HudLayer _hudLayer;
-        private int _sightRadius = 600;
 
-        private int _mousePosX = 0;
-        private int _mousePosY = 0;
+        private int _mousePosX;
+        private int _mousePosY;
+        private int _sightRadius = 600;
 
         public GameScene(CCWindow window): base(window) {
             Id = "";
@@ -49,7 +48,11 @@ namespace EssenceClient.Scenes.Game {
             var keyListener = new CCEventListenerKeyboard {OnKeyPressed = OnKeyPressed, OnKeyReleased = OnKeyReleased};
             AddEventListener(keyListener, this);
 
-            var mouseListener = new CCEventListenerMouse {OnMouseDown = OnMouseDown, OnMouseUp = OnMouseUp, OnMouseMove = OnMouseScroll};
+            var mouseListener = new CCEventListenerMouse {
+                OnMouseDown = OnMouseDown,
+                OnMouseUp = OnMouseUp,
+                OnMouseMove = OnMouseScroll
+            };
             AddEventListener(mouseListener, this);
 
             var parser = new FileIniDataParser();
@@ -78,10 +81,10 @@ namespace EssenceClient.Scenes.Game {
         }
 
         private void UpdateControl(float dt) {
-            if (MyPlayer != null) {
+            if (MyPlayer != null){
                 MyPlayer.Control(dt);
 
-                if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0) {
+                if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0){
                     // Стреляем при нажатой левой кнопке
                     var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + _mousePosX + "." + _mousePosY);
                     _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
@@ -193,17 +196,17 @@ namespace EssenceClient.Scenes.Game {
 
         private void OnMouseScroll(CCEventMouse e) {
             /** get scale coef.*/
-            float windowScaleX = Window.WindowSizeInPixels.Width / Settings.ScreenWidth;
-            float windowScaleY = Window.WindowSizeInPixels.Height / Settings.ScreenHeight;
+            float windowScaleX = Window.WindowSizeInPixels.Width/Settings.ScreenWidth;
+            float windowScaleY = Window.WindowSizeInPixels.Height/Settings.ScreenHeight;
 
             /** Актуальные координаты */
-            _mousePosX = (int)(e.CursorX / windowScaleX);
-            _mousePosY = (int)(e.CursorY / windowScaleY);
+            _mousePosX = (int) (e.CursorX/windowScaleX);
+            _mousePosY = (int) (e.CursorY/windowScaleY);
             // поправка на камеру:
-            if (GameLayer.Camera != null) {
+            if (GameLayer.Camera != null){
                 //Correcting by camera
-                _mousePosX += (int)(GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth / 2);
-                _mousePosY += (int)(GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight / 2);
+                _mousePosX += (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
+                _mousePosY += (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
             }
         }
     }

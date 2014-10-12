@@ -12,10 +12,10 @@ namespace EssenceShared {
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
+        public bool FlipX;
         public Stat Hp;
         public float PositionX;
         public float PositionY;
-        public bool FlipX;
         public float Scale;
         public int Tag;
         public string TextureName;
@@ -70,7 +70,6 @@ namespace EssenceShared {
         }
 
         public string Serialize() {
-            
             return JsonConvert.SerializeObject(this);
         }
     }

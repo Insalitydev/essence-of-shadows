@@ -4,7 +4,6 @@ using CocosSharp;
 using EssenceServer.Scenes;
 using EssenceShared;
 using EssenceShared.Entities.Players;
-using EssenceShared.Game;
 
 namespace EssenceServer {
     /// <summary>
@@ -42,7 +41,7 @@ namespace EssenceServer {
 
         public void RemovePlayer(string id) {
             try{
-                var pl = GetPlayer(id);
+                Player pl = GetPlayer(id);
                 if (pl != null)
                     pl.Remove();
 

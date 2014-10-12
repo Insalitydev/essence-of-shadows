@@ -9,17 +9,16 @@ using EssenceShared.Entities.Enemies.Bosses;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
-using Microsoft.Xna.Framework;
 
 namespace EssenceServer.Scenes {
     /// <summary>
     ///     Основная сцена на сервере. Запускает игровой слой и занимается управлением состояние сервера
     /// </summary>
     internal class ServerScene: CCScene {
+        public readonly GameLayer CaveGameLayer;
+        public readonly GameLayer CityGameLayer;
         private readonly GameLayer GameLayer;
         public readonly GameLayer TownGameLayer;
-        public readonly GameLayer CityGameLayer;
-        public readonly GameLayer CaveGameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
         public Dictionary<Locations, GameLayer> LocationDic;
 
@@ -34,11 +33,11 @@ namespace EssenceServer.Scenes {
             AddChild(TownGameLayer);
             LocationDic.Add(Locations.Town, TownGameLayer);
 
-            CityGameLayer = new GameLayer { Tag = Tags.Server, Location = Locations.City };
+            CityGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.City};
             AddChild(CityGameLayer);
             LocationDic.Add(Locations.City, CityGameLayer);
 
-            CaveGameLayer = new GameLayer { Tag = Tags.Server, Location = Locations.Cave };
+            CaveGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Cave};
             AddChild(CaveGameLayer);
             LocationDic.Add(Locations.Cave, CaveGameLayer);
 
@@ -88,13 +87,15 @@ namespace EssenceServer.Scenes {
                     PositionY = CCRandom.Next(100, 1400)
                 });
             TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
-                PositionX = 500, PositionY = 500, TeleportTo = Locations.Desert
+                PositionX = 500,
+                PositionY = 500,
+                TeleportTo = Locations.Desert
             });
             TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 700,
                 PositionY = 600,
                 TeleportTo = Locations.City
-            }); 
+            });
             TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 900,
                 PositionY = 500,
@@ -112,7 +113,6 @@ namespace EssenceServer.Scenes {
                 PositionY = -10,
                 TeleportTo = Locations.Town
             });
-
         }
 
         /// <summary>
@@ -170,12 +170,14 @@ namespace EssenceServer.Scenes {
         }
 
         private void UpdateLogic(float dt) {
-            foreach (var gameLayer in LocationDic.Values){
+            foreach (GameLayer gameLayer in LocationDic.Values){
                 gameLayer.Update(dt);
             }
 
             //TODO: временное решение? когда меняется локация, пересылаем карту
-            foreach (var accountState in Accounts.Where(accountState=>accountState.PrevLocation != accountState.Location)){
+            foreach (
+                AccountState accountState in
+                    Accounts.Where(accountState=>accountState.PrevLocation != accountState.Location)){
                 accountState.PrevLocation = accountState.Location;
                 Server.SendMap(accountState.HeroId, accountState.Location);
             }

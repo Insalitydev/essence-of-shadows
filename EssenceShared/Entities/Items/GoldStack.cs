@@ -4,7 +4,6 @@ namespace EssenceShared.Entities {
     public class GoldStack: Entity {
         public GoldStack(string id): base(Resources.ItemGold, id) {
             Tag = Tags.Item;
-
         }
 
         public override void Collision(Entity other) {
