@@ -16,6 +16,8 @@ namespace EssenceServer.Scenes {
     internal class ServerScene: CCScene {
         private readonly GameLayer GameLayer;
         public readonly GameLayer TownGameLayer;
+        public readonly GameLayer CityGameLayer;
+        public readonly GameLayer CaveGameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
         public Dictionary<Locations, GameLayer> LocationDic;
 
@@ -29,6 +31,14 @@ namespace EssenceServer.Scenes {
             TownGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Town};
             AddChild(TownGameLayer);
             LocationDic.Add(Locations.Town, TownGameLayer);
+
+            CityGameLayer = new GameLayer { Tag = Tags.Server, Location = Locations.City };
+            AddChild(CityGameLayer);
+            LocationDic.Add(Locations.City, CityGameLayer);
+
+            CaveGameLayer = new GameLayer { Tag = Tags.Server, Location = Locations.Cave };
+            AddChild(CaveGameLayer);
+            LocationDic.Add(Locations.Cave, CaveGameLayer);
 
             Log.Print("Game has started, waiting for players");
             Schedule(UpdateNetwork, 0.04f);
@@ -63,7 +73,7 @@ namespace EssenceServer.Scenes {
             GameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                teleportTo = Locations.Town
+                TeleportTo = Locations.Town
             });
 
             for (int i = 0; i < 10; i++)
@@ -72,8 +82,31 @@ namespace EssenceServer.Scenes {
                     PositionY = CCRandom.Next(100, 1400)
                 });
             TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
-                PositionX = 500, PositionY = 500
+                PositionX = 500, PositionY = 500, TeleportTo = Locations.Desert
             });
+            TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+                PositionX = 700,
+                PositionY = 600,
+                TeleportTo = Locations.City
+            }); 
+            TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+                PositionX = 900,
+                PositionY = 500,
+                TeleportTo = Locations.Cave
+            });
+
+
+            CityGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+                PositionX = -10,
+                PositionY = -10,
+                TeleportTo = Locations.Town
+            });
+            CaveGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+                PositionX = -10,
+                PositionY = -10,
+                TeleportTo = Locations.Town
+            });
+
         }
 
         /// <summary>
@@ -146,8 +179,10 @@ namespace EssenceServer.Scenes {
         }
 
         private void InitMap() {
-            GameLayer.CreateNewMap(ParseMap("TestMap.txt"));
+            GameLayer.CreateNewMap(ParseMap("DesertMap.txt"));
             TownGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
+            CityGameLayer.CreateNewMap(ParseMap("CityMap.txt"));
+            CaveGameLayer.CreateNewMap(ParseMap("CaveMap.txt"));
         }
 
         internal Player GetPlayer(string id) {

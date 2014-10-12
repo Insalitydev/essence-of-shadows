@@ -35,9 +35,11 @@ namespace EssenceShared {
         public const string MapTileSand = "Sand.png";
         public const string MapTileGrass = "Grass.png";
         public const string MapTileStone = "Stone.png";
+        public const string MapTileCityStone = "CityStone.png";
         public const string MapTileWater = "Water.png";
-        public const string MapTileRoad = "Road.png";
-        public const string MapTileDirt = "Dirt.png";
+        public const string MapTileRoad = "CityRoad.png";
+        public const string MapTileDirt = "CaveDirt.png";
+        public const string MapTileCaveWall = "CaveWall.png";
         public const string MapTileTownCell = "TownCell.png";
         
 

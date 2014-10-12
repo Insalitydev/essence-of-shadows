@@ -123,10 +123,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon_server.ico" />
-    <Content Include="TestMap.txt">
+    <Content Include="CaveMap.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CityMap.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesertMap.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icon_server.ico" />
     <Content Include="TownMap.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

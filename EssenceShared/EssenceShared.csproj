@@ -246,10 +246,19 @@
     <Content Include="Resource\Image\Projectile\SniperProjectile.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\Tile\Cave\CaveDirt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\Tile\Cave\CaveWall.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\Tile\Cave\Dirt.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\Image\Tile\City\Road.png">
+    <Content Include="Resource\Image\Tile\City\CityRoad.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\Tile\City\CityStone.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\Tile\Desert\Grass.png">

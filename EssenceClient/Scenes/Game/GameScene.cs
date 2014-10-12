@@ -88,8 +88,6 @@ namespace EssenceClient.Scenes.Game {
                     MyPlayer.AttackCooldownCounter = MyPlayer.AttackCooldown;
                 }
             }
-
-
         }
 
         public void UpdateNetwork(float dt) {

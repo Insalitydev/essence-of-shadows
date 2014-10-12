@@ -108,6 +108,18 @@ namespace EssenceShared.Scenes {
                             case '+':
                                 tile = new Tile(Resources.MapTileTownCell);
                                 break;
+                            case '-':
+                                tile = new Tile(Resources.MapTileCityStone);
+                                break;
+                            case '|':
+                                tile = new Tile(Resources.MapTileRoad);
+                                break;
+                            case '%':
+                                tile = new Tile(Resources.MapTileCaveWall);
+                                break;
+                            case '.':
+                                tile = new Tile(Resources.MapTileDirt);
+                                break;
                             default:
                                 tile = new Tile(Resources.MapTileError);
                                 break;
