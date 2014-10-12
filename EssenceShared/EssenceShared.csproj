@@ -112,6 +112,7 @@
     <Compile Include="Entities\Items\GoldStack.cs" />
     <Compile Include="Entities\Map\Tiles\Tile.cs" />
     <Compile Include="Entities\Players\Player.cs" />
+    <Compile Include="Entities\Projectiles\EnemyMeleeProjectileStart.cs" />
     <Compile Include="Entities\Projectiles\EnemyMeleeProjectile.cs" />
     <Compile Include="Entities\Projectiles\EnemyRangeProjectile.cs" />
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />

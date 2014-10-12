@@ -60,18 +60,18 @@ namespace EssenceServer.Scenes {
             int mapH = GameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
             Log.Print("Map size: " + mapW + " " + mapH);
 
-            for (int i = 0; i < 50; i++){
-                GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
-                    PositionX = CCRandom.Next(100, mapW - 100),
-                    PositionY = CCRandom.Next(100, mapH - 100)
-                });
-            }
-            for (int i = 0; i < 50; i++){
-                GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
-                    PositionX = CCRandom.Next(100, mapW - 100),
-                    PositionY = CCRandom.Next(100, mapH - 100)
-                });
-            }
+//            for (int i = 0; i < 50; i++){
+//                GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
+//                    PositionX = CCRandom.Next(100, mapW - 100),
+//                    PositionY = CCRandom.Next(100, mapH - 100)
+//                });
+//            }
+//            for (int i = 0; i < 50; i++){
+//                GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
+//                    PositionX = CCRandom.Next(100, mapW - 100),
+//                    PositionY = CCRandom.Next(100, mapH - 100)
+//                });
+//            }
             GameLayer.AddEntity(new Emperor(Util.GetUniqueId()) {
                 PositionX = -100,
                 PositionY = -100

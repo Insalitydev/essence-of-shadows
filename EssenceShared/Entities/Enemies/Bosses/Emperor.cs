@@ -61,7 +61,7 @@ namespace EssenceShared.Entities.Enemies.Bosses {
 
         private void SpawnProjectileToTarget() {
             if (Target != null) {
-                var projectile = new EnemyMeleeProjectile(AttackDamage, Resources.ParticleMeleeSweepAttack,
+                var projectile = new EnemyMeleeProjectileStart(AttackDamage, Resources.ParticleMeleeSweepStart,
                     Util.GetUniqueId()) {
                         PositionX = PositionX,
                         PositionY = PositionY,
@@ -71,6 +71,7 @@ namespace EssenceShared.Entities.Enemies.Bosses {
                         OwnerId = Id,
                         Scale = 8
                     };
+                projectile.Position += Entity.GetNormalPointByDirection(projectile.Direction)*AttackRadius;
                 (Parent as GameLayer).AddEntity(projectile);
             }
         }

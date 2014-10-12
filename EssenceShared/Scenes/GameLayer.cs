@@ -55,6 +55,9 @@ namespace EssenceShared.Scenes {
                 case Resources.ParticleMeleeSweepAttack:
                     entity = new EnemyMeleeProjectile(es.AttackDamage, textureName, es.Id);
                     break;
+                case Resources.ParticleMeleeSweepStart:
+                    entity = new EnemyMeleeProjectileStart(es.AttackDamage, textureName, es.Id);
+                    break;
                 case Resources.EnemyMeleeRobot:
                     entity = new MeleeEnemy(textureName, es.Id);
                     break;

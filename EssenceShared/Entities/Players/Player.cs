@@ -58,14 +58,6 @@ namespace EssenceShared.Entities.Players {
             }
         }
 
-        public override void Collision(Entity other) {
-            base.Collision(other);
-
-            if (other.Tag == Tags.Enemy){
-                Hp.Current -= 1;
-            }
-        }
-
         public void Attack(CCPoint target) {
         }
     }

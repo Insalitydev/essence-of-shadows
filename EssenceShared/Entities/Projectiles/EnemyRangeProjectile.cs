@@ -33,6 +33,7 @@ namespace EssenceShared.Entities.Projectiles {
             base.Collision(other);
 
             if (other.Tag == Tags.Player){
+                Log.Print("COLL");
                 if (other as Player != null){
                     (other as Player).Hp.Current -= AttackDamage;
                 }

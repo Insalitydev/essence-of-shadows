@@ -7,7 +7,7 @@ namespace EssenceShared.Entities.Projectiles {
             Scale = Settings.Scale;
             Tag = Tags.EnemyProjectile;
             AttackDamage = damage;
-            Speed = 0;
+            Speed = 50;
         }
 
         protected override void AddedToScene() {
@@ -16,10 +16,12 @@ namespace EssenceShared.Entities.Projectiles {
             Schedule(Update);
             Schedule(Delete, 0.1f);
             Rotation = 360 - Direction;
+        }
 
-            if (Parent.Tag == Tags.Server){
-                MoveByAngle(Direction, Texture.PixelsWide*Settings.Scale);
-            }
+        public override void Update(float dt) {
+            base.Update(dt);
+
+            MoveByAngle(Direction, Speed * dt);
         }
 
         public void Delete(float dt) {
@@ -29,6 +31,7 @@ namespace EssenceShared.Entities.Projectiles {
 
         public override void Collision(Entity other) {
             base.Collision(other);
+            
 
             if (other.Tag == Tags.Player){
                 if (other as Player != null){
