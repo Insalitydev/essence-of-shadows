@@ -81,7 +81,7 @@ namespace EssenceShared.Entities.Enemies {
                                 new CCPoint(Target.PositionX, Target.PositionY)),
                         OwnerId = Id
                     };
-                projectile.Position += Entity.GetNormalPointByDirection(projectile.Direction) * AttackRadius;
+                projectile.Position += Entity.GetNormalPointByDirection(projectile.Direction) * Texture.PixelsWide * ScaleX;
                 (Parent as GameLayer).AddEntity(projectile);
             }
         }

@@ -15,6 +15,7 @@ namespace EssenceShared {
         public Stat Hp;
         public float PositionX;
         public float PositionY;
+        public bool FlipX;
         public float Scale;
         public int Tag;
         public string TextureName;
@@ -29,6 +30,7 @@ namespace EssenceShared {
             var es = new EntityState(entity.Id) {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
+                FlipX = entity.FlipX,
                 Direction = entity.Direction,
                 AttackDamage = entity.AttackDamage,
                 ActionState = entity.ActionState,
@@ -58,7 +60,7 @@ namespace EssenceShared {
             if (Math.Abs(entity.PositionY - es.PositionY) > 4){
                 entity.PositionY = es.PositionY;
             }
-
+            entity.FlipX = es.FlipX;
             entity.Tag = es.Tag;
             entity.Scale = es.Scale;
             entity.AttackDamage = es.AttackDamage;

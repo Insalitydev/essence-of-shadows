@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using CocosSharp;
@@ -11,7 +12,7 @@ using EssenceShared.Scenes;
 namespace EssenceShared.Entities.Enemies.Bosses {
     public class Emperor: Enemy {
         public Emperor(string id): base(Resources.BossEmperor, id) {
-            Speed = 290;
+            Speed = 320;
             AttackDamage = 40;
             AttackCooldown = 1.5f;
             SightRadius = 800;
@@ -71,7 +72,7 @@ namespace EssenceShared.Entities.Enemies.Bosses {
                         OwnerId = Id,
                         Scale = 8
                     };
-                projectile.Position += Entity.GetNormalPointByDirection(projectile.Direction)*AttackRadius;
+                projectile.Position += Entity.GetNormalPointByDirection(projectile.Direction)*Texture.PixelsWide/2*ScaleX;
                 (Parent as GameLayer).AddEntity(projectile);
             }
         }

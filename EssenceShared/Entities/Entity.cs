@@ -108,6 +108,13 @@ namespace EssenceShared.Entities {
         protected void MoveByAngle(float angle, float speed) {
             PositionX += speed*(float) Math.Cos(ToRadians(angle));
             PositionY += speed*(float) Math.Sin(ToRadians(angle));
+
+            if (angle > 90 && angle < 270){
+                FlipX = true;
+            }
+            else{
+                FlipX = false;
+            }
         }
 
         public float AngleTo(CCPoint p) {

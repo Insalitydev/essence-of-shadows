@@ -42,19 +42,19 @@ namespace EssenceShared.Entities.Players {
 
         public void Control(float dt) {
             if (Input.IsKeyIn(CCKeys.Up) || Input.IsKeyIn(CCKeys.W)){
-                PositionY += Speed*dt;
+                MoveByAngle(90, Speed*dt);
             }
 
             if (Input.IsKeyIn(CCKeys.Down) || Input.IsKeyIn(CCKeys.S)){
-                PositionY -= Speed*dt;
+                MoveByAngle(270, Speed * dt);
             }
 
             if (Input.IsKeyIn(CCKeys.Right) || Input.IsKeyIn(CCKeys.D)){
-                PositionX += Speed*dt;
+                MoveByAngle(0, Speed * dt);
             }
 
             if (Input.IsKeyIn(CCKeys.Left) || Input.IsKeyIn(CCKeys.A)){
-                PositionX -= Speed*dt;
+                MoveByAngle(180, Speed * dt);
             }
         }
 

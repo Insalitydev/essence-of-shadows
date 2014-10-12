@@ -66,12 +66,12 @@ namespace EssenceServer.Scenes {
 //                    PositionY = CCRandom.Next(100, mapH - 100)
 //                });
 //            }
-//            for (int i = 0; i < 50; i++){
-//                GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
-//                    PositionX = CCRandom.Next(100, mapW - 100),
-//                    PositionY = CCRandom.Next(100, mapH - 100)
-//                });
-//            }
+            for (int i = 0; i < 20; i++){
+                GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
+                    PositionX = CCRandom.Next(100, mapW - 100),
+                    PositionY = CCRandom.Next(100, mapH - 100)
+                });
+            }
             GameLayer.AddEntity(new Emperor(Util.GetUniqueId()) {
                 PositionX = -100,
                 PositionY = -100
@@ -165,6 +165,7 @@ namespace EssenceServer.Scenes {
             if (player != null){
                 player.PositionX = es.PositionX;
                 player.PositionY = es.PositionY;
+                player.FlipX = es.FlipX;
             }
         }
 
