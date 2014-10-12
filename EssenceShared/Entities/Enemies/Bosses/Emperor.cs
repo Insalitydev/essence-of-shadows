@@ -13,11 +13,11 @@ namespace EssenceShared.Entities.Enemies.Bosses {
     public class Emperor: Enemy {
         public Emperor(string id): base(Resources.BossEmperor, id) {
             Speed = 320;
-            AttackDamage = 40;
+            AttackDamage = 100;
             AttackCooldown = 1.5f;
             SightRadius = 800;
             AttackRadius = 120;
-            Hp.Maximum = 4000;
+            Hp.Maximum = 5000;
         }
 
         protected override void IdleAction(float dt) {

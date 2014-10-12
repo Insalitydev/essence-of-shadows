@@ -10,7 +10,7 @@ namespace EssenceShared.Entities.Enemies {
         public MeleeEnemy(string url, string id)
             : base(url, id) {
             Speed = 200;
-            AttackDamage = 5;
+            AttackDamage = 20;
             AttackCooldown = 1f;
             SightRadius = 500;
             AttackRadius = 100;

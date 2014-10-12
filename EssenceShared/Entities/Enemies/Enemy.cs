@@ -41,16 +41,6 @@ namespace EssenceShared.Entities.Enemies {
             }
         }
 
-        public override void Collision(Entity other) {
-            base.Collision(other);
-
-            if (other.Tag == Tags.PlayerProjectile){
-                var player = other.GetOwner() as Player;
-                if (player != null)
-                    Damage(player.AttackDamage);
-            }
-        }
-
         /// <summary>
         ///     Возвращает список игроков. Сортирует в порядке близости к себе
         /// </summary>
@@ -66,7 +56,7 @@ namespace EssenceShared.Entities.Enemies {
             return players;
         }
 
-        private void Damage(int p) {
+        public void Damage(int p) {
             Hp.Current -= p;
             if (Hp.Perc == 0){
                 Schedule(Die, 0.01f);

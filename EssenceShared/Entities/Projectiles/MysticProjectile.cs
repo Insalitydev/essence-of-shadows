@@ -1,19 +1,15 @@
 ﻿using CocosSharp;
+using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
-    public class MysticProjectile: Entity {
-        public MysticProjectile(string id): base(Resources.ProjectileMystic, id) {
+    public class MysticProjectile: Projectile {
+        public MysticProjectile(int AttackDamage, string id): base(Resources.ProjectileMystic, id) {
+            this.AttackDamage = AttackDamage;
             Scale = Settings.Scale;
             Tag = Tags.PlayerProjectile;
             Speed = 700;
-        }
-
-        protected override void AddedToScene() {
-            base.AddedToScene();
-
-            Schedule(Update);
-            Schedule(Delete, 2);
+            DieAfter = 2;
         }
 
         public override void OnEnter() {
@@ -39,19 +35,15 @@ namespace EssenceShared.Entities.Projectiles {
             }
         }
 
-        public void Delete(float dt) {
-            RemoveAllChildren(true);
-            Remove();
-        }
-
         public override void Collision(Entity other) {
             base.Collision(other);
 
-            if (other.Tag == Tags.Enemy){
+            if (other.Tag == Tags.Enemy && !AlreadyDamaged.Contains(other)){
                 var player = GetOwner() as Player;
                 if (player != null) player.accState.Exp.Current += 200;
 
-                Remove();
+                (other as Enemy).Damage(AttackDamage);
+                AlreadyDamaged.Add(other);
             }
         }
 

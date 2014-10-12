@@ -172,7 +172,7 @@ namespace EssenceServer {
             string[] args = data.Split('.');
             if (args[0] == "attack"){
                 //TODO: вынести в отдельные методы
-                var ent = new MysticProjectile(Util.GetUniqueId()) {
+                var ent = new MysticProjectile(pl.AttackDamage, Util.GetUniqueId()) {
                     PositionX = pl.PositionX,
                     PositionY = pl.PositionY,
                     Direction =
