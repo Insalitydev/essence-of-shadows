@@ -33,7 +33,7 @@ namespace EssenceShared {
                 AttackDamage = entity.AttackDamage,
                 ActionState = entity.ActionState,
                 Tag = entity.Tag,
-                Scale = 4,
+                Scale = entity.ScaleX,
                 TextureName = entity.Texture.Name.ToString(),
                 Hp = new Stat(entity.Hp.Maximum) {
                     Current = entity.Hp.Current,

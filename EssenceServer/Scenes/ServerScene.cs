@@ -5,9 +5,11 @@ using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
+using EssenceShared.Entities.Enemies.Bosses;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
+using Microsoft.Xna.Framework;
 
 namespace EssenceServer.Scenes {
     /// <summary>
@@ -70,6 +72,10 @@ namespace EssenceServer.Scenes {
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
+            GameLayer.AddEntity(new Emperor(Util.GetUniqueId()) {
+                PositionX = -100,
+                PositionY = -100
+            });
             GameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,

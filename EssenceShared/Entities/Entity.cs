@@ -33,6 +33,7 @@ namespace EssenceShared.Entities {
             Hp = new Stat(0);
             AttackDamage = 0;
             ActionState = ActionState.Idle;
+            Scale = Settings.Scale;
         }
 
 

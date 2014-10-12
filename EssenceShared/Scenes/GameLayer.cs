@@ -4,6 +4,7 @@ using System.Linq;
 using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
+using EssenceShared.Entities.Enemies.Bosses;
 using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
@@ -59,6 +60,9 @@ namespace EssenceShared.Scenes {
                     break;
                 case Resources.EnemyStinger:
                     entity = new RangeEnemy(textureName, es.Id);
+                    break;
+                case Resources.BossEmperor:
+                    entity = new Emperor(es.Id);
                     break;
             }
 
