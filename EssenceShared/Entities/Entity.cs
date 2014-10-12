@@ -109,7 +109,7 @@ namespace EssenceShared.Entities {
             PositionX += speed*(float) Math.Cos(ToRadians(angle));
             PositionY += speed*(float) Math.Sin(ToRadians(angle));
 
-            if (angle > 90 && angle < 270){
+            if (angle > 90 && angle < 270 && RotationX == 0){
                 FlipX = true;
             }
             else{
