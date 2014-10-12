@@ -144,7 +144,7 @@ namespace EssenceServer.Scenes {
                 if (accState != null){
                     gs.Account = accState;
 
-                    Entity[] entities = GetGameLayer(accState.Location).Entities.ToArray();
+                    var entities = GetGameLayer(accState.Location).Entities.ToList();
                     foreach (Entity entity in entities){
                         if (pl.DistanceTo(entity.Position) < 800)
                             gs.Entities.Add(EntityState.ParseEntity(entity));

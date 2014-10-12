@@ -131,7 +131,7 @@ namespace EssenceShared.Scenes {
                                 tile = new Tile(Resources.MapTileError);
                                 break;
                         }
-                        tile.Scale = 2;
+                        tile.Scale = Settings.Scale;
                         // Поворачиваем карту на 90 (поэтому поменяны местами i и j)
                         tile.Position = new CCPoint(j*Settings.TileSize*tile.ScaleX, i*Settings.TileSize*tile.ScaleY);
                         AddChild(tile, -100, Tags.MapTile);
