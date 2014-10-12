@@ -137,7 +137,12 @@ namespace EssenceClient.Scenes.Game {
             if (gameScene != null && gameScene.GameLayer.MyAccountState != null){
                 int gold = gameScene.GameLayer.MyAccountState.Gold;
                 if (_lastGold < gold){
-                    _lastGold += 4;
+                    if (gold - _lastGold > 1000){
+                        _lastGold += 120;
+                    }
+                    else{
+                        _lastGold += 4;
+                    }
                 }
                 else{
                     _lastGold = gold;
