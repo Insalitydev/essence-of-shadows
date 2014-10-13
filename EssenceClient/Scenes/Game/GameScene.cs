@@ -17,6 +17,9 @@ namespace EssenceClient.Scenes.Game {
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private int _cameraHeight = 700;
+        private int _cameraX = 0;
+        private int _cameraY = 0;
+        private const int _cameraDelta = 64;
         private HudLayer _hudLayer;
 
         private int _mousePosX;
@@ -126,7 +129,14 @@ namespace EssenceClient.Scenes.Game {
                 _cameraHeight += 3;
             }
             if (MyPlayer != null){
-                GameLayer.Camera.CenterInWorldspace = new CCPoint3(MyPlayer.Position, _cameraHeight);
+                // псевдо-три-дэ
+                if (Math.Abs(_cameraX - MyPlayer.PositionX) > 400) _cameraX = (int)MyPlayer.PositionX;
+                if (Math.Abs(_cameraY - MyPlayer.PositionY) > 400) _cameraY = (int)MyPlayer.PositionY;
+                if (_cameraX < MyPlayer.PositionX - _cameraDelta) _cameraX += 10;
+                if (_cameraX > MyPlayer.PositionX + _cameraDelta) _cameraX -= 10;
+                if (_cameraY < MyPlayer.PositionY - _cameraDelta) _cameraY += 10;
+                if (_cameraY > MyPlayer.PositionY + _cameraDelta) _cameraY -= 10;
+                GameLayer.Camera.CenterInWorldspace = new CCPoint3(_cameraX, _cameraY, _cameraHeight);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }
