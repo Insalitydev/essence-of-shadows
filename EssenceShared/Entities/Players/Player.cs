@@ -27,8 +27,6 @@ namespace EssenceShared.Entities.Players {
             if (Parent.Tag == Tags.Client){
 
                 var ss = new CCSpriteSheet("MysticAnim.plist");
-                Console.WriteLine("STEST");
-                Console.WriteLine(ss.Frames);
                 var walkAnim = new CCAnimation(ss.Frames, 0.3f);
                 foreach (var sf in ss.Frames){
                     sf.Texture.IsAntialiased = false;

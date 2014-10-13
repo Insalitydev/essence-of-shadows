@@ -86,12 +86,18 @@ namespace EssenceClient.Scenes.Game {
         private void UpdateControl(float dt) {
             if (MyPlayer != null){
                 MyPlayer.Control(dt);
+                            // поправка на камеру:
+                if (GameLayer.Camera != null){
+                    var camx = (int)(GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
+                    var camy = (int)(GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight / 2);
 
-                if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0){
-                    // Стреляем при нажатой левой кнопке
-                    var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack." + _mousePosX + "." + _mousePosY);
-                    _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
-                    MyPlayer.AttackCooldownCounter = MyPlayer.AttackCooldown;
+                    if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0){
+                        // Стреляем при нажатой левой кнопке
+                        var nc = new NetCommand(NetCommandType.CallPlayerMethod,
+                            "attack." + (_mousePosX + camx) + "." + (_mousePosY + camy));
+                        _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+                        MyPlayer.AttackCooldownCounter = MyPlayer.AttackCooldown;
+                    }
                 }
             }
         }
@@ -212,12 +218,6 @@ namespace EssenceClient.Scenes.Game {
             /** Актуальные координаты */
             _mousePosX = (int) (e.CursorX/windowScaleX);
             _mousePosY = (int) (e.CursorY/windowScaleY);
-            // поправка на камеру:
-            if (GameLayer.Camera != null){
-                //Correcting by camera
-                _mousePosX += (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
-                _mousePosY += (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
             }
         }
     }
-}
