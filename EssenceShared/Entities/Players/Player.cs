@@ -1,4 +1,6 @@
-﻿using CocosSharp;
+﻿using System;
+using System.Linq;
+using CocosSharp;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
@@ -20,6 +22,23 @@ namespace EssenceShared.Entities.Players {
 
         public override void OnEnter() {
             base.OnEnter();
+
+
+            if (Parent.Tag == Tags.Client){
+
+                var ss = new CCSpriteSheet("MysticAnim.plist");
+                Console.WriteLine("STEST");
+                Console.WriteLine(ss.Frames);
+                var walkAnim = new CCAnimation(ss.Frames, 0.3f);
+                foreach (var sf in ss.Frames){
+                    sf.Texture.IsAntialiased = false;
+                }
+                
+                AddAction(new CCRepeatForever( new CCAnimate(walkAnim)) );
+
+
+            }
+
             Schedule(Update);
         }
 

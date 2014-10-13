@@ -74,7 +74,7 @@ namespace EssenceShared.Scenes {
                 AddEntity(entity);
             }
             else{
-                Log.Print("Error! Entity isn't created, New entity will not be added", LogType.Error);
+                Log.Print("Error! Entity isn't created, New entity will not be added. " + textureName, LogType.Error);
             }
         }
 
