@@ -8,9 +8,9 @@ using EssenceShared.Scenes;
 namespace EssenceShared.Entities.Enemies.Bosses {
     public class Emperor: Enemy {
         public Emperor(string id): base(Resources.BossEmperor, id) {
-            Speed = 320;
+            Speed = 390;
             AttackDamage = 100;
-            AttackCooldown = 1.5f;
+            AttackCooldown = 0.9f;
             SightRadius = 800;
             AttackRadius = 120;
             Hp.Maximum = 5000;

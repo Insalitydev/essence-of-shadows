@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EssenceShared;
+using EssenceShared.Game;
 using Lidgren.Network;
 
 namespace EssenceServer {
@@ -46,7 +47,7 @@ namespace EssenceServer {
                     break;
                 case "count":
                     // TODO: Долой безопасность, даёшь паблик поля везде!
-                    Log.Print("Entities count: " + Server.ServerGame.ServerScene.TownGameLayer.Entities.Count,
+                    Log.Print("Entities count: " + Server.ServerGame.ServerScene.GetGameLayer(Locations.Desert).Entities.Count,
                         LogType.Info,
                         false);
                     break;

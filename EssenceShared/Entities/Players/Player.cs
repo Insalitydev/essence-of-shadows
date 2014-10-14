@@ -31,10 +31,8 @@ namespace EssenceShared.Entities.Players {
                 foreach (var sf in ss.Frames){
                     sf.Texture.IsAntialiased = false;
                 }
-                
-                AddAction(new CCRepeatForever( new CCAnimate(walkAnim)) );
 
-
+                AddAction(new CCRepeatForever(new CCAnimate(walkAnim)));
             }
 
             Schedule(Update);

@@ -12,7 +12,6 @@ namespace EssenceShared.Entities {
         public override void Collision(Entity other) {
             base.Collision(other);
 
-            // TODO: реализовать нормально...
             if (other.Tag == Tags.Player){
                 (other as Player).accState.SwitchLocation(TeleportTo);
             }

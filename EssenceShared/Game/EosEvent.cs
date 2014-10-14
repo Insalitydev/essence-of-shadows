@@ -1,6 +1,5 @@
 ﻿using System;
 using EssenceShared.Entities;
-using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Game {
     public enum EventType {
@@ -21,5 +20,4 @@ namespace EssenceShared.Game {
             }
         }
     }
-
 }

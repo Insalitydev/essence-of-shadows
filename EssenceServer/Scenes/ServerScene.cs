@@ -15,31 +15,31 @@ namespace EssenceServer.Scenes {
     ///     Основная сцена на сервере. Запускает игровой слой и занимается управлением состояние сервера
     /// </summary>
     internal class ServerScene: CCScene {
-        public readonly GameLayer CaveGameLayer;
-        public readonly GameLayer CityGameLayer;
-        private readonly GameLayer GameLayer;
-        public readonly GameLayer TownGameLayer;
+        private readonly GameLayer _caveGameLayer;
+        private readonly GameLayer _cityGameLayer;
+        private readonly GameLayer _gameLayer;
+        private readonly GameLayer _townGameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
-        public Dictionary<Locations, GameLayer> LocationDic;
+        public Dictionary<Locations, GameLayer> Locations;
 
         public ServerScene(CCWindow window): base(window) {
-            LocationDic = new Dictionary<Locations, GameLayer>();
+            Locations = new Dictionary<Locations, GameLayer>();
 
-            GameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Desert};
-            AddChild(GameLayer);
-            LocationDic.Add(Locations.Desert, GameLayer);
+            _gameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.Desert};
+            AddChild(_gameLayer);
+            Locations.Add(EssenceShared.Game.Locations.Desert, _gameLayer);
 
-            TownGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Town};
-            AddChild(TownGameLayer);
-            LocationDic.Add(Locations.Town, TownGameLayer);
+            _townGameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.Town};
+            AddChild(_townGameLayer);
+            Locations.Add(EssenceShared.Game.Locations.Town, _townGameLayer);
 
-            CityGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.City};
-            AddChild(CityGameLayer);
-            LocationDic.Add(Locations.City, CityGameLayer);
+            _cityGameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.City};
+            AddChild(_cityGameLayer);
+            Locations.Add(EssenceShared.Game.Locations.City, _cityGameLayer);
 
-            CaveGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Cave};
-            AddChild(CaveGameLayer);
-            LocationDic.Add(Locations.Cave, CaveGameLayer);
+            _caveGameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.Cave};
+            AddChild(_caveGameLayer);
+            Locations.Add(EssenceShared.Game.Locations.Cave, _caveGameLayer);
 
             Log.Print("Game has started, waiting for players");
             Schedule(UpdateNetwork, 0.04f);
@@ -47,7 +47,7 @@ namespace EssenceServer.Scenes {
         }
 
         public GameLayer GetGameLayer(Locations location) {
-            return LocationDic[location];
+            return Locations[location];
         }
 
         public override void OnEnter() {
@@ -64,63 +64,63 @@ namespace EssenceServer.Scenes {
         }
 
         private void AddTestEnemies() {
-            int mapW = GameLayer.currentMap[0].Length * Settings.TileSize * Settings.Scale;
-            int mapH = GameLayer.currentMap.Count * Settings.TileSize * Settings.Scale;
+            int mapW = _gameLayer.currentMap[0].Length * Settings.TileSize * Settings.Scale;
+            int mapH = _gameLayer.currentMap.Count * Settings.TileSize * Settings.Scale;
             Log.Print("Map size: " + mapW + " " + mapH);
 
             for (int i = 0; i < 30; i++) {
-                GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
+                _gameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
             for (int i = 0; i < 30; i++) {
-                GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
+                _gameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
-            GameLayer.AddEntity(new Emperor(Util.GetUniqueId()) {
+            _gameLayer.AddEntity(new Emperor(Util.GetUniqueId()) {
                 PositionX = 1400,
                 PositionY = 1400
             });
-            GameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+            _gameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                TeleportTo = Locations.Town
+                TeleportTo = EssenceShared.Game.Locations.Town
             });
 
             for (int i = 0; i < 10; i++)
-                TownGameLayer.AddEntity(new GoldStack(Util.GetUniqueId()) {
+                _townGameLayer.AddEntity(new GoldStack(Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, 1400),
                     PositionY = CCRandom.Next(100, 1400)
                 });
-            TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+            _townGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 500,
                 PositionY = 500,
-                TeleportTo = Locations.Desert
+                TeleportTo = EssenceShared.Game.Locations.Desert
             });
-            TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+            _townGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 700,
                 PositionY = 600,
-                TeleportTo = Locations.City
+                TeleportTo = EssenceShared.Game.Locations.City
             });
-            TownGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+            _townGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 900,
                 PositionY = 500,
-                TeleportTo = Locations.Cave
+                TeleportTo = EssenceShared.Game.Locations.Cave
             });
 
 
-            CityGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+            _cityGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                TeleportTo = Locations.Town
+                TeleportTo = EssenceShared.Game.Locations.Town
             });
-            CaveGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
+            _caveGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                TeleportTo = Locations.Town
+                TeleportTo = EssenceShared.Game.Locations.Town
             });
         }
 
@@ -179,36 +179,25 @@ namespace EssenceServer.Scenes {
         }
 
         private void UpdateLogic(float dt) {
-            foreach (GameLayer gameLayer in LocationDic.Values){
+            foreach (GameLayer gameLayer in Locations.Values){
                 gameLayer.Update(dt);
             }
-
-
-//            //TODO: временное решение? когда меняется локация, пересылаем карту
-//            foreach (
-//                AccountState accountState in
-//                    Accounts.Where(accountState=>accountState.PrevLocation != accountState.Location)){
-//                accountState.PrevLocation = accountState.Location;
-//                Server.SendMap(accountState.HeroId, accountState.Location);
-//            }
         }
-
-
 
         public void UpdateNetwork(float dt) {
             Server.SendGameStateToAll();
         }
 
         private void InitMap() {
-            GameLayer.CreateNewMap(ParseMap("DesertMap.txt"));
-            TownGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
-            CityGameLayer.CreateNewMap(ParseMap("CityMap.txt"));
-            CaveGameLayer.CreateNewMap(ParseMap("CaveMap.txt"));
+            _gameLayer.CreateNewMap(ParseMap("DesertMap.txt"));
+            _townGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
+            _cityGameLayer.CreateNewMap(ParseMap("CityMap.txt"));
+            _caveGameLayer.CreateNewMap(ParseMap("CaveMap.txt"));
         }
 
         internal Player GetPlayer(string id) {
             Player player = null;
-            foreach (GameLayer gameLayer in LocationDic.Values){
+            foreach (GameLayer gameLayer in Locations.Values){
                 player = gameLayer.FindEntityById(id) as Player;
                 if (player != null)
                     break;

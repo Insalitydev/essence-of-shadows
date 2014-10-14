@@ -8,7 +8,7 @@ namespace EssenceShared.Entities.Projectiles {
             Tag = Tags.EnemyProjectile;
             AttackDamage = damage;
             Speed = 50;
-            DieAfter = 0.4f;
+            DieAfter = 0.3f;
         }
 
         public override void Delete(float dt) {
