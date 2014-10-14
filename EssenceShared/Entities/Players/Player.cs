@@ -1,18 +1,16 @@
-﻿using System;
-using System.Linq;
-using CocosSharp;
+﻿using CocosSharp;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
         public float AttackCooldown;
         public float AttackCooldownCounter;
-        public AccountState accState;
+        public AccountState AccState;
 
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = Settings.Scale;
             Tag = Tags.Player;
-            accState = account;
+            AccState = account;
             Hp = new Stat(200);
             AttackDamage = 20;
             Speed = 340;
@@ -25,10 +23,9 @@ namespace EssenceShared.Entities.Players {
 
 
             if (Parent.Tag == Tags.Client){
-
                 var ss = new CCSpriteSheet("MysticAnim.plist");
                 var walkAnim = new CCAnimation(ss.Frames, 0.3f);
-                foreach (var sf in ss.Frames){
+                foreach (CCSpriteFrame sf in ss.Frames){
                     sf.Texture.IsAntialiased = false;
                 }
 
@@ -49,8 +46,8 @@ namespace EssenceShared.Entities.Players {
         }
 
         private void UpdateAccState() {
-            if (accState != null){
-                accState.Update();
+            if (AccState != null){
+                AccState.Update();
             }
         }
 

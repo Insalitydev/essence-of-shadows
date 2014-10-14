@@ -60,7 +60,7 @@ namespace EssenceShared {
             return pl;
         }
 
-        public static AccountState LoadAccountState(string AccountId) {
+        public static AccountState LoadAccountState(string accountId) {
             //TODO: грузить из базы
             throw new NotImplementedException();
         }

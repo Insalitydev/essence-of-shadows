@@ -115,12 +115,7 @@ namespace EssenceClient.Scenes.Game {
         private void UpdateVisibility() {
             if (MyPlayer != null)
                 foreach (CCNode ccNode in GameLayer.Children){
-                    if (MyPlayer.DistanceTo(ccNode.Position) < _sightRadius){
-                        ccNode.Visible = true;
-                    }
-                    else{
-                        ccNode.Visible = false;
-                    }
+                    ccNode.Visible = MyPlayer.DistanceTo(ccNode.Position) < _sightRadius;
                 }
         }
 

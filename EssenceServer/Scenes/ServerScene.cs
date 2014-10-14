@@ -20,26 +20,26 @@ namespace EssenceServer.Scenes {
         private readonly GameLayer _gameLayer;
         private readonly GameLayer _townGameLayer;
         public List<AccountState> Accounts = new List<AccountState>();
-        public Dictionary<Locations, GameLayer> Locations;
+        public Dictionary<Locations, GameLayer> LocationsDict;
 
         public ServerScene(CCWindow window): base(window) {
-            Locations = new Dictionary<Locations, GameLayer>();
+            LocationsDict = new Dictionary<Locations, GameLayer>();
 
-            _gameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.Desert};
+            _gameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Desert};
             AddChild(_gameLayer);
-            Locations.Add(EssenceShared.Game.Locations.Desert, _gameLayer);
+            LocationsDict.Add(Locations.Desert, _gameLayer);
 
-            _townGameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.Town};
+            _townGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Town};
             AddChild(_townGameLayer);
-            Locations.Add(EssenceShared.Game.Locations.Town, _townGameLayer);
+            LocationsDict.Add(Locations.Town, _townGameLayer);
 
-            _cityGameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.City};
+            _cityGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.City};
             AddChild(_cityGameLayer);
-            Locations.Add(EssenceShared.Game.Locations.City, _cityGameLayer);
+            LocationsDict.Add(Locations.City, _cityGameLayer);
 
-            _caveGameLayer = new GameLayer {Tag = Tags.Server, Location = EssenceShared.Game.Locations.Cave};
+            _caveGameLayer = new GameLayer {Tag = Tags.Server, Location = Locations.Cave};
             AddChild(_caveGameLayer);
-            Locations.Add(EssenceShared.Game.Locations.Cave, _caveGameLayer);
+            LocationsDict.Add(Locations.Cave, _caveGameLayer);
 
             Log.Print("Game has started, waiting for players");
             Schedule(UpdateNetwork, 0.04f);
@@ -47,7 +47,7 @@ namespace EssenceServer.Scenes {
         }
 
         public GameLayer GetGameLayer(Locations location) {
-            return Locations[location];
+            return LocationsDict[location];
         }
 
         public override void OnEnter() {
@@ -59,22 +59,22 @@ namespace EssenceServer.Scenes {
 
             // Adding event:
             Log.Print("Adding event to ChangeLocation");
-            EosEvent.ChangeLocation += (sender, args) => Server.SendMap((sender as Player).Id, (sender as Player).accState.Location);
-
+            EosEvent.ChangeLocation +=
+                (sender, args)=>Server.SendMap((sender as Player).Id, (sender as Player).accState.Location);
         }
 
         private void AddTestEnemies() {
-            int mapW = _gameLayer.currentMap[0].Length * Settings.TileSize * Settings.Scale;
-            int mapH = _gameLayer.currentMap.Count * Settings.TileSize * Settings.Scale;
+            int mapW = _gameLayer.currentMap[0].Length*Settings.TileSize*Settings.Scale;
+            int mapH = _gameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
             Log.Print("Map size: " + mapW + " " + mapH);
 
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 30; i++){
                 _gameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 30; i++){
                 _gameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
@@ -87,7 +87,7 @@ namespace EssenceServer.Scenes {
             _gameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                TeleportTo = EssenceShared.Game.Locations.Town
+                TeleportTo = Locations.Town
             });
 
             for (int i = 0; i < 10; i++)
@@ -98,29 +98,29 @@ namespace EssenceServer.Scenes {
             _townGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 500,
                 PositionY = 500,
-                TeleportTo = EssenceShared.Game.Locations.Desert
+                TeleportTo = Locations.Desert
             });
             _townGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 700,
                 PositionY = 600,
-                TeleportTo = EssenceShared.Game.Locations.City
+                TeleportTo = Locations.City
             });
             _townGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = 900,
                 PositionY = 500,
-                TeleportTo = EssenceShared.Game.Locations.Cave
+                TeleportTo = Locations.Cave
             });
 
 
             _cityGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                TeleportTo = EssenceShared.Game.Locations.Town
+                TeleportTo = Locations.Town
             });
             _caveGameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,
-                TeleportTo = EssenceShared.Game.Locations.Town
+                TeleportTo = Locations.Town
             });
         }
 
@@ -153,7 +153,7 @@ namespace EssenceServer.Scenes {
                 if (accState != null){
                     gs.Account = accState;
 
-                    var entities = GetGameLayer(accState.Location).Entities.ToList();
+                    List<Entity> entities = GetGameLayer(accState.Location).Entities.ToList();
                     foreach (Entity entity in entities){
                         if (pl.DistanceTo(entity.Position) < 800)
                             gs.Entities.Add(EntityState.ParseEntity(entity));
@@ -179,7 +179,7 @@ namespace EssenceServer.Scenes {
         }
 
         private void UpdateLogic(float dt) {
-            foreach (GameLayer gameLayer in Locations.Values){
+            foreach (GameLayer gameLayer in LocationsDict.Values){
                 gameLayer.Update(dt);
             }
         }
@@ -197,7 +197,7 @@ namespace EssenceServer.Scenes {
 
         internal Player GetPlayer(string id) {
             Player player = null;
-            foreach (GameLayer gameLayer in Locations.Values){
+            foreach (GameLayer gameLayer in LocationsDict.Values){
                 player = gameLayer.FindEntityById(id) as Player;
                 if (player != null)
                     break;

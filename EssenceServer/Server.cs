@@ -73,10 +73,10 @@ namespace EssenceServer {
             /* Получаем возможные адреса сервера */
             Log.Print("Server IP's:");
             Log.Print("-------");
-            IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress IP in IpList){
-                if (IP.AddressFamily == AddressFamily.InterNetwork){
-                    Log.Print(IP.ToString());
+            IPAddress[] ipList = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress ip in ipList){
+                if (ip.AddressFamily == AddressFamily.InterNetwork){
+                    Log.Print(ip.ToString());
                 }
             }
             Log.Print("-------");
