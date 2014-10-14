@@ -13,7 +13,7 @@ namespace EssenceShared.Entities {
             base.Collision(other);
 
             if (other.Tag == Tags.Player){
-                (other as Player).accState.SwitchLocation(TeleportTo);
+                (other as Player).AccState.SwitchLocation(TeleportTo);
             }
         }
     }

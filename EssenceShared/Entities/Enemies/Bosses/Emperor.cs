@@ -81,7 +81,7 @@ namespace EssenceShared.Entities.Enemies.Bosses {
 
             foreach (Player pl in players){
                 if (DistanceTo(pl.Position) < 800){
-                    pl.accState.Gold += 5000;
+                    pl.AccState.Gold += 5000;
                 }
             }
             base.Die(dt);

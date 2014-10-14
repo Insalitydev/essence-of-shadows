@@ -60,7 +60,7 @@ namespace EssenceServer.Scenes {
             // Adding event:
             Log.Print("Adding event to ChangeLocation");
             EosEvent.ChangeLocation +=
-                (sender, args)=>Server.SendMap((sender as Player).Id, (sender as Player).accState.Location);
+                (sender, args)=>Server.SendMap((sender as Player).Id, (sender as Player).AccState.Location);
         }
 
         private void AddTestEnemies() {
