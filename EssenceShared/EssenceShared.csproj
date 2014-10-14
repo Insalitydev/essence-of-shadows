@@ -118,7 +118,7 @@
     <Compile Include="Entities\Projectiles\MysticProjectile.cs" />
     <Compile Include="Entities\Projectiles\Projectile.cs" />
     <Compile Include="EntityState.cs" />
-    <Compile Include="Game\EventType.cs" />
+    <Compile Include="Game\EosEvent.cs" />
     <Compile Include="Game\IListener.cs" />
     <Compile Include="Game\Locations.cs" />
     <Compile Include="Game\Stat.cs" />

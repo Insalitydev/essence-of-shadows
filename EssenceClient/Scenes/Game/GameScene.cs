@@ -138,10 +138,10 @@ namespace EssenceClient.Scenes.Game {
                 // псевдо-три-дэ
                 if (Math.Abs(_cameraX - MyPlayer.PositionX) > 400) _cameraX = (int)MyPlayer.PositionX;
                 if (Math.Abs(_cameraY - MyPlayer.PositionY) > 400) _cameraY = (int)MyPlayer.PositionY;
-                if (_cameraX < MyPlayer.PositionX - _cameraDelta) _cameraX += 10;
-                if (_cameraX > MyPlayer.PositionX + _cameraDelta) _cameraX -= 10;
-                if (_cameraY < MyPlayer.PositionY - _cameraDelta) _cameraY += 10;
-                if (_cameraY > MyPlayer.PositionY + _cameraDelta) _cameraY -= 10;
+                if (_cameraX < MyPlayer.PositionX - _cameraDelta) _cameraX += 8;
+                if (_cameraX > MyPlayer.PositionX + _cameraDelta) _cameraX -= 8;
+                if (_cameraY < MyPlayer.PositionY - _cameraDelta) _cameraY += 8;
+                if (_cameraY > MyPlayer.PositionY + _cameraDelta) _cameraY -= 8;
                 GameLayer.Camera.CenterInWorldspace = new CCPoint3(_cameraX, _cameraY, _cameraHeight);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }

@@ -55,17 +55,26 @@ namespace EssenceServer.Scenes {
             InitMap();
 
             // Adding test enemies:
-            int mapW = GameLayer.currentMap[0].Length*Settings.TileSize*Settings.Scale;
-            int mapH = GameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
+            AddTestEnemies();
+
+            // Adding event:
+            Log.Print("Adding event to ChangeLocation");
+            EosEvent.ChangeLocation += (sender, args) => Server.SendMap((sender as Player).Id, (sender as Player).accState.Location);
+
+        }
+
+        private void AddTestEnemies() {
+            int mapW = GameLayer.currentMap[0].Length * Settings.TileSize * Settings.Scale;
+            int mapH = GameLayer.currentMap.Count * Settings.TileSize * Settings.Scale;
             Log.Print("Map size: " + mapW + " " + mapH);
 
-            for (int i = 0; i < 30; i++){
+            for (int i = 0; i < 30; i++) {
                 GameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
                 });
             }
-            for (int i = 0; i < 30; i++){
+            for (int i = 0; i < 30; i++) {
                 GameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
                     PositionX = CCRandom.Next(100, mapW - 100),
                     PositionY = CCRandom.Next(100, mapH - 100)
@@ -174,14 +183,17 @@ namespace EssenceServer.Scenes {
                 gameLayer.Update(dt);
             }
 
-            //TODO: временное решение? когда меняется локация, пересылаем карту
-            foreach (
-                AccountState accountState in
-                    Accounts.Where(accountState=>accountState.PrevLocation != accountState.Location)){
-                accountState.PrevLocation = accountState.Location;
-                Server.SendMap(accountState.HeroId, accountState.Location);
-            }
+
+//            //TODO: временное решение? когда меняется локация, пересылаем карту
+//            foreach (
+//                AccountState accountState in
+//                    Accounts.Where(accountState=>accountState.PrevLocation != accountState.Location)){
+//                accountState.PrevLocation = accountState.Location;
+//                Server.SendMap(accountState.HeroId, accountState.Location);
+//            }
         }
+
+
 
         public void UpdateNetwork(float dt) {
             Server.SendGameStateToAll();
