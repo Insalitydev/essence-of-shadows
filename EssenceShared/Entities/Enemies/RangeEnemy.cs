@@ -87,7 +87,7 @@ namespace EssenceShared.Entities.Enemies {
 
             foreach (Player pl in players){
                 if (DistanceTo(pl.Position) < 800){
-                    pl.accState.Gold += 130;
+                    pl.AccState.Gold += 130;
                 }
             }
 

@@ -10,7 +10,7 @@ namespace EssenceShared.Entities {
             base.Collision(other);
 
             if (other.Tag == Tags.Player){
-                (other as Player).accState.Gold += 100;
+                (other as Player).AccState.Gold += 100;
                 Remove();
             }
         }
