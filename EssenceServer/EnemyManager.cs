@@ -48,13 +48,13 @@ namespace EssenceServer {
                     if (isRange)
                         enemy = new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId());
                     else
-                        enemy = new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId());
+                        enemy = new MeleeEnemy(Resources.EnemyPirate, Util.GetUniqueId());
                     break;
                 case Locations.Cave:
                     if (isRange)
-                        enemy = new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId());
+                        enemy = new RangeEnemy(Resources.EnemyMagicRange, Util.GetUniqueId());
                     else
-                        enemy = new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId());
+                        enemy = new MeleeEnemy(Resources.EnemyMagicMelee, Util.GetUniqueId());
                     break;
                 case Locations.City:
                     if (isRange)
@@ -74,6 +74,16 @@ namespace EssenceServer {
             switch (_gameLayer.Location) {
                 case Locations.Desert:
                     boss = new Emperor(Util.GetUniqueId());
+                    break;
+                case Locations.City:
+                    boss = new Cardinal(Util.GetUniqueId());
+                    break;
+                case Locations.Cave:
+                    boss = new Mossorus(Util.GetUniqueId());
+                    var boss2 = new Interitus(Util.GetUniqueId()) {
+                        Position = new CCPoint(_gameLayer.MapSize().Width, _gameLayer.MapSize().Height),
+                    };
+                    _gameLayer.AddEntity(boss2);
                     break;
                 default:
                     Log.Print("DO nothing at SpawnBoss");

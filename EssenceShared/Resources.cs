@@ -9,9 +9,15 @@ namespace EssenceShared {
         public const string ProjectileMystic = "MysticProjectile";
         public const string ProjectileSniper = "SniperProjectile";
         public const string ProjectileLaser = "LaserProjectile";
+        public const string ProjectileCardinalPulse = "CardinalPulseProjectile";
+        public const string ProjectileCardinalRocket = "CardinalRocketProjectile";
+
 
         public const string EnemyStinger = "Stinger";
         public const string EnemyMeleeRobot = "MeleeRobot";
+        public const string EnemyMagicMelee = "MagicMelee";
+        public const string EnemyMagicRange = "MagicRange";
+        public const string EnemyPirate = "Pirate";
 
         public const string BossEmperor = "Emperor";
         public const string BossCardinal = "Cardinal";

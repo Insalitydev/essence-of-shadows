@@ -50,6 +50,8 @@ namespace EssenceShared.Scenes {
                     entity = new MysticProjectile(es.AttackDamage, es.Id);
                     break;
                 case Resources.ProjectileLaser:
+                case Resources.ProjectileCardinalPulse:
+                case Resources.ProjectileCardinalRocket:
                     entity = new EnemyRangeProjectile(es.AttackDamage, textureName, es.Id);
                     break;
                 case Resources.ParticleMeleeSweepAttack:
@@ -59,13 +61,25 @@ namespace EssenceShared.Scenes {
                     entity = new EnemyMeleeProjectileStart(es.AttackDamage, textureName, es.Id);
                     break;
                 case Resources.EnemyMeleeRobot:
+                case Resources.EnemyMagicMelee:
+                case Resources.EnemyPirate:
                     entity = new MeleeEnemy(textureName, es.Id);
                     break;
                 case Resources.EnemyStinger:
+                case Resources.EnemyMagicRange:
                     entity = new RangeEnemy(textureName, es.Id);
                     break;
                 case Resources.BossEmperor:
                     entity = new Emperor(es.Id);
+                    break;
+                case Resources.BossCardinal:
+                    entity = new Cardinal(es.Id);
+                    break;
+                case Resources.BossInteritus:
+                    entity = new Interitus(es.Id);
+                    break;
+                case Resources.BossMossorus:
+                    entity = new Mossorus(es.Id);
                     break;
             }
 
