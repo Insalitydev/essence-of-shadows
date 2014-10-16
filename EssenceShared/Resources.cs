@@ -12,7 +12,6 @@ namespace EssenceShared {
         public const string ProjectileCardinalPulse = "CardinalPulseProjectile";
         public const string ProjectileCardinalRocket = "CardinalRocketProjectile";
 
-
         public const string EnemyStinger = "Stinger";
         public const string EnemyMeleeRobot = "MeleeRobot";
         public const string EnemyMagicMelee = "MagicMelee";
@@ -21,6 +20,8 @@ namespace EssenceShared {
 
         public const string BossEmperor = "Emperor";
         public const string BossCardinal = "Cardinal";
+        public const string BossCardinalStatue = "CardinalStatue"; // With blades
+        public const string BossCardinalBlades = "CardinalBlades";
         public const string BossInteritus = "Interitus";
         public const string BossMossorus = "Mossorus";
 

@@ -20,9 +20,9 @@ namespace EssenceClient.Scenes.Menu {
 
             AddTitle();
             AddCardinalImage(0, 0);
-            AddCardinalImage(800, 0);
-            AddCardinalImage(800, 600);
-            AddCardinalImage(0, 600);
+            AddCardinalImage((int)Settings.ScreenWidth, 0);
+            AddCardinalImage((int)Settings.ScreenWidth, (int)Settings.ScreenHeight);
+            AddCardinalImage(0, (int)Settings.ScreenHeight);
         }
 
         private void AddCardinalImage(int p1, int p2) {
@@ -30,8 +30,18 @@ namespace EssenceClient.Scenes.Menu {
                 Texture = {IsAntialiased = false},
                 PositionX = p1,
                 PositionY = p2,
-                Scale = 4
+                Scale = 6
             };
+
+            var blades = new CCSprite(Resources.BossCardinalBlades) {
+                Scale = 1,
+                IsAntialiased = false,
+                PositionX = tmp.Texture.PixelsWide/2,
+                PositionY = tmp.Texture.PixelsHigh/2
+            };
+
+            blades.AddAction(new CCRepeatForever( new CCRotateBy(0.7f, -120)));
+            tmp.AddChild(blades,-1);
 
             if (tmp.PositionX > Settings.ScreenWidth/2){
                 tmp.FlipX = true;
@@ -44,15 +54,15 @@ namespace EssenceClient.Scenes.Menu {
             var title = new CCLabelTtf(Settings.GameName, "kongtext", 28) {
                 Color = CCColor3B.White,
                 AnchorPoint = CCPoint.AnchorMiddleTop,
-                PositionX = 400,
-                PositionY = 450,
+                PositionX = Settings.ScreenWidth/2,
+                PositionY = 550,
             };
 
             var titleShadow = new CCLabelTtf(Settings.GameName, "kongtext", 28) {
                 Color = new CCColor3B(100, 0, 220),
                 AnchorPoint = CCPoint.AnchorMiddleTop,
-                PositionX = 400,
-                PositionY = 450,
+                PositionX = Settings.ScreenWidth / 2,
+                PositionY = 550,
             };
 
             // Движение тени у текста с названием игры
@@ -78,7 +88,7 @@ namespace EssenceClient.Scenes.Menu {
         }
 
         private CCMoveBy MoveAround() {
-            return new CCMoveTo(0.1f, new CCPoint(400, 450) + Entity.GetNormalPointByDirection(CCRandom.Next(360))*8);
+            return new CCMoveTo(0.1f, new CCPoint(Settings.ScreenWidth / 2, 550) + Entity.GetNormalPointByDirection(CCRandom.Next(360)) * 8);
         }
     }
 

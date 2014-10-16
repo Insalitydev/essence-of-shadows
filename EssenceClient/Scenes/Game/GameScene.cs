@@ -16,7 +16,7 @@ namespace EssenceClient.Scenes.Game {
         private readonly ChatLayer _chatLayer;
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
-        private int _cameraHeight = 700;
+        private int _cameraHeight = 900;
         private int _cameraX = 0;
         private int _cameraY = 0;
         private const int CameraDelta = 4;
@@ -32,7 +32,7 @@ namespace EssenceClient.Scenes.Game {
             AddChild(_backgroundLayer);
 
             var cameraVisibleBounds = new CCSize(Settings.ScreenWidth, Settings.ScreenHeight);
-            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(800, 600, 10));
+            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(Settings.ScreenWidth, Settings.ScreenHeight, 10));
 
             GameLayer = new GameLayer {
                 Tag = Tags.Client,

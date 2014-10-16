@@ -167,6 +167,9 @@
     <Content Include="Resource\Image\Boss\Cardinal.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\Boss\CardinalBlades.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\Boss\Emperor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
