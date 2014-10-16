@@ -19,7 +19,7 @@ namespace EssenceClient.Scenes.Game {
         private int _cameraHeight = 700;
         private int _cameraX = 0;
         private int _cameraY = 0;
-        private const int CameraDelta = 64;
+        private const int CameraDelta = 4;
         private HudLayer _hudLayer;
 
         private int _mousePosX;

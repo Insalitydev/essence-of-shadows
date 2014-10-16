@@ -75,6 +75,9 @@ namespace EssenceServer {
                 case Locations.Desert:
                     boss = new Emperor(Util.GetUniqueId());
                     break;
+                case Locations.City:
+                    boss = new Cardinal(Util.GetUniqueId());
+                    break;
                 default:
                     Log.Print("DO nothing at SpawnBoss");
                     break;
