@@ -4,7 +4,7 @@ using CocosSharp;
 namespace EssenceClient.Scenes.Menu {
     internal class MenuScene: CCScene {
         private readonly MenuLayer _menuLayer;
-        private MenuBackgroundLayer _backgroundLayer;
+        private MenuBackgroundLayer _backgroundLayer;   
 
         public MenuScene(CCWindow window): base(window) {
             SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;

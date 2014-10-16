@@ -59,9 +59,12 @@ namespace EssenceShared.Scenes {
                     entity = new EnemyMeleeProjectileStart(es.AttackDamage, textureName, es.Id);
                     break;
                 case Resources.EnemyMeleeRobot:
+                case Resources.EnemyMagicMelee:
+                case Resources.EnemyPirate:
                     entity = new MeleeEnemy(textureName, es.Id);
                     break;
                 case Resources.EnemyStinger:
+                case Resources.EnemyMagicRange:
                     entity = new RangeEnemy(textureName, es.Id);
                     break;
                 case Resources.BossEmperor:

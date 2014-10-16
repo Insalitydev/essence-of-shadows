@@ -60,6 +60,8 @@ namespace EssenceServer.Scenes {
             // Adding test enemies:
             AddTestEnemies();
             _enemiesManager.Add(new EnemyManager(_gameLayer));
+            _enemiesManager.Add(new EnemyManager(_caveGameLayer));
+            _enemiesManager.Add(new EnemyManager(_cityGameLayer));
 
             // Adding event:
             Log.Print("Adding event to ChangeLocation");

@@ -48,13 +48,13 @@ namespace EssenceServer {
                     if (isRange)
                         enemy = new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId());
                     else
-                        enemy = new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId());
+                        enemy = new MeleeEnemy(Resources.EnemyPirate, Util.GetUniqueId());
                     break;
                 case Locations.Cave:
                     if (isRange)
-                        enemy = new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId());
+                        enemy = new RangeEnemy(Resources.EnemyMagicRange, Util.GetUniqueId());
                     else
-                        enemy = new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId());
+                        enemy = new MeleeEnemy(Resources.EnemyMagicMelee, Util.GetUniqueId());
                     break;
                 case Locations.City:
                     if (isRange)

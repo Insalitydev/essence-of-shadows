@@ -12,6 +12,9 @@ namespace EssenceShared {
 
         public const string EnemyStinger = "Stinger";
         public const string EnemyMeleeRobot = "MeleeRobot";
+        public const string EnemyMagicMelee = "MagicMelee";
+        public const string EnemyMagicRange = "MagicRange";
+        public const string EnemyPirate = "Pirate";
 
         public const string BossEmperor = "Emperor";
         public const string BossCardinal = "Cardinal";
