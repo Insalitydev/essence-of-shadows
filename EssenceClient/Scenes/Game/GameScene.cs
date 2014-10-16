@@ -13,13 +13,13 @@ namespace EssenceClient.Scenes.Game {
     ///     Основная сцена для игры на клиенте. Создает игровой слой и управляет общим состоянием игры для клиента
     /// </summary>
     internal class GameScene: CCScene {
+        private const int CameraDelta = 4;
         private readonly ChatLayer _chatLayer;
         private readonly NetGameClient _netGameClient;
         private BackgroundLayer _backgroundLayer;
         private int _cameraHeight = 900;
-        private int _cameraX = 0;
-        private int _cameraY = 0;
-        private const int CameraDelta = 4;
+        private int _cameraX;
+        private int _cameraY;
         private HudLayer _hudLayer;
         private int _mousePosX;
         private int _mousePosY;
@@ -32,7 +32,8 @@ namespace EssenceClient.Scenes.Game {
             AddChild(_backgroundLayer);
 
             var cameraVisibleBounds = new CCSize(Settings.ScreenWidth, Settings.ScreenHeight);
-            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds, new CCPoint3(Settings.ScreenWidth, Settings.ScreenHeight, 10));
+            var camera = new CCCamera(CCCameraProjection.Projection3D, cameraVisibleBounds,
+                new CCPoint3(Settings.ScreenWidth, Settings.ScreenHeight, 10));
 
             GameLayer = new GameLayer {
                 Tag = Tags.Client,
@@ -85,10 +86,10 @@ namespace EssenceClient.Scenes.Game {
         private void UpdateControl(float dt) {
             if (MyPlayer != null){
                 MyPlayer.Control(dt);
-                            // поправка на камеру:
+                // поправка на камеру:
                 if (GameLayer.Camera != null){
-                    var camx = (int)(GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
-                    var camy = (int)(GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight / 2);
+                    var camx = (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
+                    var camy = (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
 
                     if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0){
                         // Стреляем при нажатой левой кнопке
@@ -130,14 +131,14 @@ namespace EssenceClient.Scenes.Game {
             }
             if (MyPlayer != null){
                 // псевдо-три-дэ
-                if (Math.Abs(_cameraX - MyPlayer.PositionX) > 400) _cameraX = (int)MyPlayer.PositionX;
-                if (Math.Abs(_cameraY - MyPlayer.PositionY) > 400) _cameraY = (int)MyPlayer.PositionY;
+                if (Math.Abs(_cameraX - MyPlayer.PositionX) > 400) _cameraX = (int) MyPlayer.PositionX;
+                if (Math.Abs(_cameraY - MyPlayer.PositionY) > 400) _cameraY = (int) MyPlayer.PositionY;
                 if (_cameraX < MyPlayer.PositionX - CameraDelta) _cameraX += 8;
                 if (_cameraX > MyPlayer.PositionX + CameraDelta) _cameraX -= 8;
                 if (_cameraY < MyPlayer.PositionY - CameraDelta) _cameraY += 8;
                 if (_cameraY > MyPlayer.PositionY + CameraDelta) _cameraY -= 8;
                 GameLayer.Camera.CenterInWorldspace = new CCPoint3(_cameraX, _cameraY, _cameraHeight);
-//                GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position.X * 2 - _cameraX, MyPlayer.Position.Y * 2 - _cameraY, 0);
+                //                GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position.X * 2 - _cameraX, MyPlayer.Position.Y * 2 - _cameraY, 0);
                 GameLayer.Camera.TargetInWorldspace = new CCPoint3(MyPlayer.Position, 0);
             }
         }
@@ -213,6 +214,6 @@ namespace EssenceClient.Scenes.Game {
             /** Актуальные координаты */
             _mousePosX = (int) (e.CursorX/windowScaleX);
             _mousePosY = (int) (e.CursorY/windowScaleY);
-            }
         }
     }
+}

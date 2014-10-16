@@ -26,9 +26,9 @@ namespace EssenceShared.Entities.Enemies.Bosses {
                     PositionY = Texture.PixelsHigh/2,
                 };
                 AddChild(blades, -1);
-                
 
-                blades.AddAction(new CCRepeatForever( new CCRotateBy(0.7f, -90)));
+
+                blades.AddAction(new CCRepeatForever(new CCRotateBy(0.7f, -90)));
             }
         }
 

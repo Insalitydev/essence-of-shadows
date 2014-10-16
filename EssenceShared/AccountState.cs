@@ -24,14 +24,12 @@ namespace EssenceShared {
         }
 
         public void SwitchLocation(Locations locationTo) {
-
             Player player = GetPlayer();
             _locations[Location].RemoveChild(player);
             Location = locationTo;
             _locations[locationTo].AddEntity(player);
 
             EosEvent.RaiseEvent(player, new EventArgs(), EventType.ChangeLocation);
-
         }
 
         /// <summary>

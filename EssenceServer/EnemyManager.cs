@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CocosSharp;
+﻿using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
@@ -24,9 +23,9 @@ namespace EssenceServer {
         }
 
         public void Update() {
-            if (EnemiesCount() < MinEnemies) {
+            if (EnemiesCount() < MinEnemies){
                 if (_gameLayer != null)
-                _gameLayer.AddEntity(GetRandomEnemy());
+                    _gameLayer.AddEntity(GetRandomEnemy());
             }
         }
 
@@ -43,7 +42,7 @@ namespace EssenceServer {
 
             Entity enemy = null;
 
-            switch (_gameLayer.Location) {
+            switch (_gameLayer.Location){
                 case Locations.Desert:
                     if (isRange)
                         enemy = new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId());
@@ -64,14 +63,15 @@ namespace EssenceServer {
                     break;
             }
 
-            enemy.Position = new CCPoint(CCRandom.Next(0, (int) _gameLayer.MapSize().Width), CCRandom.Next(0, (int) _gameLayer.MapSize().Height));
+            enemy.Position = new CCPoint(CCRandom.Next(0, (int) _gameLayer.MapSize().Width),
+                CCRandom.Next(0, (int) _gameLayer.MapSize().Height));
 
             return enemy;
         }
 
         private void SpawnBoss() {
             Entity boss = null;
-            switch (_gameLayer.Location) {
+            switch (_gameLayer.Location){
                 case Locations.Desert:
                     boss = new Emperor(Util.GetUniqueId());
                     break;
@@ -90,12 +90,11 @@ namespace EssenceServer {
                     break;
             }
 
-            if (boss != null) {
+            if (boss != null){
                 boss.Position = new CCPoint(_gameLayer.MapSize().Width, _gameLayer.MapSize().Height);
                 _gameLayer.AddEntity(boss);
                 _boss = boss;
             }
-
         }
     }
 }

@@ -47,7 +47,8 @@ namespace EssenceServer {
                     break;
                 case "count":
                     // TODO: Долой безопасность, даёшь паблик поля везде!
-                    Log.Print("Entities count: " + Server.ServerGame.ServerScene.GetGameLayer(Locations.Desert).Entities.Count,
+                    Log.Print(
+                        "Entities count: " + Server.ServerGame.ServerScene.GetGameLayer(Locations.Desert).Entities.Count,
                         LogType.Info,
                         false);
                     break;
