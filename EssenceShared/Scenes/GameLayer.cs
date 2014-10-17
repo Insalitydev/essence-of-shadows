@@ -75,6 +75,12 @@ namespace EssenceShared.Scenes {
                 case Resources.BossCardinal:
                     entity = new Cardinal(es.Id);
                     break;
+                case Resources.BossInteritus:
+                    entity = new Interitus(es.Id);
+                    break;
+                case Resources.BossMossorus:
+                    entity = new Mossorus(es.Id);
+                    break;
             }
 
             if (entity != null){
