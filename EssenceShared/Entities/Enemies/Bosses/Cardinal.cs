@@ -11,9 +11,25 @@ namespace EssenceShared.Entities.Enemies.Bosses {
             Speed = 200;
             AttackDamage = 150;
             AttackCooldown = 0.6f;
-            SightRadius = 800;
-            AttackRadius = 700;
+            SightRadius = 700;
+            AttackRadius = 500;
             Hp.Maximum = 8000;
+        }
+
+        public override void OnEnter() {
+            base.OnEnter();
+
+            if (Parent.Tag == Tags.Client){
+                var blades = new CCSprite(Resources.BossCardinalBlades) {
+                    IsAntialiased = false,
+                    PositionX = Texture.PixelsWide/2,
+                    PositionY = Texture.PixelsHigh/2,
+                };
+                AddChild(blades, -1);
+
+
+                blades.AddAction(new CCRepeatForever(new CCRotateBy(0.7f, -90)));
+            }
         }
 
         protected override void IdleAction(float dt) {

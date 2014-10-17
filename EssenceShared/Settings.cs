@@ -3,8 +3,8 @@
 namespace EssenceShared {
     public class Settings {
         /** General settings */
-        public const float ScreenWidth = 800f;
-        public const float ScreenHeight = 600f;
+        public const float ScreenWidth = 1024f;
+        public const float ScreenHeight = 768f;
         public const string GameName = "Essence of Shadows";
         public const string GameIdentifier = "EssenceOfShadows";
         public const int Scale = 4;

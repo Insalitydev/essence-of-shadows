@@ -3,9 +3,9 @@ using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
+        public AccountState AccState;
         public float AttackCooldown;
         public float AttackCooldownCounter;
-        public AccountState AccState;
 
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = Settings.Scale;

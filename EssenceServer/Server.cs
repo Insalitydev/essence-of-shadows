@@ -143,7 +143,9 @@ namespace EssenceServer {
                 NetCommand nc = NetCommand.Deserialize(data);
                 switch (nc.Type){
                     case NetCommandType.Connect:
-                        Log.Print("Connected: " + msg.SenderConnection.RemoteEndpoint.Address + ":" + msg.SenderConnection.RemoteEndpoint.Port, LogType.Network);
+                        Log.Print(
+                            "Connected: " + msg.SenderConnection.RemoteEndpoint.Address + ":" +
+                            msg.SenderConnection.RemoteEndpoint.Port, LogType.Network);
                         ConnectNewPlayer(msg);
                         break;
                     case NetCommandType.Disconnect:

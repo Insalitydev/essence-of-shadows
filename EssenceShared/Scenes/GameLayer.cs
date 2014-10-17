@@ -150,8 +150,8 @@ namespace EssenceShared.Scenes {
         }
 
         public CCSize MapSize() {
-            int mapW = currentMap[0].Length * Settings.TileSize * Settings.Scale;
-            int mapH = currentMap.Count * Settings.TileSize * Settings.Scale;
+            int mapW = currentMap[0].Length*Settings.TileSize*Settings.Scale;
+            int mapH = currentMap.Count*Settings.TileSize*Settings.Scale;
             return new CCSize(mapW, mapH);
         }
 

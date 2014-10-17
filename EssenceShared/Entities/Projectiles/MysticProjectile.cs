@@ -40,7 +40,7 @@ namespace EssenceShared.Entities.Projectiles {
 
             if (other.Tag == Tags.Enemy && !AlreadyDamaged.Contains(other)){
                 var player = GetOwner() as Player;
-                if (player != null) player.AccState.Exp.Current += 200;
+                if (player != null) player.AccState.Exp.Current += 100;
 
                 (other as Enemy).Damage(AttackDamage);
                 AlreadyDamaged.Add(other);
