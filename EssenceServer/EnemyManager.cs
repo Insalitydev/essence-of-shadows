@@ -78,13 +78,6 @@ namespace EssenceServer {
                 case Locations.City:
                     boss = new Cardinal(Util.GetUniqueId());
                     break;
-                case Locations.Cave:
-                    boss = new Mossorus(Util.GetUniqueId());
-                    var boss2 = new Interitus(Util.GetUniqueId()) {
-                        Position = new CCPoint(_gameLayer.MapSize().Width, _gameLayer.MapSize().Height),
-                    };
-                    _gameLayer.AddEntity(boss2);
-                    break;
                 default:
                     Log.Print("DO nothing at SpawnBoss");
                     break;

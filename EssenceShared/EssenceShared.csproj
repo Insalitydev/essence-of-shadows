@@ -103,9 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountState.cs" />
-    <Compile Include="Entities\Enemies\Bosses\Mossorus.cs" />
     <Compile Include="Entities\Enemies\Bosses\Cardinal.cs" />
-    <Compile Include="Entities\Enemies\Bosses\Interitus.cs" />
     <Compile Include="Entities\Enemies\Bosses\Emperor.cs" />
     <Compile Include="Entities\Enemies\Enemy.cs" />
     <Compile Include="Entities\Enemies\MeleeEnemy.cs" />
