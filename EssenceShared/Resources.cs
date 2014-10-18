@@ -33,6 +33,11 @@ namespace EssenceShared {
         public const string ItemGate = "Gate";
 
         public const string ObjectSmith = "Smith";
+        
+        public const string GuiIncrease = "Increase";
+        public const string GuiIncreaseActive = "IncreasePressed";
+        public const string GuiIncreaseInactive = "IncreaseInactive";
+
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
         public const string ParticleLevelUp = "ExpParticle";

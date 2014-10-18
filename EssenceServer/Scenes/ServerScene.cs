@@ -117,7 +117,7 @@ namespace EssenceServer.Scenes {
             });
             _townGameLayer.AddEntity(new Smith(Util.GetUniqueId()) {
                 PositionX = 100,
-                PositionY = 200,
+                PositionY = 700,
             });
 
 

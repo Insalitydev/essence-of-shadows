@@ -78,7 +78,6 @@ namespace EssenceClient.Scenes.Game {
         public override void Update(float dt) {
             base.Update(dt);
 
-
             UpdateControl(dt);
             UpdateCamera();
             UpdateVisibility();
