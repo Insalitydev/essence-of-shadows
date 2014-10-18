@@ -1,4 +1,5 @@
-﻿using EssenceShared.Entities.Players;
+﻿using CocosSharp;
+using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities {
@@ -7,6 +8,7 @@ namespace EssenceShared.Entities {
 
         public Gate(string id): base(Resources.ItemGate, id) {
             Tag = Tags.Item;
+            _maskH = _maskH/4;
         }
 
         public override void Collision(Entity other) {

@@ -15,14 +15,15 @@ namespace EssenceShared.Entities {
     ///     Базовый класс для всех игровых объектов
     /// </summary>
     public class Entity: CCSprite {
+        private const int _maskLesser = 12;
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
         public Stat Hp;
         public string OwnerId = null;
         public float Speed;
-        private int _imageH;
-        private int _imageW;
+        protected int _maskH;
+        protected int _maskW;
 
         public Entity(string url, string id): base(url) {
             Id = id;
@@ -34,13 +35,15 @@ namespace EssenceShared.Entities {
             AttackDamage = 0;
             ActionState = ActionState.Idle;
             Scale = Settings.Scale;
+            _maskW = (int) (Texture.PixelsWide*ScaleX) - _maskLesser;
+            _maskH = (int) (Texture.PixelsHigh*ScaleY) - _maskLesser;
         }
 
 
         /// <summary>
         ///     По этой маске проверяется столкновение между объектами
         /// </summary>
-        public CCRect Mask { get; private set; }
+        public CCRect Mask { get; protected set; }
 
         public string Id { get; private set; }
 
@@ -83,13 +86,12 @@ namespace EssenceShared.Entities {
         public virtual void Collision(Entity other) {
         }
 
-        protected void UpdateMask() {
+        protected virtual void UpdateMask() {
             // TODO: можно ли без пересоздавааний?
             // lesser - немного уменьшаем маску столкновения
-            const int lesser = 12;
-            _imageW = (int) (Texture.PixelsWide*ScaleX) - lesser;
-            _imageH = (int) (Texture.PixelsHigh*ScaleY) - lesser;
-            Mask = new CCRect(PositionX - _imageW/2 + lesser/2, PositionY - _imageH/2 + lesser/2, _imageW, _imageH);
+
+            Mask = new CCRect(PositionX - (Texture.PixelsWide/2)/2 + _maskLesser/2,
+                PositionY - (Texture.PixelsHigh/2) + _maskLesser/2, _maskW, _maskH);
         }
 
         internal void AppendState(EntityState es) {

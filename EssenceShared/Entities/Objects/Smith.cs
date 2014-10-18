@@ -4,7 +4,6 @@ namespace EssenceShared.Entities.Objects {
     public class Smith : Entity {
         public Smith(string id) : base(Resources.ObjectSmith, id) {
             Tag = Tags.Object;
-
         }
 
         public override void OnEnter() {
@@ -12,9 +11,10 @@ namespace EssenceShared.Entities.Objects {
 
             if (Parent.Tag == Tags.Client) {
                 var label = new CCLabelTtf("Store", "kongtext", 8) {
-                    Color = CCColor3B.Black,
+                    Color = CCColor3B.White,
                     PositionY = 30,
                     PositionX = -5,
+                    IsAntialiased = false
                 };
 
                 AddChild(label, 10);

@@ -112,11 +112,13 @@ namespace EssenceClient.Scenes.Game {
         /// <summary>
         ///     Помечает объекты, которые находятся все зоны видимости, скрытыми.
         ///     Позволяет не тратить на них ресурсы при отрисовке
+        ///     Выстраивает порядок отрисовки объектам
         /// </summary>
         private void UpdateVisibility() {
             if (MyPlayer != null)
                 foreach (CCNode ccNode in GameLayer.Children){
                     ccNode.Visible = MyPlayer.DistanceTo(ccNode.Position) < _sightRadius;
+
                     ccNode.ZOrder = -(int)ccNode.PositionY - (int)ccNode.AnchorPoint.Y;
                     if (ccNode.Tag == Tags.MapTile){
                         ccNode.ZOrder -= Settings.TileSize*8;
