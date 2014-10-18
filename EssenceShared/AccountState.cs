@@ -7,15 +7,18 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class AccountState {
-        private readonly Dictionary<Locations, GameLayer> _locations;
+        private Dictionary<Locations, GameLayer> _locations;
         public Stat Exp;
         public int Gold;
         public string HeroId;
         public int Level;
         public Locations Location = Locations.Town;
 
+        public string nickname;
 
-        public AccountState(string id, Dictionary<Locations, GameLayer> locations) {
+
+        public AccountState(string id, string nickname, Dictionary<Locations, GameLayer> locations) {
+            this.nickname = nickname;
             HeroId = id;
             Gold = 0;
             Exp = new Stat(Settings.StartExp) {Current = 0};
@@ -32,6 +35,10 @@ namespace EssenceShared {
             EosEvent.RaiseEvent(player, new EventArgs(), EventType.ChangeLocation);
         }
 
+        public void SetLocationsDict(Dictionary<Locations, GameLayer> locations) {
+            _locations = locations;
+        }
+
         /// <summary>
         ///     Вызывается классом Player
         /// </summary>
@@ -41,16 +48,19 @@ namespace EssenceShared {
             }
         }
 
+        public void RecalcStats() {
+            Player player = GetPlayer();
+            player.Hp.Maximum = Player.BaseHP + 30*Level;
+            player.AttackDamage = Player.BaseAD + 3 * Level;
+        }
+
         private void LevelUp() {
             Level++;
             Exp.Current = 0;
             Exp.Maximum = (int) (Settings.ExpMultiplier*Exp.Maximum);
 
             // Inc stats:
-            Player player = GetPlayer();
-            player.Hp.Maximum += 30;
-            player.AttackDamage += 3;
-            player.Hp.Current = GetPlayer().Hp.Maximum;
+            RecalcStats();
         }
 
         private Player GetPlayer() {
@@ -58,7 +68,7 @@ namespace EssenceShared {
             return pl;
         }
 
-        public static AccountState LoadAccountState(string accountId) {
+        public static AccountState LoadAccountState(string nickname) {
             //TODO: грузить из базы
             throw new NotImplementedException();
         }

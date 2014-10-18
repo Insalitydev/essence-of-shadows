@@ -21,7 +21,7 @@ namespace EssenceClient {
             _scene = scene;
         }
 
-        public void ConnectToServer() {
+        public void ConnectToServer(string nickname) {
             Log.Print("Hello");
             Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.Port), LogType.Network);
 
@@ -40,7 +40,7 @@ namespace EssenceClient {
             Thread.Sleep(400);
 
             Log.Print("NetStatus: " + Client.ConnectionStatus, LogType.Network);
-            var nc = new NetCommand(NetCommandType.Connect, "");
+            var nc = new NetCommand(NetCommandType.Connect, nickname);
             Send(nc, NetDeliveryMethod.ReliableOrdered);
         }
 

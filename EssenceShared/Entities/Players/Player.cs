@@ -6,13 +6,16 @@ namespace EssenceShared.Entities.Players {
         public AccountState AccState;
         public float AttackCooldown;
         public float AttackCooldownCounter;
+        public const int BaseHP = 200;
+        public const int BaseAD = 20;
 
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = Settings.Scale;
             Tag = Tags.Player;
             AccState = account;
-            Hp = new Stat(200);
-            AttackDamage = 20;
+
+            Hp = new Stat(BaseHP);
+            AttackDamage = BaseAD;
             Speed = 340;
             AttackCooldownCounter = 0;
             AttackCooldown = 0.2f;

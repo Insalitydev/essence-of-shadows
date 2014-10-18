@@ -61,8 +61,9 @@ namespace EssenceClient.Scenes.Game {
 
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile("Config.ini");
+            string nickname = data["Client"]["nickname"];
             _netGameClient = new NetGameClient(data["Server"]["ip"], this);
-            _netGameClient.ConnectToServer();
+            _netGameClient.ConnectToServer(nickname);
 
             Schedule(Update);
             Schedule(UpdateNetwork, 0.03f);

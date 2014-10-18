@@ -146,7 +146,7 @@ namespace EssenceServer {
                         Log.Print(
                             "Connected: " + msg.SenderConnection.RemoteEndpoint.Address + ":" +
                             msg.SenderConnection.RemoteEndpoint.Port, LogType.Network);
-                        ConnectNewPlayer(msg);
+                        ConnectNewPlayer(msg, nc.Data);
                         break;
                     case NetCommandType.Disconnect:
                         RemoveDisconnectedPlayer(GetId(msg.SenderConnection));
@@ -248,12 +248,12 @@ namespace EssenceServer {
             _server.SendMessage(om, client, NetDeliveryMethod.ReliableOrdered);
         }
 
-        private static void ConnectNewPlayer(NetIncomingMessage msg) {
+        private static void ConnectNewPlayer(NetIncomingMessage msg, string nickname) {
             SendMap(msg.SenderConnection, Locations.Town);
 
-            Log.Print("Creating new player");
+            Log.Print("Creating new player: " + nickname);
             /* Создаем нового игрока в игре */
-            InitNewPlayer(GetId(msg.SenderConnection));
+            InitNewPlayer(GetId(msg.SenderConnection), nickname);
 
             /* Отдаем новому игроку его уникальный ид */
             var nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
@@ -266,17 +266,9 @@ namespace EssenceServer {
         /// <summary>
         ///     Создает нового игрока в игре
         /// </summary>
-        private static void InitNewPlayer(string id) {
-            string type = "Mystic";
-            switch (new Random().Next(3)){
-                case 0:
-                    type = "Reaper";
-                    break;
-                case 1:
-                    type = "Sniper";
-                    break;
-            }
-            ServerGame.AddNewPlayer(id, 300, 300, type);
+        private static void InitNewPlayer(string id, string nickname) {
+            
+            ServerGame.AddNewPlayer(id, nickname, 300, 300);
         }
 
         private static void RemoveDisconnectedPlayer(string playerid) {
