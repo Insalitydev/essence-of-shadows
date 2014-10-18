@@ -43,8 +43,10 @@ namespace EssenceShared.Entities.Projectiles {
                 if (player != null) player.AccState.Exp.Current += 100;
 
                 (other as Enemy).Damage(AttackDamage);
-                AlreadyDamaged.Add(other);
+
+                Remove();
             }
+            
         }
 
         public void UpdateAnimation(float dt) {
