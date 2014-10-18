@@ -16,6 +16,16 @@ namespace EssenceShared {
                 curTime = DateTime.Now.ToString("[HH:mm:ss]: ");
             }
 
+            if (type == LogType.Error){
+                Console.ForegroundColor = ConsoleColor.Red;
+            } else if (type == LogType.Debug){
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+            } else if (type == LogType.Network){
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
+            else{
+                Console.ForegroundColor = ConsoleColor.White;
+            }
             Console.WriteLine(curTime + text);
 
             if (Settings.IsLogToFile){

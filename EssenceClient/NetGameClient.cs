@@ -23,7 +23,7 @@ namespace EssenceClient {
 
         public void ConnectToServer() {
             Log.Print("Hello");
-            Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.Port));
+            Log.Print(String.Format("Connecting to the server {0}:{1}", _ip, Settings.Port), LogType.Network);
 
             var config = new NetPeerConfiguration(Settings.GameIdentifier);
 
@@ -79,7 +79,7 @@ namespace EssenceClient {
                             case NetCommandType.Disconnect:
                                 break;
                             case NetCommandType.Say:
-                                Log.Print("Incoming message from server: " + nc.Data);
+                                Log.Print("Incoming message from server: " + nc.Data, LogType.Network);
                                 _scene.AppendChatMessage(nc.Data);
                                 break;
                                 /** Обновляем все необходимые данные об игровом состоянии */
@@ -92,7 +92,7 @@ namespace EssenceClient {
                                 _scene.GameLayer.AppendGameState(gs, _scene.Id);
                                 break;
                             default:
-                                Log.Print("Unknown NetcommandType delivered");
+                                Log.Print("Unknown NetcommandType delivered", LogType.Error);
                                 break;
                         }
                     }

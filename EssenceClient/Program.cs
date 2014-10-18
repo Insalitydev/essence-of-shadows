@@ -14,7 +14,7 @@ namespace EssenceClient {
                 application.StartGame();
             }
             catch (NullReferenceException e){
-                Log.Print("App.StartGame NullPointer!: " + e.StackTrace);
+                Log.Print("App.StartGame NullPointer!: " + e.StackTrace, LogType.Error);
             }
         }
     }

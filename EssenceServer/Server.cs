@@ -61,7 +61,7 @@ namespace EssenceServer {
         ///     Метод для работып отока обработчика входящих новых соединений с сервером
         /// </summary>
         private static void ServerHandleConnections(object obj) {
-            Log.Print("Starting Listen connections");
+            Log.Print("Starting Listen connections", LogType.Network);
 
             var config = new NetPeerConfiguration(Settings.GameIdentifier) {
                 Port = Settings.Port,
@@ -71,15 +71,15 @@ namespace EssenceServer {
             };
 
             /* Получаем возможные адреса сервера */
-            Log.Print("Server IP's:");
-            Log.Print("-------");
+            Log.Print("Server IP's:", LogType.Network);
+            Log.Print("-------", LogType.Network);
             IPAddress[] ipList = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress ip in ipList){
                 if (ip.AddressFamily == AddressFamily.InterNetwork){
-                    Log.Print(ip.ToString());
+                    Log.Print(ip.ToString(), LogType.Network);
                 }
             }
-            Log.Print("-------");
+            Log.Print("-------", LogType.Network);
 
             _server = new NetServer(config);
             _server.Start();
