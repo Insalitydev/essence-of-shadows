@@ -4,6 +4,7 @@ using System.Linq;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
+using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
@@ -113,6 +114,10 @@ namespace EssenceServer.Scenes {
                 PositionX = 900,
                 PositionY = 500,
                 TeleportTo = Locations.Cave
+            });
+            _townGameLayer.AddEntity(new Smith(Util.GetUniqueId()) {
+                PositionX = 100,
+                PositionY = 200,
             });
 
 

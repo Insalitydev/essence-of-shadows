@@ -13,5 +13,6 @@
         public const int EnemyProjectile = 9;
         public const int Particle = 10;
         public const int Item = 11;
+        public const int Object = 11;
     }
 }

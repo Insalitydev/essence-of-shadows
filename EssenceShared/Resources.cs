@@ -20,7 +20,6 @@ namespace EssenceShared {
 
         public const string BossEmperor = "Emperor";
         public const string BossCardinal = "Cardinal";
-        public const string BossCardinalStatue = "CardinalStatue"; // With blades
         public const string BossCardinalBlades = "CardinalBlades";
         public const string BossInteritus = "Interitus";
         public const string BossMossorus = "Mossorus";
@@ -32,6 +31,8 @@ namespace EssenceShared {
         public const string ItemKeyUrban = "KeyUrban";
         public const string ItemKeyDesert = "KeyDesert";
         public const string ItemGate = "Gate";
+
+        public const string ObjectSmith = "Smith";
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
         public const string ParticleLevelUp = "ExpParticle";
@@ -66,6 +67,7 @@ namespace EssenceShared {
             application.ContentSearchPaths.Add("Image\\Effects");
             application.ContentSearchPaths.Add("Image\\GUI");
             application.ContentSearchPaths.Add("Image\\GUI\\Menu");
+            application.ContentSearchPaths.Add("Image\\Objects");
             application.ContentSearchPaths.Add("Image\\Item");
             application.ContentSearchPaths.Add("Image\\Projectile");
             application.ContentSearchPaths.Add("Image\\Tile");

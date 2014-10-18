@@ -6,6 +6,7 @@ using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Enemies.Bosses;
 using EssenceShared.Entities.Map.Tiles;
+using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using EssenceShared.Game;
@@ -45,6 +46,9 @@ namespace EssenceShared.Scenes {
                     break;
                 case Resources.ItemGate:
                     entity = new Gate(es.Id);
+                    break;
+                case Resources.ObjectSmith:
+                    entity = new Smith(es.Id);
                     break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.AttackDamage, es.Id);

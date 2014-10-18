@@ -114,6 +114,7 @@
     <Compile Include="Entities\Items\Gate.cs" />
     <Compile Include="Entities\Items\GoldStack.cs" />
     <Compile Include="Entities\Map\Tiles\Tile.cs" />
+    <Compile Include="Entities\Objects\Smith.cs" />
     <Compile Include="Entities\Players\Player.cs" />
     <Compile Include="Entities\Projectiles\EnemyMeleeProjectileStart.cs" />
     <Compile Include="Entities\Projectiles\EnemyMeleeProjectile.cs" />
@@ -230,6 +231,9 @@
     <Content Include="Resource\Image\GUI\Increase.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\GUI\IncreaseInactive.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\GUI\IncreasePressed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -252,6 +256,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\Item\KeyUrban.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\Objects\Smith.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\Projectile\CardinalPulseProjectile.png">
