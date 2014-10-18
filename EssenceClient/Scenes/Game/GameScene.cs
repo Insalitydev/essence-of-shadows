@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
@@ -116,7 +117,12 @@ namespace EssenceClient.Scenes.Game {
             if (MyPlayer != null)
                 foreach (CCNode ccNode in GameLayer.Children){
                     ccNode.Visible = MyPlayer.DistanceTo(ccNode.Position) < _sightRadius;
+                    ccNode.ZOrder = -(int)ccNode.PositionY - (int)ccNode.AnchorPoint.Y;
+                    if (ccNode.Tag == Tags.MapTile){
+                        ccNode.ZOrder -= Settings.TileSize*8;
+                    }
                 }
+
         }
 
         /// <summary>
