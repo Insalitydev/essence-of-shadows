@@ -5,6 +5,7 @@ namespace EssenceShared.Entities.Map.Tiles {
         public Tile(string url): base(url) {
             Tag = Tags.MapTile;
             IsAntialiased = false;
+            AnchorPoint = CCPoint.AnchorLowerLeft;
         }
     }
 }

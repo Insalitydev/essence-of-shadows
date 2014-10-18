@@ -118,9 +118,12 @@ namespace EssenceClient.Scenes.Game {
                 foreach (CCNode ccNode in GameLayer.Children){
                     ccNode.Visible = MyPlayer.DistanceTo(ccNode.Position) < _sightRadius;
 
-                    ccNode.ZOrder = -(int)ccNode.PositionY - (int)ccNode.AnchorPoint.Y;
-                    if (ccNode.Tag == Tags.MapTile){
-                        ccNode.ZOrder -= Settings.TileSize*8;
+                    if (ccNode is CCSprite){
+                        var ccSp = ccNode as CCSprite;
+                        ccNode.ZOrder = (int)(Settings.ScreenHeight - ccSp.PositionY + (ccSp.Texture.PixelsHigh*ccSp.ScaleY)/2);
+                        if (ccNode.Tag == Tags.MapTile){
+                            ccNode.ZOrder -= (int) (Settings.TileSize*5 + 8);
+                        }
                     }
                 }
 

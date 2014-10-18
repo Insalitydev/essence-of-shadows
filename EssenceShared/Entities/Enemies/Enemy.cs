@@ -91,7 +91,7 @@ namespace EssenceShared.Entities.Enemies {
 
         protected override void Draw() {
             base.Draw();
-            drawHealthBar();
+            DrawHealthBar();
         }
 
         /// <summary>
@@ -104,11 +104,11 @@ namespace EssenceShared.Entities.Enemies {
         /// </summary>
         protected abstract void TryAttackTarget(float dt);
 
-        private void drawHealthBar() {
+        private void DrawHealthBar() {
             CCDrawingPrimitives.Begin();
 
-            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide, -2), CCColor4B.Black);
-            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, 0), new CCPoint(Texture.PixelsWide*Hp.Perc, -2),
+            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, Texture.PixelsHigh + 2), new CCPoint(Texture.PixelsWide, Texture.PixelsHigh), CCColor4B.Black);
+            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, Texture.PixelsHigh + 2), new CCPoint(Texture.PixelsWide * Hp.Perc, Texture.PixelsHigh),
                 CCColor4B.Red);
 
             CCDrawingPrimitives.End();

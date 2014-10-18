@@ -236,7 +236,14 @@ namespace EssenceShared.Scenes {
         }
 
         public Entity FindEntityById(string id) {
-            int result = Entities.FindIndex(x=>x.Id == id);
+            int result = -1;
+            try{
+                result = Entities.FindIndex(x=>x.Id == id);
+            }
+            catch (NullReferenceException){
+                Log.Print("Error in FindIndex", LogType.Error);
+                return null;
+            }
             if (result == -1){
                 return null;
             }
