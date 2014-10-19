@@ -6,18 +6,36 @@ namespace EssenceShared.Game {
         CreatureDied,
         PlayerShoot,
         PlayerDied,
-        ChangeLocation
+        ChangeLocation,
+        PlayerUpgrade
     }
 
     public class EosEvent {
         public static event EventHandler ChangeLocation;
+        public static event EventHandler PlayerUpgrade;
 
         public static void RaiseEvent(Entity obj, EventArgs eventArgs, EventType eventType) {
-            switch (eventType){
-                case EventType.ChangeLocation:
-                    ChangeLocation(obj, eventArgs);
-                    break;
+            try{
+                switch (eventType){
+                    case EventType.ChangeLocation:
+                        ChangeLocation(obj, eventArgs);
+                        break;
+                    case EventType.PlayerUpgrade:
+                        PlayerUpgrade(obj, eventArgs);
+                        break;
+                }
+            } catch (NullReferenceException)
+            {
+                Log.Print("NullReference in RaiseEvent", LogType.Error);
             }
         }
+    }
+
+    public class UpgradeEventArgs: EventArgs {
+        public UpgradeEventArgs(AcccountUpgrade upg) {
+            upgrade = upg;
+        }
+
+        public AcccountUpgrade upgrade;
     }
 }

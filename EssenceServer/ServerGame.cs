@@ -114,7 +114,7 @@ namespace EssenceServer {
                 Log.Print("Player " + id + " not found in the Game", LogType.Error);
             }
             catch (InvalidOperationException){
-                Log.Print("Account " + id + " already not ih the Game", LogType.Network);
+                Log.Print("Account " + id + " already not it the Game", LogType.Network);
             }
         }
     }

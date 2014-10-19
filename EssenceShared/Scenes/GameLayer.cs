@@ -166,12 +166,10 @@ namespace EssenceShared.Scenes {
         }
 
         public string SerializeMap() {
-            Log.Print("Serialize map");
             return JsonConvert.SerializeObject(currentMap);
         }
 
         public void DeserializeMap(string jsonMap) {
-            Log.Print("Deserialize map");
             var tileMap = JsonConvert.DeserializeObject<List<string>>(jsonMap);
             CreateNewMap(tileMap);
         }

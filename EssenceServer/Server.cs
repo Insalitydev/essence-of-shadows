@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -186,7 +187,7 @@ namespace EssenceServer {
                 ServerGame.ServerScene.GetGameLayer(pl.AccState.Location).AddEntity(ent);
             }
             else{
-                Log.Print("Not found player method;", LogType.Error);
+                Log.Print("Not found player method: " + string.Join(" ", args), LogType.Error);
             }
         }
 

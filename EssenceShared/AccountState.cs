@@ -6,14 +6,20 @@ using EssenceShared.Scenes;
 using Newtonsoft.Json;
 
 namespace EssenceShared {
-    public class AccountState: IDisposable {
+    public enum AcccountUpgrade {
+        Hp,
+        Attack,
+        Speed,
+        Class
+    }
+
+    public class AccountState {
         public Stat Exp;
         public int Gold;
         public string HeroId;
         public int Level;
         public Locations Location = Locations.Town;
         private Dictionary<Locations, GameLayer> _locations;
-
         public string nickname;
 
 
@@ -24,10 +30,60 @@ namespace EssenceShared {
             Exp = new Stat(Settings.StartExp) {Current = 0};
             Level = 1;
             _locations = locations;
+
+            HpLevel = 1;
+            AttackLevel= 1;
+            SpeedLevel = 1;
+            ClassLevel = 1;
         }
 
-        public void Dispose() {
-            throw new NotImplementedException();
+        public int HpLevel { get; private set; }
+        public int AttackLevel { get; private set; }
+        public int SpeedLevel { get; private set; }
+        public int ClassLevel { get; private set; }
+
+        public bool Upgrade(AcccountUpgrade upgrade) {
+            bool result = false;
+            if (PayGold(GetUpgradeCost(upgrade))){
+                result = true;
+                switch (upgrade){
+                    case AcccountUpgrade.Attack:
+                        AttackLevel++;
+                        break;
+                    case AcccountUpgrade.Hp:
+                        HpLevel++;
+                        break;
+                    case AcccountUpgrade.Speed:
+                        SpeedLevel++;
+                        break;
+                    case AcccountUpgrade.Class:
+                        ClassLevel++;
+                        break;
+                }
+            }
+            return result;
+        }
+
+        public int GetUpgradeCost(AcccountUpgrade upgrade) {
+            switch (upgrade){
+                case AcccountUpgrade.Attack:
+                    return AttackLevel*750;
+                case AcccountUpgrade.Hp:
+                    return HpLevel*500;
+                case AcccountUpgrade.Speed:
+                    return SpeedLevel*1000;
+                case AcccountUpgrade.Class:
+                    return ClassLevel*5000;
+            }
+            return 0;
+        }
+
+        public bool PayGold(int count) {
+            if (Gold >= count){
+                Gold -= count;
+                return true;
+            }
+            return false;
         }
 
         public void SwitchLocation(Locations locationTo) {
@@ -54,8 +110,8 @@ namespace EssenceShared {
 
         public void RecalcStats() {
             Player player = GetPlayer();
-            player.Hp.Maximum = Player.BaseHP + 30*Level;
-            player.AttackDamage = Player.BaseAD + 3*Level;
+            player.Hp.Maximum = Player.BaseHP + 30*(Level-1);
+            player.AttackDamage = Player.BaseAD + 3*(Level-1);
         }
 
         private void LevelUp() {
@@ -63,23 +119,12 @@ namespace EssenceShared {
             Exp.Current = 0;
             Exp.Maximum = (int) (Settings.ExpMultiplier*Exp.Maximum);
 
-            // Inc stats:
             RecalcStats();
         }
 
         private Player GetPlayer() {
             var pl = _locations[Location].FindEntityById(HeroId) as Player;
             return pl;
-        }
-
-        public static AccountState LoadAccountState(string nickname) {
-            //TODO: грузить из базы
-            throw new NotImplementedException();
-        }
-
-        public AccountState SaveAccountState() {
-            //TODO: записывать в базу
-            throw new NotImplementedException();
         }
 
         public string Serialize() {

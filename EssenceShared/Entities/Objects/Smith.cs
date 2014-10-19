@@ -1,4 +1,6 @@
-﻿using CocosSharp;
+﻿using System;
+using CocosSharp;
+using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Objects {
     public class Smith: Entity {
@@ -37,6 +39,8 @@ namespace EssenceShared.Entities.Objects {
                 Resources.GuiIncreaseInactive, UpgradeClass);
             upgradeClass.AddChild(Util.GetSmallLabelHint("Class"));
 
+            upgradeSpeed.Enabled = false;
+
             var upgradeMenu = new CCMenu(upgradeHp, upgradeAttack, upgradeSpeed, upgradeClass) {
                 Position = new CCPoint(70, 30),
             };
@@ -47,18 +51,22 @@ namespace EssenceShared.Entities.Objects {
 
         private void UpgradeHp(object obj) {
             Log.Print("Grading HP");
+            EosEvent.RaiseEvent(this, new UpgradeEventArgs(AcccountUpgrade.Hp), EventType.PlayerUpgrade);
         }
 
         private void UpgradeAttack(object obj) {
             Log.Print("Grading Attack");
+            EosEvent.RaiseEvent(this, new UpgradeEventArgs(AcccountUpgrade.Attack), EventType.PlayerUpgrade);
         }
 
         private void UpgradeSpeed(object obj) {
             Log.Print("Grading Speed");
+            EosEvent.RaiseEvent(this, new UpgradeEventArgs(AcccountUpgrade.Speed), EventType.PlayerUpgrade);
         }
 
         private void UpgradeClass(object obj) {
             Log.Print("Grading Class");
+            EosEvent.RaiseEvent(this, new UpgradeEventArgs(AcccountUpgrade.Class), EventType.PlayerUpgrade);
         }
     }
 }

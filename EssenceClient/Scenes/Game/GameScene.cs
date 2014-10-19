@@ -3,6 +3,7 @@ using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Players;
+using EssenceShared.Game;
 using EssenceShared.Scenes;
 using IniParser;
 using IniParser.Model;
@@ -64,6 +65,8 @@ namespace EssenceClient.Scenes.Game {
             _netGameClient = new NetGameClient(data["Server"]["ip"], this);
             _netGameClient.ConnectToServer(nickname);
 
+            InitEvents();
+
             Schedule(Update);
             Schedule(UpdateNetwork, 0.03f);
         }
@@ -73,6 +76,30 @@ namespace EssenceClient.Scenes.Game {
         public string Id { get; private set; }
 
         public GameLayer GameLayer { get; private set; }
+
+        private void InitEvents() {
+            EosEvent.PlayerUpgrade += (sender, args)=>CallPlayerUpgrade((UpgradeEventArgs) args);
+        }
+
+        private void CallPlayerUpgrade(UpgradeEventArgs args) {
+            string command = "";
+            switch (args.upgrade){
+                case AcccountUpgrade.Attack:
+                    command = "upgradeAttack";
+                    break;
+                case AcccountUpgrade.Hp:
+                    command = "upgradeHp";
+                    break;
+                case AcccountUpgrade.Speed:
+                    command = "upgradeSpeed";
+                    break;
+                case AcccountUpgrade.Class:
+                    command = "upgradeClass";
+                    break;
+            }
+            var nc = new NetCommand(NetCommandType.CallPlayerMethod, command);
+            _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
+        }
 
 
         public override void Update(float dt) {
@@ -205,6 +232,10 @@ namespace EssenceClient.Scenes.Game {
 
             if (e.Keys == CCKeys.T){
                 Console.WriteLine(MyPlayer.Mask.ToString());
+                Console.WriteLine(GameLayer.MyAccountState.HpLevel);
+                Console.WriteLine(GameLayer.MyAccountState.AttackLevel);
+                Console.WriteLine(GameLayer.MyAccountState.SpeedLevel);
+                Console.WriteLine(GameLayer.MyAccountState.ClassLevel);
             }
         }
 
