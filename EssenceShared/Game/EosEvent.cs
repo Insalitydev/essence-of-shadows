@@ -33,9 +33,9 @@ namespace EssenceShared.Game {
 
     public class UpgradeEventArgs: EventArgs {
         public UpgradeEventArgs(AcccountUpgrade upg) {
-            upgrade = upg;
+            Upgrade = upg;
         }
 
-        public AcccountUpgrade upgrade;
+        public AcccountUpgrade Upgrade;
     }
 }

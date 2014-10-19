@@ -3,8 +3,9 @@ using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
-        public const int BaseHP = 200;
-        public const int BaseAD = 20;
+        public const int BaseHp = 200;
+        public const int BaseAd = 20;
+        public const int BaseSpeed = 270;
         public AccountState AccState;
         public float AttackCooldown;
         public float AttackCooldownCounter;
@@ -14,9 +15,9 @@ namespace EssenceShared.Entities.Players {
             Tag = Tags.Player;
             AccState = account;
 
-            Hp = new Stat(BaseHP);
-            AttackDamage = BaseAD;
-            Speed = 340;
+            Hp = new Stat(BaseHp);
+            AttackDamage = BaseAd;
+            Speed = BaseSpeed;
             AttackCooldownCounter = 0;
             AttackCooldown = 0.2f;
         }

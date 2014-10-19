@@ -19,6 +19,7 @@ namespace EssenceShared {
         public float Scale;
         public int Tag;
         public string TextureName;
+        public float Speed;
 
         public EntityState(string id) {
             Id = id;
@@ -31,6 +32,7 @@ namespace EssenceShared {
                 PositionX = entity.PositionX,
                 PositionY = entity.PositionY,
                 FlipX = entity.FlipX,
+                Speed = entity.Speed,
                 Direction = entity.Direction,
                 AttackDamage = entity.AttackDamage,
                 ActionState = entity.ActionState,
@@ -63,6 +65,7 @@ namespace EssenceShared {
             entity.FlipX = es.FlipX;
             entity.Tag = es.Tag;
             entity.Scale = es.Scale;
+            entity.Speed = es.Speed;
             entity.AttackDamage = es.AttackDamage;
             entity.Direction = es.Direction;
             entity.Hp = es.Hp;

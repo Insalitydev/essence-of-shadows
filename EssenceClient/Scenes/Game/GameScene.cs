@@ -83,7 +83,7 @@ namespace EssenceClient.Scenes.Game {
 
         private void CallPlayerUpgrade(UpgradeEventArgs args) {
             string command = "";
-            switch (args.upgrade){
+            switch (args.Upgrade){
                 case AcccountUpgrade.Attack:
                     command = "upgradeAttack";
                     break;

@@ -69,26 +69,6 @@ namespace EssenceServer.Scenes {
         }
 
         private void AddTestEnemies() {
-            //            int mapW = _gameLayer.currentMap[0].Length*Settings.TileSize*Settings.Scale;
-            //            int mapH = _gameLayer.currentMap.Count*Settings.TileSize*Settings.Scale;
-            //            Log.Print("Map size: " + mapW + " " + mapH);
-            //
-            //            for (int i = 0; i < 30; i++) {
-            //                _gameLayer.AddEntity(new RangeEnemy(Resources.EnemyStinger, Util.GetUniqueId()) {
-            //                    PositionX = CCRandom.Next(100, mapW - 100),
-            //                    PositionY = CCRandom.Next(100, mapH - 100)
-            //                });
-            //            }
-            //            for (int i = 0; i < 30; i++) {
-            //                _gameLayer.AddEntity(new MeleeEnemy(Resources.EnemyMeleeRobot, Util.GetUniqueId()) {
-            //                    PositionX = CCRandom.Next(100, mapW - 100),
-            //                    PositionY = CCRandom.Next(100, mapH - 100)
-            //                });
-            //            }
-            //            _gameLayer.AddEntity(new Emperor(Util.GetUniqueId()) {
-            //                PositionX = 1400,
-            //                PositionY = 1400
-            //            });
             _gameLayer.AddEntity(new Gate(Util.GetUniqueId()) {
                 PositionX = -10,
                 PositionY = -10,

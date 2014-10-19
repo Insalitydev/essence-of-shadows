@@ -37,10 +37,10 @@ namespace EssenceShared {
             ClassLevel = 1;
         }
 
-        public int HpLevel { get; private set; }
-        public int AttackLevel { get; private set; }
-        public int SpeedLevel { get; private set; }
-        public int ClassLevel { get; private set; }
+        public int HpLevel;
+        public int AttackLevel;
+        public int SpeedLevel;
+        public int ClassLevel;
 
         public bool Upgrade(AcccountUpgrade upgrade) {
             bool result = false;
@@ -61,6 +61,7 @@ namespace EssenceShared {
                         break;
                 }
             }
+            RecalcStats();
             return result;
         }
 
@@ -110,8 +111,9 @@ namespace EssenceShared {
 
         public void RecalcStats() {
             Player player = GetPlayer();
-            player.Hp.Maximum = Player.BaseHP + 30*(Level-1);
-            player.AttackDamage = Player.BaseAD + 3*(Level-1);
+            player.Hp.Maximum = Player.BaseHp + 30*(Level-1) + 20*(HpLevel -1);
+            player.AttackDamage = Player.BaseAd + 3*(Level-1) + 2*(AttackLevel-1);
+            player.Speed = Player.BaseSpeed + 20*(SpeedLevel - 1);
         }
 
         private void LevelUp() {

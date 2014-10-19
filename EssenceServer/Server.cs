@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -9,6 +8,7 @@ using EssenceShared.Entities;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using EssenceShared.Game;
+using EssenceShared.Scenes;
 using Lidgren.Network;
 using Newtonsoft.Json;
 
@@ -174,20 +174,34 @@ namespace EssenceServer {
         private static void CallPlayerMethod(string playerid, string data) {
             Player pl = ServerGame.GetPlayer(playerid);
             string[] args = data.Split('.');
-            if (args[0] == "attack"){
-                //TODO: вынести в отдельные методы
-                var ent = new MysticProjectile(pl.AttackDamage, Util.GetUniqueId()) {
-                    PositionX = pl.PositionX,
-                    PositionY = pl.PositionY,
-                    Direction =
-                        Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY),
-                            new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2]))),
-                    OwnerId = playerid
-                };
-                ServerGame.ServerScene.GetGameLayer(pl.AccState.Location).AddEntity(ent);
-            }
-            else{
-                Log.Print("Not found player method: " + string.Join(" ", args), LogType.Error);
+            switch (args[0]){
+                case "attack":
+                    //TODO: вынести в отдельные методы
+                    var ent = new MysticProjectile(pl.AttackDamage, Util.GetUniqueId()) {
+                        PositionX = pl.PositionX,
+                        PositionY = pl.PositionY,
+                        Direction =
+                            Entity.AngleBetweenPoints(new CCPoint(pl.PositionX, pl.PositionY),
+                                new CCPoint(Int32.Parse(args[1]), Int32.Parse(args[2]))),
+                        OwnerId = playerid
+                    };
+                    ServerGame.ServerScene.GetGameLayer(pl.AccState.Location).AddEntity(ent);
+                    break;
+                case "upgradeHp":
+                    pl.AccState.Upgrade(AcccountUpgrade.Hp);
+                    break;
+                case "upgradeAttack":
+                    pl.AccState.Upgrade(AcccountUpgrade.Attack);
+                    break;
+                case "upgradeSpeed":
+                    pl.AccState.Upgrade(AcccountUpgrade.Speed);
+                    break;
+                case "upgradeClass":
+                    pl.AccState.Upgrade(AcccountUpgrade.Class);
+                    break;
+                default:
+                    Log.Print("Not found player method: " + string.Join(" ", args), LogType.Error);
+                    break;
             }
         }
 
