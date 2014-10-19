@@ -53,6 +53,7 @@ namespace EssenceShared.Scenes {
                     break;
                 case Resources.ObjectSmith:
                     entity = new Smith(es.Id);
+                    Log.Print("creating Shop");
                     break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.AttackDamage, es.Id);

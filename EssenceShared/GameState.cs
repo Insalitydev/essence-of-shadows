@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 
 namespace EssenceShared {
     public class GameState {
-        public AccountState Account;
-        public List<EntityState> Entities = new List<EntityState>();
+        [JsonProperty(PropertyName = "Al")] public AccountState Account;
+        [JsonProperty(PropertyName = "El")] public List<EntityState> Entities = new List<EntityState>();
 
         public string Serialize() {
             // TODO: Вылетает, когда идет одновременно сериализация и изменение состояния

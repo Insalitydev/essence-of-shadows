@@ -2,6 +2,7 @@
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
+using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
@@ -68,7 +69,7 @@ namespace EssenceClient.Scenes.Game {
             InitEvents();
 
             Schedule(Update);
-            Schedule(UpdateNetwork, 0.03f);
+            Schedule(UpdateNetwork, Settings.NetworkFreqUpdate);
         }
 
         public Player MyPlayer { get; private set; }
@@ -104,7 +105,7 @@ namespace EssenceClient.Scenes.Game {
 
         public override void Update(float dt) {
             base.Update(dt);
-
+            
             UpdateControl(dt);
             UpdateCamera();
             UpdateVisibility();

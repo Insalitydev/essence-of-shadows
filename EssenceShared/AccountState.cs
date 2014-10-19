@@ -14,13 +14,17 @@ namespace EssenceShared {
     }
 
     public class AccountState {
-        public Stat Exp;
-        public int Gold;
-        public string HeroId;
-        public int Level;
-        public Locations Location = Locations.Town;
+        [JsonProperty(PropertyName = "A")] public int AttackLevel;
+        [JsonProperty(PropertyName = "C")] public int ClassLevel;
+        [JsonProperty(PropertyName = "E")] public Stat Exp;
+        [JsonProperty(PropertyName = "G")] public int Gold;
+        [JsonProperty(PropertyName = "i")] public string HeroId;
+        [JsonProperty(PropertyName = "H")] public int HpLevel;
+        [JsonProperty(PropertyName = "L")] public int Level;
+        [JsonProperty(PropertyName = "M")] public Locations Location = Locations.Town;
+        [JsonProperty(PropertyName = "S")] public int SpeedLevel;
         private Dictionary<Locations, GameLayer> _locations;
-        public string nickname;
+        [JsonProperty(PropertyName = "N")] public string nickname;
 
 
         public AccountState(string id, string nickname, Dictionary<Locations, GameLayer> locations) {
@@ -32,15 +36,10 @@ namespace EssenceShared {
             _locations = locations;
 
             HpLevel = 1;
-            AttackLevel= 1;
+            AttackLevel = 1;
             SpeedLevel = 1;
             ClassLevel = 1;
         }
-
-        public int HpLevel;
-        public int AttackLevel;
-        public int SpeedLevel;
-        public int ClassLevel;
 
         public bool Upgrade(AcccountUpgrade upgrade) {
             bool result = false;
@@ -111,8 +110,8 @@ namespace EssenceShared {
 
         public void RecalcStats() {
             Player player = GetPlayer();
-            player.Hp.Maximum = Player.BaseHp + 30*(Level-1) + 20*(HpLevel -1);
-            player.AttackDamage = Player.BaseAd + 3*(Level-1) + 2*(AttackLevel-1);
+            player.Hp.Maximum = Player.BaseHp + 30*(Level - 1) + 20*(HpLevel - 1);
+            player.AttackDamage = Player.BaseAd + 3*(Level - 1) + 2*(AttackLevel - 1);
             player.Speed = Player.BaseSpeed + 20*(SpeedLevel - 1);
         }
 

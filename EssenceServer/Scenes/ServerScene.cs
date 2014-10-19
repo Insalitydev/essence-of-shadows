@@ -43,7 +43,7 @@ namespace EssenceServer.Scenes {
             LocationsDict.Add(Locations.Cave, _caveGameLayer);
 
             Log.Print("Game has started, waiting for players");
-            Schedule(UpdateNetwork, 0.04f);
+            Schedule(UpdateNetwork, Settings.NetworkFreqUpdate);
             Schedule(UpdateLogic);
         }
 

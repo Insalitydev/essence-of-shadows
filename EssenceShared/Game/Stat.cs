@@ -1,4 +1,6 @@
-﻿namespace EssenceShared.Game {
+﻿using Newtonsoft.Json;
+
+namespace EssenceShared.Game {
     public class Stat {
         private int _current;
         private int _maximum;
@@ -8,6 +10,7 @@
             Current = Maximum;
         }
 
+        [JsonProperty(PropertyName = "M")]
         public int Maximum {
             get { return _maximum; }
             set {
@@ -17,6 +20,7 @@
             }
         }
 
+        [JsonProperty(PropertyName = "C")]
         public int Current {
             get { return _current; }
             set {
@@ -28,6 +32,7 @@
 
         /** Возвращает текущий процент характеристики */
 
+        [JsonProperty(PropertyName = "P")]
         public float Perc {
             get {
                 if (Maximum == 0){

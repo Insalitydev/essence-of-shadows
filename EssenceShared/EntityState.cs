@@ -9,22 +9,23 @@ namespace EssenceShared {
         // TODO: Обновлять каждый раз не все параметры
         // TODO: по возможности перейти на messagePack (бинарный json)
         // TODO: сократить имена переменных для меньшего объема пакетов
-        public ActionState ActionState;
-        public int AttackDamage;
-        public float Direction;
-        public bool FlipX;
-        public Stat Hp;
-        public float PositionX;
-        public float PositionY;
-        public float Scale;
-        public int Tag;
-        public string TextureName;
-        public float Speed;
+        [JsonProperty(PropertyName = "A")] public ActionState ActionState;
+        [JsonProperty(PropertyName = "D")] public int AttackDamage;
+        [JsonProperty(PropertyName = "Di")] public float Direction;
+        [JsonProperty(PropertyName = "F")] public bool FlipX;
+        [JsonProperty(PropertyName = "H")] public Stat Hp;
+        [JsonProperty(PropertyName = "X")] public float PositionX;
+        [JsonProperty(PropertyName = "Y")] public float PositionY;
+        [JsonProperty(PropertyName = "S")] public float Scale;
+        [JsonProperty(PropertyName = "V")] public float Speed;
+        [JsonProperty(PropertyName = "T")] public int Tag;
+        [JsonProperty(PropertyName = "Tx")] public string TextureName;
 
         public EntityState(string id) {
             Id = id;
         }
 
+        [JsonProperty(PropertyName = "I")]
         public string Id { get; private set; }
 
         public static EntityState ParseEntity(Entity entity) {
