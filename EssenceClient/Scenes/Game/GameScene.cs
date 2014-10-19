@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
@@ -121,13 +120,13 @@ namespace EssenceClient.Scenes.Game {
 
                     if (ccNode is CCSprite){
                         var ccSp = ccNode as CCSprite;
-                        ccNode.ZOrder = (int)(Settings.ScreenHeight - ccSp.PositionY + (ccSp.Texture.PixelsHigh*ccSp.ScaleY)/2);
+                        ccNode.ZOrder =
+                            (int) (Settings.ScreenHeight - ccSp.PositionY + (ccSp.Texture.PixelsHigh*ccSp.ScaleY)/2);
                         if (ccNode.Tag == Tags.MapTile){
-                            ccNode.ZOrder -= (int) (Settings.TileSize*5 + 8);
+                            ccNode.ZOrder -= Settings.TileSize*5 + 8;
                         }
                     }
                 }
-
         }
 
         /// <summary>

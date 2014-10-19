@@ -77,9 +77,10 @@ namespace EssenceClient {
                                 _scene.SetMyId(nc.Data);
                                 break;
                             case NetCommandType.Disconnect:
+                                Log.Print("Disconnected by server: ", LogType.Network);
                                 break;
                             case NetCommandType.Say:
-                                Log.Print("Incoming message from server: " + nc.Data, LogType.Network);
+                                Log.Print("Incoming message from server: ", LogType.Network);
                                 _scene.AppendChatMessage(nc.Data);
                                 break;
                                 /** Обновляем все необходимые данные об игровом состоянии */

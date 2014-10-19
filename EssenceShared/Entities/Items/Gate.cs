@@ -1,5 +1,4 @@
-﻿using CocosSharp;
-using EssenceShared.Entities.Players;
+﻿using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities {

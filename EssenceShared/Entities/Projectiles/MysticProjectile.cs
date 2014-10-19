@@ -46,7 +46,6 @@ namespace EssenceShared.Entities.Projectiles {
 
                 Remove();
             }
-            
         }
 
         public void UpdateAnimation(float dt) {

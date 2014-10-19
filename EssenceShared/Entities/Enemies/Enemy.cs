@@ -107,8 +107,10 @@ namespace EssenceShared.Entities.Enemies {
         private void DrawHealthBar() {
             CCDrawingPrimitives.Begin();
 
-            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, Texture.PixelsHigh + 2), new CCPoint(Texture.PixelsWide, Texture.PixelsHigh), CCColor4B.Black);
-            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, Texture.PixelsHigh + 2), new CCPoint(Texture.PixelsWide * Hp.Perc, Texture.PixelsHigh),
+            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, Texture.PixelsHigh + 2),
+                new CCPoint(Texture.PixelsWide, Texture.PixelsHigh), CCColor4B.Black);
+            CCDrawingPrimitives.DrawSolidRect(new CCPoint(0, Texture.PixelsHigh + 2),
+                new CCPoint(Texture.PixelsWide*Hp.Perc, Texture.PixelsHigh),
                 CCColor4B.Red);
 
             CCDrawingPrimitives.End();

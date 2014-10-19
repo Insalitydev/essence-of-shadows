@@ -106,11 +106,15 @@ namespace EssenceServer {
                 Player pl = GetPlayer(id);
                 if (pl != null)
                     pl.Remove();
-
-                ServerScene.Accounts.Remove(ServerScene.Accounts.Single(x=>x.HeroId == id));
+                if (ServerScene.Accounts.Any(x=>x.HeroId == id)){
+                    ServerScene.Accounts.Remove(ServerScene.Accounts.Single(x=>x.HeroId == id));
+                }
             }
             catch (NullReferenceException e){
                 Log.Print("Player " + id + " not found in the Game", LogType.Error);
+            }
+            catch (InvalidOperationException){
+                Log.Print("Account " + id + " already not ih the Game", LogType.Network);
             }
         }
     }

@@ -3,11 +3,11 @@ using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Players {
     public class Player: Entity {
+        public const int BaseHP = 200;
+        public const int BaseAD = 20;
         public AccountState AccState;
         public float AttackCooldown;
         public float AttackCooldownCounter;
-        public const int BaseHP = 200;
-        public const int BaseAD = 20;
 
         public Player(string id, string type, AccountState account): base(type, id) {
             Scale = Settings.Scale;

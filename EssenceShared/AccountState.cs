@@ -6,13 +6,13 @@ using EssenceShared.Scenes;
 using Newtonsoft.Json;
 
 namespace EssenceShared {
-    public class AccountState {
-        private Dictionary<Locations, GameLayer> _locations;
+    public class AccountState: IDisposable {
         public Stat Exp;
         public int Gold;
         public string HeroId;
         public int Level;
         public Locations Location = Locations.Town;
+        private Dictionary<Locations, GameLayer> _locations;
 
         public string nickname;
 
@@ -24,6 +24,10 @@ namespace EssenceShared {
             Exp = new Stat(Settings.StartExp) {Current = 0};
             Level = 1;
             _locations = locations;
+        }
+
+        public void Dispose() {
+            throw new NotImplementedException();
         }
 
         public void SwitchLocation(Locations locationTo) {
@@ -51,7 +55,7 @@ namespace EssenceShared {
         public void RecalcStats() {
             Player player = GetPlayer();
             player.Hp.Maximum = Player.BaseHP + 30*Level;
-            player.AttackDamage = Player.BaseAD + 3 * Level;
+            player.AttackDamage = Player.BaseAD + 3*Level;
         }
 
         private void LevelUp() {

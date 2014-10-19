@@ -249,25 +249,33 @@ namespace EssenceServer {
         }
 
         private static void ConnectNewPlayer(NetIncomingMessage msg, string nickname) {
-            SendMap(msg.SenderConnection, Locations.Town);
+            // Проверяем что этот аккаунт еще не зайден:
+            if (ServerGame.ServerScene.Accounts.FindIndex(x=>x.nickname == nickname) == -1){
+                SendMap(msg.SenderConnection, Locations.Town);
 
-            Log.Print("Creating new player: " + nickname);
-            /* Создаем нового игрока в игре */
-            InitNewPlayer(GetId(msg.SenderConnection), nickname);
+                Log.Print("Creating new player: " + nickname);
+                /* Создаем нового игрока в игре */
+                InitNewPlayer(GetId(msg.SenderConnection), nickname);
 
-            /* Отдаем новому игроку его уникальный ид */
-            var nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
+                /* Отдаем новому игроку его уникальный ид */
+                var nc = new NetCommand(NetCommandType.Connect, (GetId(msg.SenderConnection)));
 
-            NetOutgoingMessage om = _server.CreateMessage();
-            om.Write(nc.Serialize());
-            _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+                NetOutgoingMessage om = _server.CreateMessage();
+                om.Write(nc.Serialize());
+                _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+            }
+            else{
+                // отвергаем соединение
+                Log.Print("Connection deny. Nickname " + nickname);
+                msg.SenderConnection.Deny("This account already in the game");
+                msg.SenderConnection.Disconnect("Bye");
+            }
         }
 
         /// <summary>
         ///     Создает нового игрока в игре
         /// </summary>
         private static void InitNewPlayer(string id, string nickname) {
-            
             ServerGame.AddNewPlayer(id, nickname, 300, 300);
         }
 

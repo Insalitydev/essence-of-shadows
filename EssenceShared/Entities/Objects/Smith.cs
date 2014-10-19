@@ -52,12 +52,13 @@ namespace EssenceShared.Entities.Objects {
         private void UpgradeAttack(object obj) {
             Log.Print("Grading Attack");
         }
+
         private void UpgradeSpeed(object obj) {
             Log.Print("Grading Speed");
         }
+
         private void UpgradeClass(object obj) {
             Log.Print("Grading Class");
         }
-
     }
 }
