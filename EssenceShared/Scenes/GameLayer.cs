@@ -5,6 +5,7 @@ using CocosSharp;
 using EssenceShared.Entities;
 using EssenceShared.Entities.Enemies;
 using EssenceShared.Entities.Enemies.Bosses;
+using EssenceShared.Entities.Items;
 using EssenceShared.Entities.Map.Tiles;
 using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
@@ -46,6 +47,9 @@ namespace EssenceShared.Scenes {
                     break;
                 case Resources.ItemGate:
                     entity = new Gate(es.Id);
+                    break;
+                case Resources.ItemHealpot:
+                    entity = new HealPot(es.Id);
                     break;
                 case Resources.ObjectSmith:
                     entity = new Smith(es.Id);

@@ -41,6 +41,7 @@
                 }
                 return 0;
             }
+            set { Current = (int)(Maximum*value); }
         }
     }
 }

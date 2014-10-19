@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CocosSharp;
+using EssenceShared.Entities.Items;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
@@ -98,6 +99,12 @@ namespace EssenceShared.Entities.Enemies {
                     pl.AccState.Gold += 130;
                 }
             }
+
+            if (Parent.Tag == Tags.Server)
+                if (CCRandom.NextDouble() >= 0.5f){
+                    (Parent as GameLayer).AddEntity(new HealPot(Util.GetUniqueId()){ Position = Position});
+
+                }
 
             base.Die(dt);
         }

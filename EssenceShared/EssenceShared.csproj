@@ -113,6 +113,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Items\Gate.cs" />
     <Compile Include="Entities\Items\GoldStack.cs" />
+    <Compile Include="Entities\Items\HealPot.cs" />
     <Compile Include="Entities\Map\Tiles\Tile.cs" />
     <Compile Include="Entities\Objects\Smith.cs" />
     <Compile Include="Entities\Players\Player.cs" />
