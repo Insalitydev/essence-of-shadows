@@ -12,7 +12,7 @@ There are main features of the game:
 Version
 -------------
 
-0.04
+0.05
 
 
 Installation
