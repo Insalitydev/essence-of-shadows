@@ -38,6 +38,3 @@ License
 -----
 
 GNU GPLv2
-
-
-**Hell Yeah!!!**
