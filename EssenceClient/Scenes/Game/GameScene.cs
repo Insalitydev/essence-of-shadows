@@ -125,6 +125,8 @@ namespace EssenceClient.Scenes.Game {
                             "attack." + (_mousePosX + camx) + "." + (_mousePosY + camy));
                         _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
                         MyPlayer.AttackCooldownCounter = MyPlayer.AttackCooldown;
+
+                        Log.Print(GameLayer.TileAt(_mousePosX + camx, _mousePosY + camy));
                     }
                 }
             }

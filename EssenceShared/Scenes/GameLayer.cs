@@ -35,7 +35,8 @@ namespace EssenceShared.Scenes {
             string textureName = es.TextureName;
             textureName = textureName.Replace("\\", "/").Split('/').Last();
 
-            /** TODO: можно ли вынести куда-нибудь? можно ли обойтись без этого? */
+            /** TODO: можно ли вынести куда-нибудь? можно ли обойтись без этого? 
+                скорее всего в Resources, через словарь */
             switch (textureName){
                 case Resources.ClassMystic:
                 case Resources.ClassReaper:
@@ -53,7 +54,6 @@ namespace EssenceShared.Scenes {
                     break;
                 case Resources.ObjectSmith:
                     entity = new Smith(es.Id);
-                    Log.Print("creating Shop");
                     break;
                 case Resources.ProjectileMystic:
                     entity = new MysticProjectile(es.AttackDamage, es.Id);
@@ -134,6 +134,7 @@ namespace EssenceShared.Scenes {
                                 break;
                             case '~':
                                 tile = new Tile(Resources.MapTileWater);
+                                tile.IsSolid = true;
                                 break;
                             case '+':
                                 tile = new Tile(Resources.MapTileTownCell);
@@ -146,6 +147,7 @@ namespace EssenceShared.Scenes {
                                 break;
                             case '%':
                                 tile = new Tile(Resources.MapTileCaveWall);
+                                tile.IsSolid = true;
                                 break;
                             case '.':
                                 tile = new Tile(Resources.MapTileDirt);
@@ -156,12 +158,34 @@ namespace EssenceShared.Scenes {
                         }
                         tile.Scale = Settings.Scale;
                         // Поворачиваем карту на 90 (поэтому поменяны местами i и j)
-                        tile.Position = new CCPoint(j*Settings.TileSize*tile.ScaleX, i*Settings.TileSize*tile.ScaleY);
+                        tile.Position = new CCPoint(j*Settings.TileSize*tile.ScaleY, i*Settings.TileSize*tile.ScaleX);
                         AddChild(tile, -100, Tags.MapTile);
                     }
                 }
                 Log.Print("Map created");
             }
+        }
+
+
+        // TODO: временно отдаю строку, а не объект...
+        public string TileAt(int x, int y) {
+            string result = "null";
+
+            int mapX = x/(Settings.TileSize*Settings.Scale);
+            int mapY = y/(Settings.TileSize*Settings.Scale);
+
+            Console.WriteLine(mapX + " " + mapY);
+
+            var size = MapSize();
+
+            Console.WriteLine(currentMap[mapY]);
+
+            if (mapX >= 0 && mapX < size.Width && mapY >= 0 && mapY < size.Height){
+                result = currentMap[mapY].Substring(mapX, 1);
+            }
+
+            Log.Print("GOT " + result);
+            return result;
         }
 
         public CCSize MapSize() {

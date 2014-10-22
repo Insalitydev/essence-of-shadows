@@ -7,7 +7,7 @@ namespace EssenceShared.Entities {
 
         public Gate(string id): base(Resources.ItemGate, id) {
             Tag = Tags.Item;
-            _maskH = _maskH/4;
+            MaskH = MaskH/4;
         }
 
         public override void Collision(Entity other) {

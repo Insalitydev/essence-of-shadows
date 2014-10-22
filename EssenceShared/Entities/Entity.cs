@@ -15,15 +15,15 @@ namespace EssenceShared.Entities {
     ///     Базовый класс для всех игровых объектов
     /// </summary>
     public class Entity: CCSprite {
-        private const int _maskLesser = 12;
+        private const int MaskLesser = 12;
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
         public Stat Hp;
         public string OwnerId = null;
         public float Speed;
-        protected int _maskH;
-        protected int _maskW;
+        protected int MaskH;
+        protected int MaskW;
 
         public Entity(string url, string id): base(url) {
             Id = id;
@@ -35,8 +35,8 @@ namespace EssenceShared.Entities {
             AttackDamage = 0;
             ActionState = ActionState.Idle;
             Scale = Settings.Scale;
-            _maskW = (int) (Texture.PixelsWide*ScaleX) - _maskLesser;
-            _maskH = (int) (Texture.PixelsHigh*ScaleY) - _maskLesser;
+            MaskW = (int) (Texture.PixelsWide*ScaleX) - MaskLesser;
+            MaskH = (int) (Texture.PixelsHigh*ScaleY) - MaskLesser;
         }
 
 
@@ -90,8 +90,8 @@ namespace EssenceShared.Entities {
             // TODO: можно ли без пересоздавааний?
             // lesser - немного уменьшаем маску столкновения
 
-            Mask = new CCRect(PositionX - (Texture.PixelsWide/2)/2 + _maskLesser/2,
-                PositionY - (Texture.PixelsHigh/2) + _maskLesser/2, _maskW, _maskH);
+            Mask = new CCRect(PositionX - (Texture.PixelsWide/2)/2 + MaskLesser/2,
+                PositionY - (Texture.PixelsHigh/2) + MaskLesser/2, MaskW, MaskH);
         }
 
         internal void AppendState(EntityState es) {
@@ -166,6 +166,17 @@ namespace EssenceShared.Entities {
             return new CCPoint(x, y);
         }
 
+        public bool OnClient() {
+            if (Parent.Tag == Tags.Client)
+                return true;
+            return false;
+        }
+
+        public bool OnServer() {
+            if (Parent.Tag == Tags.Server)
+                return true;
+            return false;
+        }
 
         /// <summary>
         ///     Удаляет объект со сцены у своего родителя
