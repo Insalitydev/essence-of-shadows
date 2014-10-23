@@ -171,16 +171,13 @@ namespace EssenceShared.Scenes {
         public string TileAt(int x, int y) {
             string result = "null";
 
-            int mapX = x/(Settings.TileSize*Settings.Scale);
-            int mapY = y/(Settings.TileSize*Settings.Scale);
-
-            Console.WriteLine(mapX + " " + mapY);
-
             var size = MapSize();
 
-            Console.WriteLine(currentMap[mapY]);
+            if (x >= 0 && x < size.Width && y >= 0 && y < size.Height){
+                int mapX = x / (Settings.TileSize * Settings.Scale);
+                int mapY = y / (Settings.TileSize * Settings.Scale);
 
-            if (mapX >= 0 && mapX < size.Width && mapY >= 0 && mapY < size.Height){
+                Console.WriteLine(mapX + " " + mapY);
                 result = currentMap[mapY].Substring(mapX, 1);
             }
 
