@@ -33,30 +33,27 @@ namespace EssenceServer {
         ///     Загружает из файла все аккаунты
         /// </summary>
         private void LoadAccounts() {
-            FileStream fs = File.Open("Accounts.save", FileMode.OpenOrCreate, FileAccess.Read);
-            var sr = new StreamReader(fs);
+            using (FileStream fs = File.Open("Accounts.save", FileMode.OpenOrCreate, FileAccess.Read)){
+                var sr = new StreamReader(fs);
 
-            string data = sr.ReadToEnd();
-            AccountsAll = JsonConvert.DeserializeObject<List<AccountState>>(data);
+                var data = sr.ReadToEnd();
+                AccountsAll = JsonConvert.DeserializeObject<List<AccountState>>(data);
 
-            if (AccountsAll == null){
-                AccountsAll = new List<AccountState>();
+                if (AccountsAll == null){
+                    AccountsAll = new List<AccountState>();
+                }
+                Log.Print(string.Format("Loaded {0} accounts", AccountsAll.Count));
             }
-            Log.Print(string.Format("Loaded {0} accounts", AccountsAll.Count));
-
-            fs.Close();
         }
 
         /// <summary>
         ///     Сохраняет всю информацию о всех аккаунтах в файл
         /// </summary>
         private void SaveAccounts(float dt) {
-            var sw = new StreamWriter("Accounts.save", false);
-
-            string data = JsonConvert.SerializeObject(AccountsAll);
-            sw.Write(data);
-
-            sw.Close();
+            using (var sw = new StreamWriter("Accounts.save", false)){
+                string data = JsonConvert.SerializeObject(AccountsAll);
+                sw.Write(data);
+            }
         }
 
         public Player GetPlayer(string id) {
