@@ -21,13 +21,13 @@ Installation
 ### Server
 
 ```sh
-Some instructions will be here
+Launc EssenceServer.exe file. Current Server ip's will be listen in the console.
 ```
 
 ### Client
 
 ```sh
-Some instructions will be here
+Set up Server ip in Config.ini file and lauch EssenceClient.exe.
 ```
 
 Linked Repos
