@@ -17,6 +17,7 @@ namespace EssenceShared.Entities.Enemies {
             SightRadius = 500;
             AttackRadius = 650;
             Hp.Maximum = 100;
+            Height = 8;
 
             _isTurnRight = CCRandom.Next(0, 3) - 1;
         }

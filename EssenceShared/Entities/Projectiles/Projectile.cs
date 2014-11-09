@@ -7,6 +7,7 @@ namespace EssenceShared.Entities.Projectiles {
 
         protected Projectile(string url, string id): base(url, id) {
             AlreadyDamaged = new HashSet<Entity>();
+            Height = 8;
         }
 
         protected override void AddedToScene() {

@@ -15,6 +15,7 @@ namespace EssenceShared.Entities.Enemies.Bosses {
             SightRadius = 600;
             AttackRadius = 300;
             Hp.Maximum = 3000;
+            Height = 10;
         }
 
         protected override void IdleAction(float dt) {

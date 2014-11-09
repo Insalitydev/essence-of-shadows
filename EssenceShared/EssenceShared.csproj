@@ -208,6 +208,9 @@
     <Content Include="Resource\Image\Effects\MysticProjectileTrail.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\Image\Effects\Shadow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\Effects\SparkParticle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -15,14 +15,14 @@ namespace EssenceShared.Entities.Projectiles {
         public override void OnEnter() {
             base.OnEnter();
 
-
-            if (Parent != null && Parent.Tag == Tags.Client){
-                CCParticleSystem emiter = Particle.GetEmiter(Resources.ParticleMysticProjectile,
-                    ParticleType.ProjectileTrail, 3,
-                    new CCPoint(0, 0), this);
-
-                AddChild(emiter, -10);
-            }
+        // TODO: криво работают..
+//            if (Parent != null && Parent.Tag == Tags.Client){
+//                CCParticleSystem emiter = Particle.GetEmiter(Resources.ParticleMysticProjectile,
+//                    ParticleType.ProjectileTrail, 3,
+//                    Position, this);
+//
+//                Parent.AddChild(emiter, 5);
+//            }
         }
 
         public override void Update(float dt) {

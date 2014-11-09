@@ -14,6 +14,7 @@ namespace EssenceShared.Entities.Enemies.Bosses {
             SightRadius = 700;
             AttackRadius = 500;
             Hp.Maximum = 8000;
+            Height = 15;
         }
 
         public override void OnEnter() {

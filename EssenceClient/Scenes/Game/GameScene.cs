@@ -152,8 +152,14 @@ namespace EssenceClient.Scenes.Game {
                         var ccSp = ccNode as CCSprite;
                         ccNode.ZOrder =
                             (int) (Settings.ScreenHeight - ccSp.PositionY + (ccSp.Texture.PixelsHigh*ccSp.ScaleY)/2);
+
+                        if (ccNode is Entity){
+                            var ccEntity = ccNode as Entity;
+                            ccNode.ZOrder += (int)(ccEntity.Height * ccEntity.ScaleY);
+                        }
+
                         if (ccNode.Tag == Tags.MapTile){
-                            ccNode.ZOrder -= Settings.TileSize*5 + 8;
+                            ccNode.ZOrder -= Settings.TileSize*6;
                         }
                     }
                 }

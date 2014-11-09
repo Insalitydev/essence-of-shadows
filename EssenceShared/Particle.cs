@@ -26,6 +26,7 @@ namespace EssenceShared {
                     emiter = new CCParticleMeteor(pos) {
                         Scale = 0.1f,
                         SpeedVar = 250,
+                        
                         Texture = CCTextureCache.SharedTextureCache.AddImage(texture)
                     };
                     if (owner != null)

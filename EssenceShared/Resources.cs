@@ -38,6 +38,7 @@ namespace EssenceShared {
         public const string GuiIncreaseActive = "IncreasePressed";
         public const string GuiIncreaseInactive = "IncreaseInactive";
 
+        public const string GraphicShadow = "Shadow";
 
         public const string ParticleMysticProjectile = "MysticProjectileTrail";
         public const string ParticleLevelUp = "ExpParticle";

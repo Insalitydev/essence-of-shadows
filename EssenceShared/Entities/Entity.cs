@@ -24,6 +24,8 @@ namespace EssenceShared.Entities {
         public float Speed;
         protected int MaskH;
         protected int MaskW;
+        // высота объекта над землей
+        public int Height = 0;
 
         public Entity(string url, string id): base(url) {
             Id = id;
@@ -51,6 +53,14 @@ namespace EssenceShared.Entities {
             base.AddedToScene();
 
             Schedule(Update);
+
+            if (Parent.Tag == Tags.Client && Tag != Tags.EnemyProjectile && Tag != Tags.PlayerProjectile){
+                var shadow = new CCSprite(Resources.GraphicShadow);
+                shadow.PositionX += Texture.PixelsWide/2;
+                shadow.PositionY += -Height + shadow.Texture.PixelsHigh/2;
+
+                AddChild(shadow, -1);
+            }
         }
 
         public override void Update(float dt) {
@@ -111,7 +121,7 @@ namespace EssenceShared.Entities {
             PositionX += speed*(float) Math.Cos(ToRadians(angle));
             PositionY += speed*(float) Math.Sin(ToRadians(angle));
 
-            if (angle > 90 && angle < 270 && (Tag == Tags.Player || Tag == Tags.Enemy)){
+            if ((angle > 90 && angle < 270) && (Tag == Tags.Player || Tag == Tags.Enemy)){
                 FlipX = true;
             }
             else{
