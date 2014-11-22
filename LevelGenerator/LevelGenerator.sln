@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelGenerator", "LevelGenerator\LevelGenerator.csproj", "{344BA467-8EF4-44AA-8017-D3CAF86FF631}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelGeneratorLibrary", "LevelGeneratorLibrary\LevelGeneratorLibrary.csproj", "{CCC715B2-AEE3-4F7C-BE74-82E37D397800}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{344BA467-8EF4-44AA-8017-D3CAF86FF631}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{344BA467-8EF4-44AA-8017-D3CAF86FF631}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{344BA467-8EF4-44AA-8017-D3CAF86FF631}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCC715B2-AEE3-4F7C-BE74-82E37D397800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCC715B2-AEE3-4F7C-BE74-82E37D397800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCC715B2-AEE3-4F7C-BE74-82E37D397800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCC715B2-AEE3-4F7C-BE74-82E37D397800}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
