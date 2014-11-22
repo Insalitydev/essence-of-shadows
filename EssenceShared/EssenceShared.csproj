@@ -124,6 +124,8 @@
     <Compile Include="Entities\Projectiles\Projectile.cs" />
     <Compile Include="EntityState.cs" />
     <Compile Include="Game\EosEvent.cs" />
+    <Compile Include="Game\Generators\LevelGenerator.cs" />
+    <Compile Include="Game\Generators\PerlinNoise2D.cs" />
     <Compile Include="Game\Locations.cs" />
     <Compile Include="Game\Stat.cs" />
     <Compile Include="Particle.cs" />
