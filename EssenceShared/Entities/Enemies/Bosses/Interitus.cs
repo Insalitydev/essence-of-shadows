@@ -6,7 +6,7 @@ using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Enemies.Bosses {
-    public class Interitus: Enemy {
+    public class Interitus : Enemy {
         public Interitus(string id)
             : base(Resources.BossInteritus, id) {
             Speed = 390;
@@ -20,8 +20,8 @@ namespace EssenceShared.Entities.Enemies.Bosses {
 
         protected override void IdleAction(float dt) {
             List<Player> players = GetPlayers();
-            if (players.Any()){
-                if (DistanceTo(players[0]) < SightRadius){
+            if (players.Any()) {
+                if (DistanceTo(players[0]) < SightRadius) {
                     Target = players[0];
                     ActionState = ActionState.MoveToAttack;
                 }
@@ -30,39 +30,39 @@ namespace EssenceShared.Entities.Enemies.Bosses {
 
         protected override void MoveToAttackAction(float dt) {
             // Если в зоне атаки - атакуем
-            if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0){
+            if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0) {
                 ActionState = ActionState.Attack;
             } // Если далеко - идем к цели
             else if (Target != null &&
                      DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f &&
-                     AttackCooldownCounter == 0){
+                     AttackCooldownCounter == 0) {
                 MoveByAngle(AngleTo(Target.Position), Speed*dt);
             }
-            else{
+            else {
                 Target = null;
                 ActionState = ActionState.Idle;
             }
         }
 
         protected override void TryAttackTarget(float dt) {
-            if (AttackCooldownCounter == 0){
-                if (Target != null && DistanceTo(Target) < AttackRadius){
+            if (AttackCooldownCounter == 0) {
+                if (Target != null && DistanceTo(Target) < AttackRadius) {
                     SpawnProjectileToTarget();
                     // TODO: необходимо стоять на месте после атаки какое-то время
                     ActionState = ActionState.MoveToAttack;
                     AttackCooldownCounter = AttackCooldown;
                 }
-                else{
+                else {
                     ActionState = ActionState.MoveToAttack;
                 }
             }
-            else{
+            else {
                 ActionState = ActionState.MoveToAttack;
             }
         }
 
         private void SpawnProjectileToTarget() {
-            if (Target != null){
+            if (Target != null) {
                 var projectile = new EnemyMeleeProjectileStart(AttackDamage, Resources.ParticleMeleeSweepStart,
                     Util.GetUniqueId()) {
                         PositionX = PositionX,
@@ -81,8 +81,8 @@ namespace EssenceShared.Entities.Enemies.Bosses {
         protected override void Die(float dt) {
             List<Player> players = GetPlayers();
 
-            foreach (Player pl in players){
-                if (DistanceTo(pl.Position) < 800){
+            foreach (Player pl in players) {
+                if (DistanceTo(pl.Position) < 800) {
                     pl.AccState.Gold += 5000;
                 }
             }

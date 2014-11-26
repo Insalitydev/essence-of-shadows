@@ -1,38 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LevelGenerator
-{
-    public class Generator
-    {
+namespace LevelGenerator {
+    public class Generator {
         #region public_properties
-        public enum LevelType { City, Forest, Desert }
+
+        public enum LevelType {
+            City,
+            Forest,
+            Desert
+        }
+
         public int Width { get; private set; }
         public int Height { get; private set; }
         public LevelType Type { get; private set; }
         public char[,] MapTile { get; private set; }
+
         #endregion
 
-        private double minNoise = 2.0;
-        private double maxNoise = 0;
-        private int[,] perlinArray;
-        private static readonly Dictionary<string, char> Tile = new Dictionary<string, char>()
-        {
+        private static readonly Dictionary<string, char> Tile = new Dictionary<string, char> {
             {"sand", '0'},
             {"tree", '1'},
             {"building", '#'},
         };
 
-        public Generator(int width, int height, LevelType type)
-        {
+        private double maxNoise;
+        private double minNoise = 2.0;
+        private int[,] perlinArray;
+
+        public Generator(int width, int height, LevelType type) {
             Width = width;
             Height = height;
             Type = type;
             GenerateLevel();
         }
 
-        private void GenerateLevel()
-        {
+        private void GenerateLevel() {
             MapTile = new char[Height, Width];
             //switch (Type)
             //{
@@ -55,12 +58,9 @@ namespace LevelGenerator
 
             perlinArray = new int[Width, Height];
             var noise = new PerlinNoise2D();
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    switch (Type)
-                    {
+            for (int i = 0; i < Height; i++) {
+                for (int j = 0; j < Width; j++) {
+                    switch (Type) {
                         case LevelType.Desert:
                             MapTile[i, j] = Tile["sand"];
                             break;
@@ -71,7 +71,7 @@ namespace LevelGenerator
                             MapTile[i, j] = Tile["building"];
                             break;
                     }
-                    
+
                     double tile = noise.PerlinNoise(i, j);
                     if (noise.PerlinNoise(i, j) > maxNoise)
                         maxNoise = tile;
@@ -88,16 +88,12 @@ namespace LevelGenerator
             Console.WriteLine("{0}\n{1}", maxNoise, minNoise);
         }
 
-        public void Output()
-        {
+        public void Output() {
             Console.WindowWidth = Width + 1;
             Console.WindowHeight = Height + 1;
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    switch (MapTile[i, j])
-                    {
+            for (int i = 0; i < Height; i++) {
+                for (int j = 0; j < Width; j++) {
+                    switch (MapTile[i, j]) {
                         case '0':
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             break;

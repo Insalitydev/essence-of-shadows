@@ -15,8 +15,8 @@ namespace EssenceShared.Game {
         public static event EventHandler PlayerUpgrade;
 
         public static void RaiseEvent(Entity obj, EventArgs eventArgs, EventType eventType) {
-            try{
-                switch (eventType){
+            try {
+                switch (eventType) {
                     case EventType.ChangeLocation:
                         ChangeLocation(obj, eventArgs);
                         break;
@@ -24,18 +24,18 @@ namespace EssenceShared.Game {
                         PlayerUpgrade(obj, eventArgs);
                         break;
                 }
-            } catch (NullReferenceException)
-            {
+            }
+            catch (NullReferenceException) {
                 Log.Print("NullReference in RaiseEvent", LogType.Error);
             }
         }
     }
 
-    public class UpgradeEventArgs: EventArgs {
+    public class UpgradeEventArgs : EventArgs {
+        public AcccountUpgrade Upgrade;
+
         public UpgradeEventArgs(AcccountUpgrade upg) {
             Upgrade = upg;
         }
-
-        public AcccountUpgrade Upgrade;
     }
 }

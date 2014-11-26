@@ -7,7 +7,7 @@ using EssenceShared.Entities.Projectiles;
 using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Enemies {
-    public class MeleeEnemy: Enemy {
+    public class MeleeEnemy : Enemy {
         public MeleeEnemy(string url, string id)
             : base(url, id) {
             Speed = 200;
@@ -20,8 +20,8 @@ namespace EssenceShared.Entities.Enemies {
 
         protected override void IdleAction(float dt) {
             List<Player> players = GetPlayers();
-            if (players.Any()){
-                if (DistanceTo(players[0]) < SightRadius){
+            if (players.Any()) {
+                if (DistanceTo(players[0]) < SightRadius) {
                     Target = players[0];
                     ActionState = ActionState.MoveToAttack;
                 }
@@ -33,50 +33,50 @@ namespace EssenceShared.Entities.Enemies {
             float moveAngleChange = 0f;
 
             List<Entity> enemies =
-                Parent.Children.Where(x=>((x != null) && x.Tag == Tags.Enemy))
+                Parent.Children.Where(x => ((x != null) && x.Tag == Tags.Enemy))
                     .Cast<Entity>()
                     .OrderBy(DistanceTo)
                     .ToList();
 
-            if (enemies.Count > 2){
-                if (DistanceTo(enemies[2]) < 100){
+            if (enemies.Count > 2) {
+                if (DistanceTo(enemies[2]) < 100) {
                     moveAngleChange = -AngleTo(enemies[2].Position)/CCRandom.Next(1, 4);
                 }
             }
 
             // Если в зоне атаки - атакуем
-            if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0){
+            if (Target != null && DistanceTo(Target) < AttackRadius && AttackCooldownCounter == 0) {
                 ActionState = ActionState.Attack;
             } // Если далеко - идем к цели
             else if (Target != null &&
-                     DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f){
+                     DistanceTo(Target) < SightRadius*1.5f && DistanceTo(Target) > AttackRadius*0.7f) {
                 MoveByAngle(AngleTo(Target.Position) + moveAngleChange, Speed*dt);
             }
-            else{
+            else {
                 Target = null;
                 ActionState = ActionState.Idle;
             }
         }
 
         protected override void TryAttackTarget(float dt) {
-            if (AttackCooldownCounter == 0){
-                if (Target != null && DistanceTo(Target) < AttackRadius){
+            if (AttackCooldownCounter == 0) {
+                if (Target != null && DistanceTo(Target) < AttackRadius) {
                     SpawnProjectileToTarget();
                     // TODO: необходимо стоять на месте после атаки какое-то время
                     ActionState = ActionState.MoveToAttack;
                     AttackCooldownCounter = AttackCooldown;
                 }
-                else{
+                else {
                     ActionState = ActionState.MoveToAttack;
                 }
             }
-            else{
+            else {
                 ActionState = ActionState.MoveToAttack;
             }
         }
 
         private void SpawnProjectileToTarget() {
-            if (Target != null){
+            if (Target != null) {
                 var projectile = new EnemyMeleeProjectile(AttackDamage, Resources.ParticleMeleeSweepAttack,
                     Util.GetUniqueId()) {
                         PositionX = PositionX,
@@ -94,16 +94,15 @@ namespace EssenceShared.Entities.Enemies {
         protected override void Die(float dt) {
             List<Player> players = GetPlayers();
 
-            foreach (Player pl in players){
-                if (DistanceTo(pl.Position) < 800){
+            foreach (Player pl in players) {
+                if (DistanceTo(pl.Position) < 800) {
                     pl.AccState.Gold += 130;
                 }
             }
 
             if (Parent.Tag == Tags.Server)
-                if (CCRandom.NextDouble() >= 0.5f){
-                    (Parent as GameLayer).AddEntity(new HealPot(Util.GetUniqueId()){ Position = Position});
-
+                if (CCRandom.NextDouble() >= 0.5f) {
+                    (Parent as GameLayer).AddEntity(new HealPot(Util.GetUniqueId()) {Position = Position});
                 }
 
             base.Die(dt);

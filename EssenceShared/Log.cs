@@ -12,12 +12,12 @@ namespace EssenceShared {
         public static void Print(string text, LogType type, bool isShowTime) {
             string curTime = "";
 
-            if (isShowTime){
+            if (isShowTime) {
                 curTime = DateTime.Now.ToString("[HH:mm:ss]: ");
             }
 
             Console.ForegroundColor = ConsoleColor.White;
-            switch (type){
+            switch (type) {
                 case LogType.Error:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
@@ -32,7 +32,7 @@ namespace EssenceShared {
 
             Console.WriteLine(curTime + text);
 
-            if (Settings.IsLogToFile){
+            if (Settings.IsLogToFile) {
                 PrintToLogFile(text);
             }
         }

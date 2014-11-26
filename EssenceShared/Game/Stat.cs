@@ -35,18 +35,18 @@ namespace EssenceShared.Game {
         [JsonProperty(PropertyName = "P")]
         public float Perc {
             get {
-                if (Maximum == 0){
+                if (Maximum == 0) {
                     return 1;
                 }
 
                 float perc = (Current/(float) Maximum);
 
-                if (perc >= 0){
+                if (perc >= 0) {
                     return perc;
                 }
                 return 0;
             }
-            set { Current = (int)(Maximum*value); }
+            set { Current = (int) (Maximum*value); }
         }
     }
 }

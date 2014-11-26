@@ -1,7 +1,7 @@
 ﻿using EssenceShared.Entities.Players;
 
 namespace EssenceShared.Entities.Projectiles {
-    public class EnemyMeleeProjectile: Projectile {
+    public class EnemyMeleeProjectile : Projectile {
         public EnemyMeleeProjectile(int damage, string url, string id)
             : base(url, id) {
             Scale = Settings.Scale;
@@ -20,8 +20,8 @@ namespace EssenceShared.Entities.Projectiles {
             base.Collision(other);
 
 
-            if (other.Tag == Tags.Player){
-                if (other as Player != null && !AlreadyDamaged.Contains(other)){
+            if (other.Tag == Tags.Player) {
+                if (other as Player != null && !AlreadyDamaged.Contains(other)) {
                     (other as Player).Hp.Current -= AttackDamage;
                     AlreadyDamaged.Add(other);
                 }

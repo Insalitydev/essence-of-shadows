@@ -5,7 +5,7 @@ using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 
 namespace EssenceShared.Entities.Enemies {
-    public abstract class Enemy: Entity {
+    public abstract class Enemy : Entity {
         // количество секунд между атакаим
         protected float AttackCooldown;
         protected float AttackCooldownCounter;
@@ -13,7 +13,7 @@ namespace EssenceShared.Entities.Enemies {
         protected int SightRadius;
         protected Entity Target;
 
-        public Enemy(string url, string id): base(url, id) {
+        public Enemy(string url, string id) : base(url, id) {
             Target = null;
             AttackCooldown = 1;
             //            AttackRadius = 300;
@@ -26,7 +26,7 @@ namespace EssenceShared.Entities.Enemies {
 
         public override void OnEnter() {
             base.OnEnter();
-            if (Parent.Tag == Tags.Server){
+            if (Parent.Tag == Tags.Server) {
                 Schedule(Action);
             }
         }
@@ -34,7 +34,7 @@ namespace EssenceShared.Entities.Enemies {
         public override void Update(float dt) {
             base.Update(dt);
 
-            if (Parent.Tag == Tags.Server){
+            if (Parent.Tag == Tags.Server) {
                 AttackCooldownCounter -= dt;
                 if (AttackCooldownCounter < 0)
                     AttackCooldownCounter = 0;
@@ -48,9 +48,9 @@ namespace EssenceShared.Entities.Enemies {
             var players = new List<Player>();
 
             if (Parent != null && Parent.Children != null)
-                players = Parent.Children.Where(x=>((x != null) && x.Tag == Tags.Player)).Cast<Player>().ToList();
+                players = Parent.Children.Where(x => ((x != null) && x.Tag == Tags.Player)).Cast<Player>().ToList();
 
-            if (players.Any()){
+            if (players.Any()) {
                 players = players.OrderBy(DistanceTo).ToList();
             }
             return players;
@@ -58,7 +58,7 @@ namespace EssenceShared.Entities.Enemies {
 
         public void Damage(int p) {
             Hp.Current -= p;
-            if (Hp.Perc == 0){
+            if (Hp.Perc == 0) {
                 Schedule(Die, 0.01f);
             }
         }
@@ -71,7 +71,7 @@ namespace EssenceShared.Entities.Enemies {
         ///     Метод ИИ, решает что делать в каждый момент времени
         /// </summary>
         protected void Action(float dt) {
-            switch (ActionState){
+            switch (ActionState) {
                 case ActionState.Idle:
                     IdleAction(dt);
                     break;

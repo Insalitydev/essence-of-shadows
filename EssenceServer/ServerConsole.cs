@@ -26,7 +26,7 @@ namespace EssenceServer {
         }
 
         public void Start() {
-            while (true){
+            while (true) {
                 Console.Write(">>> ");
                 ProcessCommand(Console.ReadLine());
             }
@@ -36,7 +36,7 @@ namespace EssenceServer {
             // TODO: реализовать нормальное разделение на комманду:аргументы
             string arg = command.Split(' ').Last();
             command = command.Split(' ').First();
-            switch (command){
+            switch (command) {
                 case "say":
                     Server.SendChatMessage("Server: " + arg);
                     break;

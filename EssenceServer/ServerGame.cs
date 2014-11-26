@@ -12,7 +12,7 @@ namespace EssenceServer {
     /// <summary>
     ///     Обрабатывает игровую логику на сервере. Содержит Сцену с игровыми объектами
     /// </summary>
-    internal class ServerGame: CCApplicationDelegate {
+    internal class ServerGame : CCApplicationDelegate {
         public List<AccountState> AccountsAll;
         public ServerScene ServerScene { get; private set; }
 
@@ -33,13 +33,13 @@ namespace EssenceServer {
         ///     Загружает из файла все аккаунты
         /// </summary>
         private void LoadAccounts() {
-            using (FileStream fs = File.Open("Accounts.save", FileMode.OpenOrCreate, FileAccess.Read)){
+            using (FileStream fs = File.Open("Accounts.save", FileMode.OpenOrCreate, FileAccess.Read)) {
                 var sr = new StreamReader(fs);
 
-                var data = sr.ReadToEnd();
+                string data = sr.ReadToEnd();
                 AccountsAll = JsonConvert.DeserializeObject<List<AccountState>>(data);
 
-                if (AccountsAll == null){
+                if (AccountsAll == null) {
                     AccountsAll = new List<AccountState>();
                 }
                 Log.Print(string.Format("Loaded {0} accounts", AccountsAll.Count));
@@ -50,7 +50,7 @@ namespace EssenceServer {
         ///     Сохраняет всю информацию о всех аккаунтах в файл
         /// </summary>
         private void SaveAccounts(float dt) {
-            using (var sw = new StreamWriter("Accounts.save", false)){
+            using (var sw = new StreamWriter("Accounts.save", false)) {
                 string data = JsonConvert.SerializeObject(AccountsAll);
                 sw.Write(data);
             }
@@ -64,7 +64,7 @@ namespace EssenceServer {
             Log.Print("Spawn player " + id);
 
             string type = "Mystic";
-            switch (new Random().Next(3)){
+            switch (new Random().Next(3)) {
                 case 0:
                     type = "Reaper";
                     break;
@@ -75,13 +75,13 @@ namespace EssenceServer {
 
             // Если нет аккаунта в базе, то создаем, иначе грузим
             AccountState accState;
-            int ind = AccountsAll.FindIndex(acc=>acc.nickname == nickname);
-            if (ind == -1){
+            int ind = AccountsAll.FindIndex(acc => acc.nickname == nickname);
+            if (ind == -1) {
                 Log.Print("Creating new account: " + nickname, LogType.Info);
                 accState = new AccountState(id, nickname, ServerScene.LocationsDict);
                 AccountsAll.Add(accState);
             }
-            else{
+            else {
                 //TODO: Переделать...
                 AccountsAll[ind].SetLocationsDict(ServerScene.LocationsDict);
                 AccountsAll[ind].HeroId = id;
@@ -99,18 +99,18 @@ namespace EssenceServer {
         }
 
         public void RemovePlayer(string id) {
-            try{
+            try {
                 Player pl = GetPlayer(id);
                 if (pl != null)
                     pl.Remove();
-                if (ServerScene.Accounts.Any(x=>x.HeroId == id)){
-                    ServerScene.Accounts.Remove(ServerScene.Accounts.Single(x=>x.HeroId == id));
+                if (ServerScene.Accounts.Any(x => x.HeroId == id)) {
+                    ServerScene.Accounts.Remove(ServerScene.Accounts.Single(x => x.HeroId == id));
                 }
             }
-            catch (NullReferenceException e){
+            catch (NullReferenceException e) {
                 Log.Print("Player " + id + " not found in the Game", LogType.Error);
             }
-            catch (InvalidOperationException){
+            catch (InvalidOperationException) {
                 Log.Print("Account " + id + " already not it the Game", LogType.Network);
             }
         }

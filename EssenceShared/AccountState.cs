@@ -43,9 +43,9 @@ namespace EssenceShared {
 
         public bool Upgrade(AcccountUpgrade upgrade) {
             bool result = false;
-            if (PayGold(GetUpgradeCost(upgrade))){
+            if (PayGold(GetUpgradeCost(upgrade))) {
                 result = true;
-                switch (upgrade){
+                switch (upgrade) {
                     case AcccountUpgrade.Attack:
                         AttackLevel++;
                         break;
@@ -65,7 +65,7 @@ namespace EssenceShared {
         }
 
         public int GetUpgradeCost(AcccountUpgrade upgrade) {
-            switch (upgrade){
+            switch (upgrade) {
                 case AcccountUpgrade.Attack:
                     return AttackLevel*750;
                 case AcccountUpgrade.Hp:
@@ -79,7 +79,7 @@ namespace EssenceShared {
         }
 
         public bool PayGold(int count) {
-            if (Gold >= count){
+            if (Gold >= count) {
                 Gold -= count;
                 return true;
             }
@@ -103,7 +103,7 @@ namespace EssenceShared {
         ///     Вызывается классом Player
         /// </summary>
         public void Update() {
-            if (Exp.Perc == 1){
+            if (Exp.Perc == 1) {
                 LevelUp();
             }
         }

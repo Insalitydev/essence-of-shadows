@@ -4,7 +4,7 @@ using CocosSharp;
 using EssenceShared;
 
 namespace EssenceClient.Scenes.Game {
-    internal class ChatLayer: CCLayerColor {
+    internal class ChatLayer : CCLayerColor {
         private const int ShowLastMessages = 4;
         private const int IndentBetweenMessages = 10;
         public List<string> Messages;
@@ -34,7 +34,7 @@ namespace EssenceClient.Scenes.Game {
         public override void Update(float dt) {
             base.Update(dt);
 
-            if (Messages.Count > 0){
+            if (Messages.Count > 0) {
                 _label.Text = Messages.Last();
             }
         }

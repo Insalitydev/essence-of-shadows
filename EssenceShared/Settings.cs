@@ -23,7 +23,7 @@ namespace EssenceShared {
         /** Network settings */
         public const int Port = 4075;
         public const int MaxConnections = 8;
-        public static CCSize ScreenSize = new CCSize(ScreenWidth, ScreenHeight);
         public const float NetworkFreqUpdate = 0.014f;
+        public static CCSize ScreenSize = new CCSize(ScreenWidth, ScreenHeight);
     }
 }

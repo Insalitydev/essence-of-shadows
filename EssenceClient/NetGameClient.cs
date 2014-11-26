@@ -65,13 +65,13 @@ namespace EssenceClient {
         /// </summary>
         private void GotMessage(object data) {
             NetIncomingMessage im;
-            while ((im = Client.ReadMessage()) != null){
+            while ((im = Client.ReadMessage()) != null) {
                 string tmp = im.ReadString();
-                lock (_lockThis){
-                    if (tmp.StartsWith("{\"")){
+                lock (_lockThis) {
+                    if (tmp.StartsWith("{\"")) {
                         NetCommand nc = NetCommand.Deserialize(tmp);
                         //                        Log.Print("Got data" + nc.Type + "Data: " + nc.Data.Length, LogType.Network);
-                        switch (nc.Type){
+                        switch (nc.Type) {
                                 /** Ответ на запрос соединения */
                             case NetCommandType.Connect:
                                 _scene.SetMyId(nc.Data);

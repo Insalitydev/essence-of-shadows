@@ -1,7 +1,7 @@
 ﻿using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Projectiles {
-    public class EnemyMeleeProjectileStart: Projectile {
+    public class EnemyMeleeProjectileStart : Projectile {
         public EnemyMeleeProjectileStart(int damage, string url, string id)
             : base(url, id) {
             Scale = Settings.Scale;
@@ -12,7 +12,7 @@ namespace EssenceShared.Entities.Projectiles {
         }
 
         public override void Delete(float dt) {
-            if (Parent.Tag == Tags.Server){
+            if (Parent.Tag == Tags.Server) {
                 var proj = new EnemyMeleeProjectile(AttackDamage, Resources.ParticleMeleeSweepAttack, Util.GetUniqueId()) {
                     Scale = ScaleX,
                     Direction = Direction,

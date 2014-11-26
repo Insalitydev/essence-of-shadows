@@ -21,12 +21,11 @@ namespace EssenceShared {
 
             CCParticleSystem emiter = new CCParticleMeteor(pos);
 
-            switch (type){
+            switch (type) {
                 case ParticleType.ProjectileTrail:
                     emiter = new CCParticleMeteor(pos) {
                         Scale = 0.1f,
                         SpeedVar = 250,
-                        
                         Texture = CCTextureCache.SharedTextureCache.AddImage(texture)
                     };
                     if (owner != null)
@@ -42,7 +41,7 @@ namespace EssenceShared {
                     break;
             }
 
-            emiter.ScheduleOnce((float x)=>emiter.RemoveFromParent(), dieAfter);
+            emiter.ScheduleOnce((float x) => emiter.RemoveFromParent(), dieAfter);
 
             return emiter;
         }

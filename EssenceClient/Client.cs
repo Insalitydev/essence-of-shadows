@@ -6,7 +6,7 @@ namespace EssenceClient {
     /// <summary>
     ///     /  Основной класс клиента. Запускает игру
     /// </summary>
-    internal class Client: CCApplicationDelegate {
+    internal class Client : CCApplicationDelegate {
         private static CCWindow sharedWindow;
         private CCScene _startScene;
 

@@ -3,7 +3,7 @@ using EssenceShared.Game;
 using EssenceShared.Scenes;
 
 namespace EssenceShared.Entities.Objects {
-    public class Smith: Entity {
+    public class Smith : Entity {
         private readonly CCLabelTtf labelAttack = Util.GetSmallLabelHint("Damage");
         private readonly CCLabelTtf labelClass = Util.GetSmallLabelHint("Class");
         private readonly CCLabelTtf labelHp = Util.GetSmallLabelHint("Vitality");
@@ -14,14 +14,14 @@ namespace EssenceShared.Entities.Objects {
         private CCMenuItem upgradeHp;
         private CCMenuItem upgradeSpeed;
 
-        public Smith(string id): base(Resources.ObjectSmith, id) {
+        public Smith(string id) : base(Resources.ObjectSmith, id) {
             Tag = Tags.Object;
         }
 
         public override void OnEnter() {
             base.OnEnter();
 
-            if (Parent.Tag == Tags.Client){
+            if (Parent.Tag == Tags.Client) {
                 var label = new CCLabelTtf("Store", "kongtext", 8) {
                     Color = CCColor3B.White,
                     PositionY = 30,
@@ -58,7 +58,7 @@ namespace EssenceShared.Entities.Objects {
         }
 
         public void UpdateLabels() {
-            if (Parent.Tag == Tags.Client){
+            if (Parent.Tag == Tags.Client) {
                 Log.Print("updates");
                 AccountState ac = (Parent as GameLayer).MyAccountState;
                 labelAttack.Text = "Damage: " + ac.GetUpgradeCost(AcccountUpgrade.Attack);
@@ -90,7 +90,6 @@ namespace EssenceShared.Entities.Objects {
                 else
                     upgradeSpeed.Enabled = true;
             }
-            
         }
 
         private void UpgradeHp(object obj) {

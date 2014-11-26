@@ -3,7 +3,7 @@ using EssenceShared;
 using EssenceShared.Entities;
 
 namespace EssenceClient.Scenes.Menu {
-    internal class MenuBackgroundLayer: CCLayerColor {
+    internal class MenuBackgroundLayer : CCLayerColor {
         public MenuBackgroundLayer() {
             Color = CCColor3B.Yellow;
             Opacity = 20;
@@ -13,7 +13,7 @@ namespace EssenceClient.Scenes.Menu {
             base.AddedToScene();
 
 
-            for (int i = 0; i < Settings.ScreenWidth; i += 10){
+            for (int i = 0; i < Settings.ScreenWidth; i += 10) {
                 AddChild(new FlyingSquare(i));
                 AddChild(new FlyingSquare(i));
             }
@@ -43,7 +43,7 @@ namespace EssenceClient.Scenes.Menu {
             blades.AddAction(new CCRepeatForever(new CCRotateBy(0.7f, -120)));
             tmp.AddChild(blades, -1);
 
-            if (tmp.PositionX > Settings.ScreenWidth/2){
+            if (tmp.PositionX > Settings.ScreenWidth/2) {
                 tmp.FlipX = true;
             }
 
@@ -68,7 +68,7 @@ namespace EssenceClient.Scenes.Menu {
             // Движение тени у текста с названием игры
             const int moveStreak = 30;
             var moves = new CCFiniteTimeAction[moveStreak];
-            for (int i = 0; i < moveStreak; i++){
+            for (int i = 0; i < moveStreak; i++) {
                 moves[i] = MoveAround();
             }
             titleShadow.RepeatForever(new CCSequence(moves));
@@ -93,7 +93,7 @@ namespace EssenceClient.Scenes.Menu {
         }
     }
 
-    internal class FlyingSquare: CCNode {
+    internal class FlyingSquare : CCNode {
         private readonly int h;
         private readonly int speed;
         private readonly int w;
@@ -117,7 +117,7 @@ namespace EssenceClient.Scenes.Menu {
             base.Update(dt);
 
             PositionY += speed*dt;
-            if (PositionY > Settings.ScreenHeight){
+            if (PositionY > Settings.ScreenHeight) {
                 PositionY = -h;
             }
         }

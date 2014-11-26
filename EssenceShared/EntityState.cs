@@ -57,10 +57,10 @@ namespace EssenceShared {
 
         public static void AppendStateToEntity(Entity entity, EntityState es) {
             // погрешность в ~ 3 пикселя не правим
-            if (Math.Abs(entity.PositionX - es.PositionX) > 4){
+            if (Math.Abs(entity.PositionX - es.PositionX) > 4) {
                 entity.PositionX = es.PositionX;
             }
-            if (Math.Abs(entity.PositionY - es.PositionY) > 4){
+            if (Math.Abs(entity.PositionY - es.PositionY) > 4) {
                 entity.PositionY = es.PositionY;
             }
             entity.FlipX = es.FlipX;

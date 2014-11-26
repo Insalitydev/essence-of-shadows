@@ -2,7 +2,6 @@
 using CocosSharp;
 using EssenceShared;
 using EssenceShared.Entities;
-using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
@@ -14,7 +13,7 @@ namespace EssenceClient.Scenes.Game {
     /// <summary>
     ///     Основная сцена для игры на клиенте. Создает игровой слой и управляет общим состоянием игры для клиента
     /// </summary>
-    internal class GameScene: CCScene {
+    internal class GameScene : CCScene {
         private const int CameraDelta = 4;
         private readonly ChatLayer _chatLayer;
         private readonly NetGameClient _netGameClient;
@@ -27,7 +26,7 @@ namespace EssenceClient.Scenes.Game {
         private int _mousePosY;
         private int _sightRadius = 900;
 
-        public GameScene(CCWindow window): base(window) {
+        public GameScene(CCWindow window) : base(window) {
             Id = "";
 
             _backgroundLayer = new BackgroundLayer();
@@ -79,12 +78,12 @@ namespace EssenceClient.Scenes.Game {
         public GameLayer GameLayer { get; private set; }
 
         private void InitEvents() {
-            EosEvent.PlayerUpgrade += (sender, args)=>CallPlayerUpgrade((UpgradeEventArgs) args);
+            EosEvent.PlayerUpgrade += (sender, args) => CallPlayerUpgrade((UpgradeEventArgs) args);
         }
 
         private void CallPlayerUpgrade(UpgradeEventArgs args) {
             string command = "";
-            switch (args.Upgrade){
+            switch (args.Upgrade) {
                 case AcccountUpgrade.Attack:
                     command = "upgradeAttack";
                     break;
@@ -105,21 +104,21 @@ namespace EssenceClient.Scenes.Game {
 
         public override void Update(float dt) {
             base.Update(dt);
-            
+
             UpdateControl(dt);
             UpdateCamera();
             UpdateVisibility();
         }
 
         private void UpdateControl(float dt) {
-            if (MyPlayer != null){
+            if (MyPlayer != null) {
                 MyPlayer.Control(dt);
                 // поправка на камеру:
-                if (GameLayer.Camera != null){
+                if (GameLayer.Camera != null) {
                     var camx = (int) (GameLayer.Camera.TargetInWorldspace.X - Settings.ScreenWidth/2);
                     var camy = (int) (GameLayer.Camera.TargetInWorldspace.Y - Settings.ScreenHeight/2);
 
-                    if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0){
+                    if (Input.IsMousePressed(CCMouseButton.LeftButton) && MyPlayer.AttackCooldownCounter == 0) {
                         // Стреляем при нажатой левой кнопке
                         var nc = new NetCommand(NetCommandType.CallPlayerMethod,
                             "attack." + (_mousePosX + camx) + "." + (_mousePosY + camy));
@@ -145,20 +144,20 @@ namespace EssenceClient.Scenes.Game {
         /// </summary>
         private void UpdateVisibility() {
             if (MyPlayer != null)
-                foreach (CCNode ccNode in GameLayer.Children){
+                foreach (CCNode ccNode in GameLayer.Children) {
                     ccNode.Visible = MyPlayer.DistanceTo(ccNode.Position) < _sightRadius;
 
-                    if (ccNode is CCSprite){
+                    if (ccNode is CCSprite) {
                         var ccSp = ccNode as CCSprite;
                         ccNode.ZOrder =
                             (int) (Settings.ScreenHeight - ccSp.PositionY + (ccSp.Texture.PixelsHigh*ccSp.ScaleY)/2);
 
-                        if (ccNode is Entity){
+                        if (ccNode is Entity) {
                             var ccEntity = ccNode as Entity;
-                            ccNode.ZOrder += (int)(ccEntity.Height * ccEntity.ScaleY);
+                            ccNode.ZOrder += (int) (ccEntity.Height*ccEntity.ScaleY);
                         }
 
-                        if (ccNode.Tag == Tags.MapTile){
+                        if (ccNode.Tag == Tags.MapTile) {
                             ccNode.ZOrder -= Settings.TileSize*6;
                         }
                     }
@@ -169,13 +168,13 @@ namespace EssenceClient.Scenes.Game {
         ///     Обеспечивает работу камеры: Слежение за игроком и позицию над полем игры
         /// </summary>
         private void UpdateCamera() {
-            if (Input.IsKeyIn(CCKeys.O)){
+            if (Input.IsKeyIn(CCKeys.O)) {
                 _cameraHeight -= 3;
             }
-            if (Input.IsKeyIn(CCKeys.P)){
+            if (Input.IsKeyIn(CCKeys.P)) {
                 _cameraHeight += 3;
             }
-            if (MyPlayer != null){
+            if (MyPlayer != null) {
                 // псевдо-три-дэ
                 if (Math.Abs(_cameraX - MyPlayer.PositionX) > 400) _cameraX = (int) MyPlayer.PositionX;
                 if (Math.Abs(_cameraY - MyPlayer.PositionY) > 400) _cameraY = (int) MyPlayer.PositionY;
@@ -195,15 +194,15 @@ namespace EssenceClient.Scenes.Game {
         ///     Если игрок клиента не найден - ищет его
         /// </summary>
         private void UpdateMyState() {
-            if (MyPlayer != null){
+            if (MyPlayer != null) {
                 EntityState myps = EntityState.ParseEntity(MyPlayer);
 
                 var nc = new NetCommand(NetCommandType.UpdatePlayerstate, myps.Serialize());
                 _netGameClient.Send(nc, NetDeliveryMethod.Unreliable);
             }
-            else{
+            else {
                 Entity myPl = GameLayer.FindEntityById(Id);
-                if (myPl != null){
+                if (myPl != null) {
                     MyPlayer = (Player) myPl;
                 }
             }
@@ -225,21 +224,21 @@ namespace EssenceClient.Scenes.Game {
         private void OnKeyReleased(CCEventKeyboard e) {
             Input.OnKeyRelease(e.Keys);
 
-            if (e.Keys == CCKeys.C){
+            if (e.Keys == CCKeys.C) {
                 _netGameClient.SendChatMessage("Hello!");
             }
 
-            if (e.Keys == CCKeys.X){
+            if (e.Keys == CCKeys.X) {
                 var nc = new NetCommand(NetCommandType.CallPlayerMethod, "attack.100.100");
                 _netGameClient.Send(nc, NetDeliveryMethod.ReliableOrdered);
             }
 
-            if (e.Keys == CCKeys.Escape){
+            if (e.Keys == CCKeys.Escape) {
                 NetGameClient.Client.Shutdown("Exit by client");
                 Window.DefaultDirector.PopScene();
             }
 
-            if (e.Keys == CCKeys.T){
+            if (e.Keys == CCKeys.T) {
                 Console.WriteLine(MyPlayer.Mask.ToString());
                 Console.WriteLine(GameLayer.MyAccountState.HpLevel);
                 Console.WriteLine(GameLayer.MyAccountState.AttackLevel);

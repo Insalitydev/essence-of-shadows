@@ -14,20 +14,20 @@ namespace EssenceShared.Entities {
     /// <summary>
     ///     Базовый класс для всех игровых объектов
     /// </summary>
-    public class Entity: CCSprite {
+    public class Entity : CCSprite {
         private const int MaskLesser = 12;
         public ActionState ActionState;
         public int AttackDamage;
         public float Direction;
+        public int Height = 0;
         public Stat Hp;
-        public string OwnerId = null;
-        public float Speed;
         protected int MaskH;
         protected int MaskW;
+        public string OwnerId = null;
+        public float Speed;
         // высота объекта над землей
-        public int Height = 0;
 
-        public Entity(string url, string id): base(url) {
+        public Entity(string url, string id) : base(url) {
             Id = id;
             IsAntialiased = false;
             Direction = 0;
@@ -54,7 +54,7 @@ namespace EssenceShared.Entities {
 
             Schedule(Update);
 
-            if (Parent.Tag == Tags.Client && Tag != Tags.EnemyProjectile && Tag != Tags.PlayerProjectile){
+            if (Parent.Tag == Tags.Client && Tag != Tags.EnemyProjectile && Tag != Tags.PlayerProjectile) {
                 var shadow = new CCSprite(Resources.GraphicShadow);
                 shadow.PositionX += Texture.PixelsWide/2;
                 shadow.PositionY += -Height + shadow.Texture.PixelsHigh/2;
@@ -121,10 +121,10 @@ namespace EssenceShared.Entities {
             PositionX += speed*(float) Math.Cos(ToRadians(angle));
             PositionY += speed*(float) Math.Sin(ToRadians(angle));
 
-            if ((angle > 90 && angle < 270) && (Tag == Tags.Player || Tag == Tags.Enemy)){
+            if ((angle > 90 && angle < 270) && (Tag == Tags.Player || Tag == Tags.Enemy)) {
                 FlipX = true;
             }
-            else{
+            else {
                 FlipX = false;
             }
         }
@@ -159,7 +159,7 @@ namespace EssenceShared.Entities {
             angle = 270 + angle*-1;
             angle %= 360;
 
-            if (angle < 0){
+            if (angle < 0) {
                 angle += 360;
             }
 
@@ -192,7 +192,7 @@ namespace EssenceShared.Entities {
         ///     Удаляет объект со сцены у своего родителя
         /// </summary>
         public void Remove(bool cleanup = true) {
-            if (Parent != null){
+            if (Parent != null) {
                 Parent.RemoveChild(this, cleanup);
             }
         }

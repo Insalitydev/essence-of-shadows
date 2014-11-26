@@ -4,7 +4,7 @@ using EssenceClient.Scenes.Game;
 using EssenceShared;
 
 namespace EssenceClient.Scenes.Menu {
-    internal class MenuLayer: CCLayer {
+    internal class MenuLayer : CCLayer {
         private CCMenu MainMenu;
 
         protected override void AddedToScene() {

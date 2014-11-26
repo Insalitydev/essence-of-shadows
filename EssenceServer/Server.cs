@@ -8,7 +8,6 @@ using EssenceShared.Entities;
 using EssenceShared.Entities.Players;
 using EssenceShared.Entities.Projectiles;
 using EssenceShared.Game;
-using EssenceShared.Scenes;
 using Lidgren.Network;
 using Newtonsoft.Json;
 
@@ -75,8 +74,8 @@ namespace EssenceServer {
             Log.Print("Server IP's:", LogType.Network);
             Log.Print("-------", LogType.Network);
             IPAddress[] ipList = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress ip in ipList){
-                if (ip.AddressFamily == AddressFamily.InterNetwork){
+            foreach (IPAddress ip in ipList) {
+                if (ip.AddressFamily == AddressFamily.InterNetwork) {
                     Log.Print(ip.ToString(), LogType.Network);
                 }
             }
@@ -95,9 +94,9 @@ namespace EssenceServer {
         private static void StartProcessIncomingMessages() {
             NetIncomingMessage msg;
 
-            while (true){
-                while ((msg = _server.ReadMessage()) != null){
-                    switch (msg.MessageType){
+            while (true) {
+                while ((msg = _server.ReadMessage()) != null) {
+                    switch (msg.MessageType) {
                         case NetIncomingMessageType.VerboseDebugMessage:
                         case NetIncomingMessageType.DebugMessage:
                         case NetIncomingMessageType.WarningMessage:
@@ -112,7 +111,7 @@ namespace EssenceServer {
                             var status = (NetConnectionStatus) msg.ReadByte();
                             string reason = msg.ReadString();
                             Log.Print(GetId(msg.SenderConnection) + " " + status + ": " + reason);
-                            if (status == NetConnectionStatus.Disconnected){
+                            if (status == NetConnectionStatus.Disconnected) {
                                 RemoveDisconnectedPlayer(GetId(msg.SenderConnection));
                             }
                             break;
@@ -140,9 +139,9 @@ namespace EssenceServer {
         private static void ProcessIncomingData(NetIncomingMessage msg) {
             string data = msg.ReadString();
 
-            if (data.StartsWith("{\"")){
+            if (data.StartsWith("{\"")) {
                 NetCommand nc = NetCommand.Deserialize(data);
-                switch (nc.Type){
+                switch (nc.Type) {
                     case NetCommandType.Connect:
                         Log.Print(
                             "Connected: " + msg.SenderConnection.RemoteEndpoint.Address + ":" +
@@ -174,7 +173,7 @@ namespace EssenceServer {
         private static void CallPlayerMethod(string playerid, string data) {
             Player pl = ServerGame.GetPlayer(playerid);
             string[] args = data.Split('.');
-            switch (args[0]){
+            switch (args[0]) {
                 case "attack":
                     //TODO: вынести в отдельные методы
                     var ent = new MysticProjectile(pl.AttackDamage, Util.GetUniqueId()) {
@@ -220,12 +219,12 @@ namespace EssenceServer {
         ///     Отсылает всем подключенным клиентам текущее игровое состояние
         /// </summary>
         public static void SendGameStateToAll() {
-            if (_server.ConnectionsCount > 0){
-                foreach (NetConnection netConnection in _server.Connections){
+            if (_server.ConnectionsCount > 0) {
+                foreach (NetConnection netConnection in _server.Connections) {
                     // TODO: не формировать каждый раз одни и те же данные
 
                     // TODO: Отсылать пакет с состоянием игры по частям (по 10 сущностей, например)
-                    if (netConnection.Status == NetConnectionStatus.Connected){
+                    if (netConnection.Status == NetConnectionStatus.Connected) {
                         // TODO: Временное решение. Вместо убирания ненужных элементов из полного геймстейта, сразу формируем с нуля для каждого игрока
                         GameState gs =
                             ServerGame.ServerScene.GetGameState(GetId(netConnection));
@@ -233,10 +232,10 @@ namespace EssenceServer {
 
                         NetOutgoingMessage om = _server.CreateMessage();
                         om.Write(nc.Serialize());
-                        try{
+                        try {
                             _server.SendMessage(om, netConnection, NetDeliveryMethod.Unreliable, 0);
                         }
-                        catch (NetException e){
+                        catch (NetException e) {
                             Log.Print("NETWORK ERROR: " + e.StackTrace, LogType.Error);
                         }
                     }
@@ -246,8 +245,8 @@ namespace EssenceServer {
 
 
         public static void SendMap(string uniqueId, Locations location) {
-            foreach (NetConnection client in _server.Connections){
-                if (GetId(client) == uniqueId){
+            foreach (NetConnection client in _server.Connections) {
+                if (GetId(client) == uniqueId) {
                     SendMap(client, location);
                     break;
                 }
@@ -265,7 +264,7 @@ namespace EssenceServer {
 
         private static void ConnectNewPlayer(NetIncomingMessage msg, string nickname) {
             // Проверяем что этот аккаунт еще не зайден:
-            if (ServerGame.ServerScene.Accounts.FindIndex(x=>x.nickname == nickname) == -1){
+            if (ServerGame.ServerScene.Accounts.FindIndex(x => x.nickname == nickname) == -1) {
                 SendMap(msg.SenderConnection, Locations.Town);
 
                 Log.Print("Creating new player: " + nickname);
@@ -279,7 +278,7 @@ namespace EssenceServer {
                 om.Write(nc.Serialize());
                 _server.SendMessage(om, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
             }
-            else{
+            else {
                 // отвергаем соединение
                 Log.Print("Connection deny. Nickname " + nickname);
                 msg.SenderConnection.Deny("This account already in the game");

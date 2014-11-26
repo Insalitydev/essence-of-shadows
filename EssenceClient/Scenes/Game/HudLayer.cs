@@ -3,7 +3,7 @@ using EssenceShared;
 using EssenceShared.Entities.Players;
 
 namespace EssenceClient.Scenes.Game {
-    internal class HudLayer: CCLayer {
+    internal class HudLayer : CCLayer {
         private const int BarWidth = 500;
         private const int BarHeight = 18;
         private float _fps;
@@ -81,7 +81,7 @@ namespace EssenceClient.Scenes.Game {
             base.Draw();
             var gameScene = Parent as GameScene;
             Player player = gameScene.MyPlayer;
-            if (player != null){
+            if (player != null) {
                 DrawUnderHud();
                 DrawHpBar(player.Hp.Perc);
             }
@@ -134,17 +134,17 @@ namespace EssenceClient.Scenes.Game {
             _fps = 1/dt;
             _step++;
             var gameScene = Parent as GameScene;
-            if (gameScene != null && gameScene.GameLayer.MyAccountState != null){
+            if (gameScene != null && gameScene.GameLayer.MyAccountState != null) {
                 int gold = gameScene.GameLayer.MyAccountState.Gold;
-                if (_lastGold < gold){
-                    if (gold - _lastGold > 1000){
+                if (_lastGold < gold) {
+                    if (gold - _lastGold > 1000) {
                         _lastGold += 120;
                     }
-                    else{
+                    else {
                         _lastGold += 4;
                     }
                 }
-                else{
+                else {
                     _lastGold = gold;
                 }
             }
@@ -154,12 +154,12 @@ namespace EssenceClient.Scenes.Game {
             /* Updating HUD Labels */
 
 
-            if (gameScene.MyPlayer != null){
+            if (gameScene.MyPlayer != null) {
                 _goldLabel.Text = "Gold: " + _lastGold + " Dmg: " + gameScene.MyPlayer.AttackDamage;
                 _hpLabel.Text = string.Format("{0}/{1}", gameScene.MyPlayer.Hp.Current, gameScene.MyPlayer.Hp.Maximum);
             }
 
-            if (gameScene.GameLayer.MyAccountState != null){
+            if (gameScene.GameLayer.MyAccountState != null) {
                 _levelLabel.Text = gameScene.GameLayer.MyAccountState.Level.ToString();
             }
         }

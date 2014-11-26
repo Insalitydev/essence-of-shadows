@@ -17,7 +17,7 @@ namespace EssenceShared.Scenes {
     /** В этой сцене обрабатывается вся игровая логика на стороне сервера 
      * и на этой сцене рисуются все данные на стороне клиента */
 
-    public class GameLayer: CCLayer {
+    public class GameLayer : CCLayer {
         private readonly Object lockThis = new Object();
         public List<Entity> Entities = new List<Entity>();
         public Locations Location = Locations.Town;
@@ -37,7 +37,7 @@ namespace EssenceShared.Scenes {
 
             /** TODO: можно ли вынести куда-нибудь? можно ли обойтись без этого? 
                 скорее всего в Resources, через словарь */
-            switch (textureName){
+            switch (textureName) {
                 case Resources.ClassMystic:
                 case Resources.ClassReaper:
                 case Resources.ClassSniper:
@@ -92,11 +92,11 @@ namespace EssenceShared.Scenes {
                     break;
             }
 
-            if (entity != null){
+            if (entity != null) {
                 EntityState.AppendStateToEntity(entity, es);
                 AddEntity(entity);
             }
-            else{
+            else {
                 Log.Print("Error! Entity isn't created, New entity will not be added. " + textureName, LogType.Error);
             }
         }
@@ -122,13 +122,13 @@ namespace EssenceShared.Scenes {
             currentMap = tileMap;
 
             // создаем карту (на клиенте)
-            if (Tag == Tags.Client){
+            if (Tag == Tags.Client) {
                 Log.Print("Creating new map");
                 Tile tile;
                 // TODO: переделать на словарь
-                for (int i = 0; i < tileMap.Count; i++){
-                    for (int j = 0; j < tileMap[i].Length; j++){
-                        switch (tileMap[i][j]){
+                for (int i = 0; i < tileMap.Count; i++) {
+                    for (int j = 0; j < tileMap[i].Length; j++) {
+                        switch (tileMap[i][j]) {
                             case '#':
                                 tile = new Tile(Resources.MapTileSand);
                                 break;
@@ -171,11 +171,11 @@ namespace EssenceShared.Scenes {
         public string TileAt(int x, int y) {
             string result = "null";
 
-            var size = MapSize();
+            CCSize size = MapSize();
 
-            if (x >= 0 && x < size.Width && y >= 0 && y < size.Height){
-                int mapX = x / (Settings.TileSize * Settings.Scale);
-                int mapY = y / (Settings.TileSize * Settings.Scale);
+            if (x >= 0 && x < size.Width && y >= 0 && y < size.Height) {
+                int mapX = x/(Settings.TileSize*Settings.Scale);
+                int mapY = y/(Settings.TileSize*Settings.Scale);
 
                 Console.WriteLine(mapX + " " + mapY);
                 result = currentMap[mapY].Substring(mapX, 1);
@@ -202,9 +202,9 @@ namespace EssenceShared.Scenes {
 
         private void UpdateCollisions() {
             List<Entity> tmpList = Entities.ToList();
-            foreach (Entity e1 in tmpList){
-                foreach (Entity e2 in tmpList){
-                    if (e1.Id != e2.Id && e1.Mask.IntersectsRect(e2.Mask)){
+            foreach (Entity e1 in tmpList) {
+                foreach (Entity e2 in tmpList) {
+                    if (e1.Id != e2.Id && e1.Mask.IntersectsRect(e2.Mask)) {
                         e1.Collision(e2);
                     }
                 }
@@ -216,32 +216,32 @@ namespace EssenceShared.Scenes {
 
         public void AppendGameState(GameState gs, string playerId) {
             /** Updating entities */
-            foreach (EntityState entity in gs.Entities.ToList()){
-                int index = Entities.FindIndex(x=>x.Id == entity.Id);
-                if (index != -1){
+            foreach (EntityState entity in gs.Entities.ToList()) {
+                int index = Entities.FindIndex(x => x.Id == entity.Id);
+                if (index != -1) {
                     // У себя обновляем все, кроме местоположения
-                    if (entity.Id != playerId){
+                    if (entity.Id != playerId) {
                         Entities[index].AppendState(entity);
                     }
-                    else{
+                    else {
                         // Наш персонаж
                         CCPoint pos = Entities[index].Position;
                         Entities[index].AppendState(entity);
                         Entities[index].Position = pos;
                     }
                 }
-                else{
+                else {
                     AddEntity(entity);
                 }
             }
             /** Проверяем, если у нас есть на сцене объект, которого нет в новом состоянии - убираем его*/
-            foreach (Entity entity in Entities.ToList()){
-                if (gs.Entities.FindIndex(x=>x.Id == entity.Id) == -1){
+            foreach (Entity entity in Entities.ToList()) {
+                if (gs.Entities.FindIndex(x => x.Id == entity.Id) == -1) {
                     entity.Remove();
                 }
             }
             /** обновляем состояние аккаунта */
-            if (gs.Account != null && gs.Account.HeroId == playerId){
+            if (gs.Account != null && gs.Account.HeroId == playerId) {
                 MyAccountState = gs.Account;
             }
         }
@@ -250,25 +250,25 @@ namespace EssenceShared.Scenes {
         /** Вызваем на сервере, обновляем состояние объекта в игре, если нет такого объекта - создаем */
 
         public void UpdateEntity(EntityState es) {
-            int index = Entities.FindIndex(x=>x.Id == es.Id);
-            if (index == -1){
+            int index = Entities.FindIndex(x => x.Id == es.Id);
+            if (index == -1) {
                 AddEntity(es);
             }
-            else{
+            else {
                 EntityState.AppendStateToEntity(Entities[index], es);
             }
         }
 
         public Entity FindEntityById(string id) {
             int result = -1;
-            try{
-                result = Entities.FindIndex(x=>x.Id == id);
+            try {
+                result = Entities.FindIndex(x => x.Id == id);
             }
-            catch (NullReferenceException){
+            catch (NullReferenceException) {
                 Log.Print("Error in FindIndex", LogType.Error);
                 return null;
             }
-            if (result == -1){
+            if (result == -1) {
                 return null;
             }
             return Entities[result];
@@ -277,8 +277,8 @@ namespace EssenceShared.Scenes {
         /** Удаляет объект, вызывается автоматически при вызове Remove у объекта-сына  */
 
         public override void RemoveChild(CCNode child, bool cleanup = true) {
-            lock (lockThis){
-                if (child != null){
+            lock (lockThis) {
+                if (child != null) {
                     Entities.Remove(child as Entity);
                     base.RemoveChild(child, cleanup);
                 }
