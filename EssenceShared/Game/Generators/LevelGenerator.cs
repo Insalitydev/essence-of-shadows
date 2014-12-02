@@ -19,9 +19,13 @@ namespace LevelGenerator {
         #endregion
 
         private static readonly Dictionary<string, char> Tile = new Dictionary<string, char> {
-            {"sand", '0'},
-            {"tree", '1'},
-            {"building", '#'},
+            {"sand", '#'},
+            {"water", '~'},
+            {"townCell", '+'},
+            {"cityStone", '-'},
+            {"road", '|'},
+            {"caveWall", '%'},
+            {"dirt", '.'},
         };
 
         private double maxNoise;
