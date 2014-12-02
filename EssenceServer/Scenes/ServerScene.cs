@@ -8,6 +8,7 @@ using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
 using EssenceShared.Scenes;
+using LevelGenerator;
 
 namespace EssenceServer.Scenes {
     /// <summary>
@@ -182,6 +183,7 @@ namespace EssenceServer.Scenes {
         }
 
         private void InitMap() {
+//            _gameLayer.CreateNewMap(Generator.GenerateLevel(11, 10, Generator.LevelType.Desert));
             _gameLayer.CreateNewMap(ParseMap("DesertMap.txt"));
             _townGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
             _cityGameLayer.CreateNewMap(ParseMap("CityMap.txt"));

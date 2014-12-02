@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace LevelGenerator {
-    public class Generator {
+    public static class Generator {
         #region public_properties
 
         public enum LevelType {
@@ -11,10 +11,10 @@ namespace LevelGenerator {
             Desert
         }
 
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public LevelType Type { get; private set; }
-        public char[,] MapTile { get; private set; }
+        private static int Width { get; set; }
+        private static int Height { get; set; }
+        private static LevelType Type { get; set; }
+        private static char[,] MapTile { get; set; }
 
         #endregion
 
@@ -28,18 +28,15 @@ namespace LevelGenerator {
             {"dirt", '.'},
         };
 
-        private double maxNoise;
-        private double minNoise = 2.0;
-        private int[,] perlinArray;
+        private static double _maxNoise;
+        private static double _minNoise = 2.0;
+        private static int[,] _perlinArray;
 
-        public Generator(int width, int height, LevelType type) {
+        public static List<string> GenerateLevel(int width, int height, LevelType type)
+        {
             Width = width;
             Height = height;
-            Type = type;
-            GenerateLevel();
-        }
-
-        private void GenerateLevel() {
+            Type = type; 
             MapTile = new char[Height, Width];
             //switch (Type)
             //{
@@ -60,7 +57,7 @@ namespace LevelGenerator {
             //        break;
             //}
 
-            perlinArray = new int[Width, Height];
+            _perlinArray = new int[Width, Height];
             var noise = new PerlinNoise2D();
             for (int i = 0; i < Height; i++) {
                 for (int j = 0; j < Width; j++) {
@@ -77,10 +74,10 @@ namespace LevelGenerator {
                     }
 
                     double tile = noise.PerlinNoise(i, j);
-                    if (noise.PerlinNoise(i, j) > maxNoise)
-                        maxNoise = tile;
-                    if (noise.PerlinNoise(i, j) < minNoise)
-                        minNoise = tile;
+                    if (noise.PerlinNoise(i, j) > _maxNoise)
+                        _maxNoise = tile;
+                    if (noise.PerlinNoise(i, j) < _minNoise)
+                        _minNoise = tile;
 
                     //perlinArray[i, j] = intTile;
                     Console.Write(noise.PerlinNoise(i, j) + " ");
@@ -89,23 +86,36 @@ namespace LevelGenerator {
                 Console.WriteLine();
             }
 
-            Console.WriteLine("{0}\n{1}", maxNoise, minNoise);
+            Console.WriteLine("{0}\n{1}", _maxNoise, _minNoise);
+            return null;
         }
 
-        public void Output() {
+        private static void Output() {
             Console.WindowWidth = Width + 1;
             Console.WindowHeight = Height + 1;
             for (int i = 0; i < Height; i++) {
                 for (int j = 0; j < Width; j++) {
                     switch (MapTile[i, j]) {
-                        case '0':
-                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        case '~':
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             break;
-                        case '1':
+                        case '%':
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            break;
+                        case '+':
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            break;
+                        case '-':
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            break;
+                        case '|':
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            break;
+                        case '.':
                             Console.ForegroundColor = ConsoleColor.Green;
                             break;
                         case '#':
-                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             break;
                         default:
                             Console.ForegroundColor = ConsoleColor.White;
