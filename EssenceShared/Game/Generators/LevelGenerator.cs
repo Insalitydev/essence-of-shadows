@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 
 namespace LevelGenerator {
     public static class Generator {
@@ -115,10 +116,32 @@ namespace LevelGenerator {
                     }
                     break;
                 case LevelType.Desert:
+                    var waterPointList = new List<Point>() {new Point(0,0)};
+                    for (int i = 0; i < Height; i++)
+                    {
+                        for (int j = 0; j < Width; j++)
+                        {
+                            if (_intPerlinArray[i, j] == 0)
+                                waterPointList.Add(new Point(i,j));
+                        }
+                    }
+                    waterPointList.Add(new Point(Width, Height));
+
                     for (int i = 0; i < Height; i++) {
                         var line = "";
                         for (int j = 0; j < Width; j++) {
-                            if (_intPerlinArray[i, j] == 0)
+                            var isWater = false;
+                            for (int k = 0; k < waterPointList.Count - 1; k++) {
+//                                if ((i == waterPointList[k].X && i <= waterPointList[k + 1].X && j <= waterPointList[k].Y) || (j == waterPointList[k].Y && j <= waterPointList[k + 1].Y && i <= waterPointList[k + 1].X))
+                                if ((i == waterPointList[k + 1].X && j >= waterPointList[k].Y && j <= waterPointList[k + 1].Y) ||
+                                    (j == waterPointList[k].Y) && i >= waterPointList[k].X && i <= waterPointList[k + 1].X)
+                                {
+                                    isWater = true;
+                                    break;
+                                }
+                            }
+
+                            if (isWater)
                                 line += '~';
                             else
                                 line += '#';
