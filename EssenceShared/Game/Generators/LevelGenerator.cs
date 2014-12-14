@@ -56,7 +56,6 @@ namespace EssenceShared.Game.Generators {
             _level = NoiseToLevel();
 
 #if DEBUG
-            // Print integer Perlin array and level for debugging
             Console.WriteLine();
             for (var i = 0; i < Height; i++) {
                 for (var j = 0; j < Width; j++) {
@@ -134,6 +133,26 @@ namespace EssenceShared.Game.Generators {
                     }
                     break;
                 case LevelType.Cave:
+                    var file = new StreamWriter(@"C:\Users\Public\Desktop\maps.txt");
+
+                    for (var k = 0; k < Height; k++) {
+                        for (var l = k; l < Width; l++) {
+                            file.WriteLine("From {0} to {1}", k, l);
+                            for (var i = 0; i < Height; i++) {
+                                var line = "";
+                                for (var j = 0; j < Width; j++) {
+                                    if (_intPerlinArray[i, j] > k && _intPerlinArray[i, j] < l)
+                                        line += Tile["dirt"];
+                                    else
+                                        line += Tile["caveWall"];
+                                }
+                                file.WriteLine(line);
+                            }
+                            file.WriteLine();
+                        }
+                    }
+                    file.Close();
+
                     for (var i = 0; i < Height; i++) {
                         var line = "";
                         for (var j = 0; j < Width; j++) {
