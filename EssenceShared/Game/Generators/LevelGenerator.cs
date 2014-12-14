@@ -8,6 +8,7 @@ namespace LevelGenerator {
 
         public enum LevelType {
             City,
+            Town,
             Cave,
             Desert
         }
@@ -42,6 +43,7 @@ namespace LevelGenerator {
             _perlinArray = new double[Height, Width];
             _intPerlinArray = new int[Height, Width];
 
+            // Calculate min and max noise
             var noise = new PerlinNoise2D();
             for (int i = 0; i < Height; i++) {
                 for (int j = 0; j < Width; j++) {
@@ -53,59 +55,61 @@ namespace LevelGenerator {
                 }
             }
 
-            var valueOfWater = 0;
-            int srcX = 0, srcY = 0, dstX = 0, dstY = 0;
+            // Generate perlin Noise
             var maxToMin = _maxNoise/_minNoise;
             for (int i = 0; i < Height; i++) {
                 for (int j = 0; j < Width; j++) {
                     _intPerlinArray[i, j] = (int) ((_perlinArray[i, j] - _minNoise)*maxToMin);
-                    //if (_intPerlinArray[i, j] == valueOfWater) {
-                    //    dstX = srcX;
-                    //    dstY = srcY;
-                    //    srcX = i;
-                    //    srcY = j;
-                    //}
                 }
             }
 
-            //for (int i = srcX; i > dstX; i--) {
-            //    dstY--;
-            //    _intPerlinArray[i, dstY] = valueOfWater;
-            //        if (_intPerlinArray[i - 1, dstY] == valueOfWater) {
-            //            i--;
-            //            _intPerlinArray[i, dstY] = valueOfWater;
-            //        }
-            //    if (dstY - 1 >= 0) {
-            //        if (_intPerlinArray[i, dstY - 1] == valueOfWater) {
-            //            dstY--;
-            //            _intPerlinArray[i, dstY] = valueOfWater;
-            //        }
-            //        if (_intPerlinArray[i - 1, dstY - 1] != valueOfWater) continue;
-            //        i--;
-            //        dstY--;
-            //        _intPerlinArray[i, dstY] = valueOfWater;
-            //    }
-            //}
+            var level = NoiseToLevel();
 
-            //for (int i = 0; i < Height; i++)
-            //{
-            //    for (int j = 0; j < Width; j++)
-            //    {
-            //        Console.Write(_intPerlinArray[i, j].ToString());
-            //    }
-            //    Console.WriteLine();
-            //}
+            return level;
+        }
 
+        private static List<string> NoiseToLevel() {
             var tileList = new List<string>();
-            for (int i = 0; i < Height; i++) {
-                var line = "";
-                for (int j = 0; j < Width; j++) {
-                    if (_intPerlinArray[i, j] == 0)
-                        line += '~';
-                    else
-                        line += '#';
-                }
-                tileList.Add(line);
+            switch (Type) {
+                case LevelType.City:
+                    var roadLineList = new List<int>();
+                    for (int i = 0; i < Width; i++) {
+                        if (_intPerlinArray[0,i] == 1)
+                            roadLineList.Add(i);
+                    }
+
+                    for (int i = 0; i < Height; i++) {
+                        var line = "";
+                        for (int j = 0; j < Width; j++) {
+                            if (roadLineList.Contains(j))
+                                line += '|';
+                            else
+                                line += '-';
+                        }
+                        tileList.Add(line);
+                    }
+                    break;
+                case LevelType.Town:
+                    for (int i = 0; i < Height; i++) {
+                        var line = "";
+                        for (int j = 0; j < Width; j++) {
+                            line += '+';
+                        }
+                        tileList.Add(line);
+                    }
+                    break;
+                case LevelType.Desert:
+                    for (int i = 0; i < Height; i++) {
+                        var line = "";
+                        for (int j = 0; j < Width; j++) {
+                            if (_intPerlinArray[i, j] == 0)
+                                line += '~';
+                            else
+                                line += '#';
+                        }
+                        tileList.Add(line);
+                    }
+                    break;
             }
             return tileList;
         }

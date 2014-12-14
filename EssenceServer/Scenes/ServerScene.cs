@@ -184,6 +184,9 @@ namespace EssenceServer.Scenes {
 
         private void InitMap() {
 //            _gameLayer.CreateNewMap(Generator.GenerateLevel(11, 10, Generator.LevelType.Desert));
+//            _townGameLayer.CreateNewMap(Generator.GenerateLevel(11, 10, Generator.LevelType.Town));
+//            _cityGameLayer.CreateNewMap(Generator.GenerateLevel(11, 10, Generator.LevelType.City));
+//            _caveGameLayer.CreateNewMap(Generator.GenerateLevel(11, 10, Generator.LevelType.Cave));
             _gameLayer.CreateNewMap(ParseMap("DesertMap.txt"));
             _townGameLayer.CreateNewMap(ParseMap("TownMap.txt"));
             _cityGameLayer.CreateNewMap(ParseMap("CityMap.txt"));
