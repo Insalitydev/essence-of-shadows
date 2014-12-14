@@ -1,25 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using LevelGenerator;
 using Microsoft.Xna.Framework;
 
 namespace EssenceShared.Game.Generators {
     public static class Generator {
-        #region public_properties
-
-        public enum LevelType {
-            City,
-            Town,
-            Cave,
-            Desert
-        }
-
-        private static int Width { get; set; }
-        private static int Height { get; set; }
-        private static LevelType Type { get; set; }
-        private static List<string> _level = new List<string>(); 
-
-        #endregion
+        private static List<string> _level = new List<string>();
 
         private static readonly Dictionary<string, char> Tile = new Dictionary<string, char> {
             {"sand", '#'},
@@ -28,13 +15,16 @@ namespace EssenceShared.Game.Generators {
             {"cityStone", '-'},
             {"road", '|'},
             {"caveWall", '%'},
-            {"dirt", '.'},
+            {"dirt", '.'}
         };
 
         private static double _maxNoise = 1.2456439435482;
         private static double _minNoise = 0.209547579288483;
         private static double[,] _perlinArray;
         private static int[,] _intPerlinArray;
+        private static int Width { get; set; }
+        private static int Height { get; set; }
+        private static LevelType Type { get; set; }
 
         public static List<string> GenerateLevel(int width, int height, LevelType type) {
             Width = width;
@@ -45,8 +35,8 @@ namespace EssenceShared.Game.Generators {
 
             // Calculate min and max noise
             var noise = new PerlinNoise2D();
-            for (int i = 0; i < Height; i++) {
-                for (int j = 0; j < Width; j++) {
+            for (var i = 0; i < Height; i++) {
+                for (var j = 0; j < Width; j++) {
                     _perlinArray[i, j] = noise.PerlinNoise(i, j);
                     if (_perlinArray[i, j] > _maxNoise)
                         _maxNoise = _perlinArray[i, j];
@@ -57,8 +47,8 @@ namespace EssenceShared.Game.Generators {
 
             // Generate perlin Noise
             var maxToMin = _maxNoise/_minNoise;
-            for (int i = 0; i < Height; i++) {
-                for (int j = 0; j < Width; j++) {
+            for (var i = 0; i < Height; i++) {
+                for (var j = 0; j < Width; j++) {
                     _intPerlinArray[i, j] = (int) ((_perlinArray[i, j] - _minNoise)*maxToMin);
                 }
             }
@@ -67,10 +57,8 @@ namespace EssenceShared.Game.Generators {
 
 #if DEBUG
             Console.WriteLine();
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
+            for (var i = 0; i < Height; i++) {
+                for (var j = 0; j < Width; j++) {
                     Console.Write(_intPerlinArray[i, j].ToString());
                 }
                 Console.WriteLine();
@@ -87,14 +75,14 @@ namespace EssenceShared.Game.Generators {
             switch (Type) {
                 case LevelType.City:
                     var roadLineList = new List<int>();
-                    for (int i = 0; i < Width; i++) {
-                        if (_intPerlinArray[0,i] == 1)
+                    for (var i = 0; i < Width; i++) {
+                        if (_intPerlinArray[0, i] == 1)
                             roadLineList.Add(i);
                     }
 
-                    for (int i = 0; i < Height; i++) {
+                    for (var i = 0; i < Height; i++) {
                         var line = "";
-                        for (int j = 0; j < Width; j++) {
+                        for (var j = 0; j < Width; j++) {
                             if (roadLineList.Contains(j))
                                 line += Tile["road"];
                             else
@@ -104,34 +92,33 @@ namespace EssenceShared.Game.Generators {
                     }
                     break;
                 case LevelType.Town:
-                    for (int i = 0; i < Height; i++) {
+                    for (var i = 0; i < Height; i++) {
                         var line = "";
-                        for (int j = 0; j < Width; j++) {
+                        for (var j = 0; j < Width; j++) {
                             line += Tile["townCell"];
                         }
                         tileList.Add(line);
                     }
                     break;
                 case LevelType.Desert:
-                    var waterPointList = new List<Point> {new Point(0,0)};
-                    for (int i = 0; i < Height; i++)
-                    {
-                        for (int j = 0; j < Width; j++)
-                        {
+                    var waterPointList = new List<Point> {new Point(0, 0)};
+                    for (var i = 0; i < Height; i++) {
+                        for (var j = 0; j < Width; j++) {
                             if (_intPerlinArray[i, j] == 0)
-                                waterPointList.Add(new Point(i,j));
+                                waterPointList.Add(new Point(i, j));
                         }
                     }
                     waterPointList.Add(new Point(Width, Height));
 
-                    for (int i = 0; i < Height; i++) {
+                    for (var i = 0; i < Height; i++) {
                         var line = "";
-                        for (int j = 0; j < Width; j++) {
+                        for (var j = 0; j < Width; j++) {
                             var isWater = false;
-                            for (int k = 0; k < waterPointList.Count - 1; k++) {
-                                if ((i == waterPointList[k + 1].X && j >= waterPointList[k].Y && j <= waterPointList[k + 1].Y) ||
-                                    (j == waterPointList[k].Y) && i >= waterPointList[k].X && i <= waterPointList[k + 1].X)
-                                {
+                            for (var k = 0; k < waterPointList.Count - 1; k++) {
+                                if ((i == waterPointList[k + 1].X && j >= waterPointList[k].Y &&
+                                     j <= waterPointList[k + 1].Y) ||
+                                    (j == waterPointList[k].Y) && i >= waterPointList[k].X &&
+                                    i <= waterPointList[k + 1].X) {
                                     isWater = true;
                                     break;
                                 }
@@ -145,6 +132,38 @@ namespace EssenceShared.Game.Generators {
                         tileList.Add(line);
                     }
                     break;
+                case LevelType.Cave:
+                    var file = new StreamWriter(@"C:\Users\Public\Desktop\maps.txt");
+
+                    for (var k = 0; k < Height; k++) {
+                        for (var l = k; l < Width; l++) {
+                            file.WriteLine("From {0} to {1}", k, l);
+                            for (var i = 0; i < Height; i++) {
+                                var line = "";
+                                for (var j = 0; j < Width; j++) {
+                                    if (_intPerlinArray[i, j] > k && _intPerlinArray[i, j] < l)
+                                        line += Tile["dirt"];
+                                    else
+                                        line += Tile["caveWall"];
+                                }
+                                file.WriteLine(line);
+                            }
+                            file.WriteLine();
+                        }
+                    }
+                    file.Close();
+
+                    for (var i = 0; i < Height; i++) {
+                        var line = "";
+                        for (var j = 0; j < Width; j++) {
+                            if (_intPerlinArray[i, j] > 0 && _intPerlinArray[i, j] < 4)
+                                line += Tile["dirt"];
+                            else
+                                line += Tile["caveWall"];
+                        }
+                        tileList.Add(line);
+                    }
+                    break;
             }
             return tileList;
         }
@@ -152,8 +171,7 @@ namespace EssenceShared.Game.Generators {
         private static void Output() {
             foreach (var line in _level) {
                 foreach (var symbol in line) {
-                    switch (symbol)
-                    {
+                    switch (symbol) {
                         case '~':
                             Console.ForegroundColor = ConsoleColor.Blue;
                             break;
@@ -185,5 +203,12 @@ namespace EssenceShared.Game.Generators {
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
+    }
+
+    public enum LevelType {
+        City,
+        Town,
+        Cave,
+        Desert
     }
 }
