@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using LevelGenerator;
 using Microsoft.Xna.Framework;
 
-namespace LevelGenerator {
+namespace EssenceShared.Game.Generators {
     public static class Generator {
         #region public_properties
 
@@ -17,7 +17,7 @@ namespace LevelGenerator {
         private static int Width { get; set; }
         private static int Height { get; set; }
         private static LevelType Type { get; set; }
-        private static char[,] MapTile { get; set; }
+        private static List<string> _level = new List<string>(); 
 
         #endregion
 
@@ -40,7 +40,6 @@ namespace LevelGenerator {
             Width = width;
             Height = height;
             Type = type;
-            MapTile = new char[Height, Width];
             _perlinArray = new double[Height, Width];
             _intPerlinArray = new int[Height, Width];
 
@@ -64,9 +63,10 @@ namespace LevelGenerator {
                 }
             }
 
-            var level = NoiseToLevel();
+            _level = NoiseToLevel();
 
 #if DEBUG
+            Console.WriteLine();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -76,13 +76,10 @@ namespace LevelGenerator {
                 Console.WriteLine();
             }
             Console.WriteLine();
-            for (int i = 0; i < Height; i++)
-            {
-                Console.WriteLine(level[i]);
-            }
+            Output();
 #endif
 
-            return level;
+            return _level;
         }
 
         private static List<string> NoiseToLevel() {
@@ -99,9 +96,9 @@ namespace LevelGenerator {
                         var line = "";
                         for (int j = 0; j < Width; j++) {
                             if (roadLineList.Contains(j))
-                                line += '|';
+                                line += Tile["road"];
                             else
-                                line += '-';
+                                line += Tile["cityStone"];
                         }
                         tileList.Add(line);
                     }
@@ -110,13 +107,13 @@ namespace LevelGenerator {
                     for (int i = 0; i < Height; i++) {
                         var line = "";
                         for (int j = 0; j < Width; j++) {
-                            line += '+';
+                            line += Tile["townCell"];
                         }
                         tileList.Add(line);
                     }
                     break;
                 case LevelType.Desert:
-                    var waterPointList = new List<Point>() {new Point(0,0)};
+                    var waterPointList = new List<Point> {new Point(0,0)};
                     for (int i = 0; i < Height; i++)
                     {
                         for (int j = 0; j < Width; j++)
@@ -132,7 +129,6 @@ namespace LevelGenerator {
                         for (int j = 0; j < Width; j++) {
                             var isWater = false;
                             for (int k = 0; k < waterPointList.Count - 1; k++) {
-//                                if ((i == waterPointList[k].X && i <= waterPointList[k + 1].X && j <= waterPointList[k].Y) || (j == waterPointList[k].Y && j <= waterPointList[k + 1].Y && i <= waterPointList[k + 1].X))
                                 if ((i == waterPointList[k + 1].X && j >= waterPointList[k].Y && j <= waterPointList[k + 1].Y) ||
                                     (j == waterPointList[k].Y) && i >= waterPointList[k].X && i <= waterPointList[k + 1].X)
                                 {
@@ -142,9 +138,9 @@ namespace LevelGenerator {
                             }
 
                             if (isWater)
-                                line += '~';
+                                line += Tile["water"];
                             else
-                                line += '#';
+                                line += Tile["sand"];
                         }
                         tileList.Add(line);
                     }
@@ -154,11 +150,10 @@ namespace LevelGenerator {
         }
 
         private static void Output() {
-            Console.WindowWidth = Width + 1;
-            Console.WindowHeight = Height + 1;
-            for (int i = 0; i < Height; i++) {
-                for (int j = 0; j < Width; j++) {
-                    switch (MapTile[i, j]) {
+            foreach (var line in _level) {
+                foreach (var symbol in line) {
+                    switch (symbol)
+                    {
                         case '~':
                             Console.ForegroundColor = ConsoleColor.Blue;
                             break;
@@ -184,7 +179,7 @@ namespace LevelGenerator {
                             Console.ForegroundColor = ConsoleColor.White;
                             break;
                     }
-                    Console.Write(MapTile[i, j]);
+                    Console.Write(symbol);
                 }
                 Console.WriteLine();
             }

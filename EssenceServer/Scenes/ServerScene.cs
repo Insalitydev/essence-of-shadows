@@ -7,8 +7,8 @@ using EssenceShared.Entities;
 using EssenceShared.Entities.Objects;
 using EssenceShared.Entities.Players;
 using EssenceShared.Game;
+using EssenceShared.Game.Generators;
 using EssenceShared.Scenes;
-using LevelGenerator;
 
 namespace EssenceServer.Scenes {
     /// <summary>
