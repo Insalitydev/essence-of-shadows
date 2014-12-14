@@ -65,6 +65,22 @@ namespace LevelGenerator {
 
             var level = NoiseToLevel();
 
+#if DEBUG
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    Console.Write(_intPerlinArray[i, j].ToString());
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            for (int i = 0; i < Height; i++)
+            {
+                Console.WriteLine(level[i]);
+            }
+#endif
+
             return level;
         }
 
