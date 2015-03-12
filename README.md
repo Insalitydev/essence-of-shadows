@@ -21,7 +21,7 @@ Installation
 ### Server
 
 ```sh
-Launc EssenceServer.exe file. Current Server ip's will be listen in the console.
+Launc EssenceServer.exe file. Current Server ip will be listen in the console.
 ```
 
 ### Client
@@ -30,9 +30,6 @@ Launc EssenceServer.exe file. Current Server ip's will be listen in the console.
 Set up Server ip in Config.ini file and lauch EssenceClient.exe.
 ```
 
-Linked Repos
-----
-* https://github.com/Insality/simple-cocos-game - training in CocosSharp framework and simple game prototype
 
 License
 -----
