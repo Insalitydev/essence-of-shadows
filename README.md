@@ -1,3 +1,5 @@
+# FREEZED :(
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Insality/essence-of-shadows/5f2852b6fa6bae37f52079c6794dc0b23dfb84f3/RepoTitleImage.png" alt="Essence of Shadows"/>
 </p>
